@@ -18,6 +18,7 @@ class UserRepositoryTest {
     private UserRepository userRepository;
 
     @Test
+    @Transactional
     public void create() {
         String name = "홍길동";
         String password = "1234";
@@ -49,6 +50,7 @@ class UserRepositoryTest {
     @Test
     public void read() {
         String name = "홍길동";
+
         Optional<User> optionalUser = userRepository.findById(1L);
 
         optionalUser.ifPresent(user -> {
