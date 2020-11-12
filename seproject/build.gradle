@@ -23,11 +23,15 @@ repositories {
 }
 
 dependencies {
+	compile('javax.xml.bind:jaxb-api')
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'junit:junit:4.12'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	compile('org.projectlombok:lombok:1.18.10')
+	annotationProcessor("org.projectlombok:lombok:1.18.10")
+	compile('mysql:mysql-connector-java')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
