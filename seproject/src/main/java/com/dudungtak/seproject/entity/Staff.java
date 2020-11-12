@@ -1,11 +1,16 @@
 package com.dudungtak.seproject.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -13,8 +18,7 @@ import java.util.List;
 @Entity
 @Builder
 @Accessors(chain = true)
-@ToString(exclude = {"orderGroupList"})
-public class User {
+public class Staff {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,6 +35,8 @@ public class User {
 
     private String phoneNumber;
 
+    private String job;
+
     private LocalDateTime createdAt;
 
     private String createdBy;
@@ -38,7 +44,4 @@ public class User {
     private LocalDateTime updatedAt;
 
     private String updatedBy;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<OrderGroup> orderGroupList;
 }

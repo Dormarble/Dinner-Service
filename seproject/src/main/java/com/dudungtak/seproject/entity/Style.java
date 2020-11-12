@@ -4,6 +4,8 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,22 +16,22 @@ import java.util.List;
 @Builder
 @Accessors(chain = true)
 @ToString(exclude = {"orderGroupList"})
-public class User {
+public class Style {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
-    private String email;
+    private BigDecimal price;
 
-    private String password;
+    private String status;
 
-    private String gender;
+    private String content;
 
-    private String address;
+    private LocalDate registeredAt;
 
-    private String phoneNumber;
+    private LocalDate unregisteredAt;
 
     private LocalDateTime createdAt;
 
@@ -39,6 +41,6 @@ public class User {
 
     private String updatedBy;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "style")
     private List<OrderGroup> orderGroupList;
 }
