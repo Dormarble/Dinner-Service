@@ -2,6 +2,10 @@ package com.dudungtak.seproject.entity;
 
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -23,12 +27,16 @@ public class DishElement {
 
     private Integer quantity;
 
+    @CreatedDate
     private LocalDateTime createdAt;
 
+    @CreatedBy
     private String createdBy;
 
+    @LastModifiedDate
     private LocalDateTime updatedAt;
 
+    @LastModifiedBy
     private String updatedBy;
 
     @ManyToOne
