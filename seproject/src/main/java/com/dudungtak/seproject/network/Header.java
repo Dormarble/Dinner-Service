@@ -18,35 +18,30 @@ public class Header<T> {
 
     private String description;
 
-    private String connectionId;
-
     private T data;
 
-    public static <T> Header<T> OK(String connectionId) {
+    public static <T> Header<T> OK() {
         return (Header<T>)Header.builder()
                 .transactionTime(LocalDateTime.now())
                 .resultCode("200")
                 .description("OK")
-                .connectionId(connectionId)
                 .build();
     }
 
-    public static <T> Header<T> OK(T data, String connectionId) {
+    public static <T> Header<T> OK(T data) {
         return (Header<T>)Header.builder()
                 .transactionTime(LocalDateTime.now())
                 .resultCode("200")
                 .description("OK")
-                .connectionId(connectionId)
                 .data(data)
                 .build();
     }
 
-    public static <T> Header<T> ERROR(String message, String connectionId) {
+    public static <T> Header<T> ERROR(String message) {
         return (Header<T>)Header.builder()
                 .transactionTime(LocalDateTime.now())
                 .resultCode("200")
                 .description(message)
-                .connectionId(connectionId)
                 .build();
     }
 }

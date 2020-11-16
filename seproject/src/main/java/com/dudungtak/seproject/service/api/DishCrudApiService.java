@@ -8,9 +8,6 @@ import com.dudungtak.seproject.repository.DishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -32,15 +29,15 @@ public class DishCrudApiService {
 
         return Optional.ofNullable(savedDish)
                 .map(this::response)
-                .map(response -> Header.OK(response, ""))
-                .orElseGet(() -> Header.ERROR("error on store", ""));
+                .map(Header::OK)
+                .orElseGet(() -> Header.ERROR("error on store"));
     }
 
     public Header<DishApiResponse> read(Long id) {
         return dishRepository.findById(id)
                 .map(this::response)
-                .map(dishResponse -> Header.OK(dishResponse, ""))
-                .orElseGet(() -> Header.ERROR("no data", ""));
+                .map(Header::OK)
+                .orElseGet(() -> Header.ERROR("no data"));
 
     }
 
@@ -61,8 +58,8 @@ public class DishCrudApiService {
                     return updatedDish;
                 })
                 .map(this::response)
-                .map(response -> Header.OK(response, ""))
-                .orElseGet(() -> Header.ERROR("no data", ""));
+                .map(Header::OK)
+                .orElseGet(() -> Header.ERROR("no data"));
     }
 
     public Header delete(Long id) {
@@ -71,7 +68,7 @@ public class DishCrudApiService {
                     dishRepository.delete(dish);
                     return Header.OK("");
                 })
-                .orElseGet(() -> Header.ERROR("no data", ""));
+                .orElseGet(() -> Header.ERROR("no data"));
     }
 
     public DishApiResponse response(Dish dish) {
