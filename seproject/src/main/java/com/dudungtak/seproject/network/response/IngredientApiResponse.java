@@ -1,5 +1,7 @@
 package com.dudungtak.seproject.network.response;
 
+import com.dudungtak.seproject.enumpackage.IngredientStatus;
+import com.dudungtak.seproject.enumpackage.IngredientType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,9 +20,9 @@ public class IngredientApiResponse {
 
     private String name;
 
-    private String type;
+    private IngredientType type;
 
-    private String status;
+    private IngredientStatus status;
 
     private BigDecimal cost;
 
