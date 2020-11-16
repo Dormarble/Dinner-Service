@@ -1,5 +1,7 @@
 package com.dudungtak.seproject.entity;
 
+import com.dudungtak.seproject.enumpackage.IngredientStatus;
+import com.dudungtak.seproject.enumpackage.IngredientType;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.CreatedBy;
@@ -27,9 +29,11 @@ public class Ingredient {
 
     private String name;
 
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private IngredientType type;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private IngredientStatus status;
 
     private BigDecimal cost;
 

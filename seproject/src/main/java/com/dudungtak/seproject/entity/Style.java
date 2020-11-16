@@ -1,5 +1,6 @@
 package com.dudungtak.seproject.entity;
 
+import com.dudungtak.seproject.enumpackage.StyleStatus;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.CreatedBy;
@@ -29,7 +30,8 @@ public class Style {
 
     private BigDecimal price;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private StyleStatus status;
 
     private String content;
 
