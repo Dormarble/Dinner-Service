@@ -30,14 +30,14 @@ public class StyleApiService {
         Style savedStyle = styleRepository.save(style);
 
         return Optional.ofNullable(savedStyle)
-                .map(this::response)
+                .map(StyleApiService::response)
                 .map(Header::OK)
                 .orElseGet(() -> Header.ERROR("error on store"));
     }
 
     public Header<StyleApiResponse> read(Long id) {
         return styleRepository.findById(id)
-                .map(this::response)
+                .map(StyleApiService::response)
                 .map(Header::OK)
                 .orElseGet(() -> Header.ERROR("no data"));
 
@@ -63,7 +63,7 @@ public class StyleApiService {
 
                     return updatedStyle;
                 })
-                .map(this::response)
+                .map(StyleApiService::response)
                 .map(Header::OK)
                 .orElseGet(() -> Header.ERROR("no data"));
     }
@@ -77,7 +77,7 @@ public class StyleApiService {
                 .orElseGet(() -> Header.ERROR("no data"));
     }
 
-    public StyleApiResponse response(Style style) {
+    public static StyleApiResponse response(Style style) {
         return StyleApiResponse.builder()
                 .id(style.getId())
                 .name(style.getName())
