@@ -1,5 +1,6 @@
 package com.dudungtak.seproject.entity;
 
+import com.dudungtak.seproject.enumpackage.OrderPaymentType;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.CreatedBy;
@@ -32,7 +33,8 @@ public class OrderGroup {
 
     private String revAddress;
 
-    private String paymentType;
+    @Enumerated(EnumType.STRING)
+    private OrderPaymentType paymentType;
 
     private BigDecimal totalPrice;
 
