@@ -12,6 +12,8 @@ import com.dudungtak.seproject.repository.DishElementRepository;
 import com.dudungtak.seproject.repository.DishRepository;
 import com.dudungtak.seproject.repository.IngredientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -68,14 +70,7 @@ public class DishApiService {
 
         return Header.OK(response(savedDish, dishElementApiResponseList));
     }
-/*
-    public Header<DishApiResponse> read(Long id) {
-        return dishRepository.findById(id)
-                .map(DishApiService::response)
-                .map(Header::OK)
-                .orElseGet(() -> Header.ERROR("no data"));
-    }
-*/
+
     public Header<DishApiResponse> read(Long id) {
         Dish dish = dishRepository.getOne(id);
 
@@ -89,6 +84,15 @@ public class DishApiService {
         return Header.OK(dishApiResponse);
     }
 
+    public Header<List<DishApiResponse>> readAll(Pageable pageable) {
+        Page<Dish> dishPage = dishRepository.findAll(pageable);
+
+        List<DishApiResponse> dishApiResponseList = dishPage.stream()
+                .map(DishApiService::response)
+                .collect(Collectors.toList());
+
+        return Header.OK(dishApiResponseList);
+    }
 
     public Header<DishApiResponse> update(Header<DishApiRequest> request) {
         DishApiRequest body = request.getData();
