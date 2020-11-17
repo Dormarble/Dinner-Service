@@ -30,14 +30,14 @@ public class IngredientApiService {
         Ingredient savedIngredient = ingredientRepository.save(ingredient);
 
         return Optional.ofNullable(savedIngredient)
-                .map(this::response)
+                .map(IngredientApiService::response)
                 .map(Header::OK)
                 .orElseGet(() -> Header.ERROR("error on store"));
     }
 
     public Header<IngredientApiResponse> read(Long id) {
         return ingredientRepository.findById(id)
-                .map(this::response)
+                .map(IngredientApiService::response)
                 .map(Header::OK)
                 .orElseGet(() -> Header.ERROR("no data"));
 
@@ -63,7 +63,7 @@ public class IngredientApiService {
 
                     return updatedIngredient;
                 })
-                .map(this::response)
+                .map(IngredientApiService::response)
                 .map(Header::OK)
                 .orElseGet(() -> Header.ERROR("no data"));
     }
@@ -77,7 +77,7 @@ public class IngredientApiService {
                 .orElseGet(() -> Header.ERROR("no data"));
     }
 
-    public IngredientApiResponse response(Ingredient ingredient) {
+    public static IngredientApiResponse response(Ingredient ingredient) {
         return IngredientApiResponse.builder()
                 .id(ingredient.getId())
                 .name(ingredient.getName())

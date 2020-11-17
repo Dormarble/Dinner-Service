@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Data
@@ -20,4 +21,6 @@ public class DishApiRequest {
     private LocalDate registeredAt;
 
     private LocalDate unregisteredAt;
+
+    private List<DishElementApiRequest> dishElementList;
 }

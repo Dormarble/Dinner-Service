@@ -15,19 +15,19 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 public class IngredientApiRequest {
-    private Long id;
+    protected Long id;
 
-    private String name;
+    protected String name;
 
-    private IngredientType type;
+    protected IngredientType type;
 
-    private IngredientStatus status;
+    protected IngredientStatus status;
 
-    private BigDecimal cost;
+    protected BigDecimal cost;
 
-    private Integer stock;
+    protected Integer stock;
 
-    private LocalDate registeredAt;
+    protected LocalDate registeredAt;
 
-    private LocalDate unregisteredAt;
+    protected LocalDate unregisteredAt;
 }

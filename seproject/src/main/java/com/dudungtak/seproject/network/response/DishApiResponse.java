@@ -1,5 +1,6 @@
 package com.dudungtak.seproject.network.response;
 
+import com.dudungtak.seproject.network.request.DishElementApiRequest;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.Getter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Data
@@ -31,4 +33,6 @@ public class DishApiResponse {
     private LocalDateTime updatedAt;
 
     private String updatedBy;
+
+    private List<DishElementApiResponse> dishElementList;
 }

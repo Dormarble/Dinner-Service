@@ -3,9 +3,9 @@ package com.dudungtak.seproject.network.response;
 import com.dudungtak.seproject.enumpackage.IngredientStatus;
 import com.dudungtak.seproject.enumpackage.IngredientType;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@SuperBuilder
 public class IngredientApiResponse {
     private Long id;
 
