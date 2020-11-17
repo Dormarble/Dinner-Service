@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 
@@ -20,6 +21,8 @@ public class Header<T> {
 
     private T data;
 
+    private Pagination pagination;
+
     public static <T> Header<T> OK() {
         return (Header<T>)Header.builder()
                 .transactionTime(LocalDateTime.now())
@@ -34,6 +37,16 @@ public class Header<T> {
                 .resultCode("200")
                 .description("OK")
                 .data(data)
+                .build();
+    }
+
+    public static <T> Header<T> OK(T data, Pagination pagination) {
+        return (Header<T>)Header.builder()
+                .transactionTime(LocalDateTime.now())
+                .resultCode("200")
+                .description("OK")
+                .data(data)
+                .pagination(pagination)
                 .build();
     }
 

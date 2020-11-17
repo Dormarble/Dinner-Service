@@ -4,6 +4,7 @@ import com.dudungtak.seproject.entity.Dish;
 import com.dudungtak.seproject.entity.DishElement;
 import com.dudungtak.seproject.entity.Ingredient;
 import com.dudungtak.seproject.network.Header;
+import com.dudungtak.seproject.network.Pagination;
 import com.dudungtak.seproject.network.request.DishApiRequest;
 import com.dudungtak.seproject.network.request.DishElementApiRequest;
 import com.dudungtak.seproject.network.response.DishApiResponse;
@@ -91,7 +92,14 @@ public class DishApiService {
                 .map(DishApiService::response)
                 .collect(Collectors.toList());
 
-        return Header.OK(dishApiResponseList);
+        Pagination pagination = Pagination.builder()
+                .totalPages(dishPage.getTotalPages())
+                .totalElements(dishPage.getTotalElements())
+                .currentPage(dishPage.getNumber())
+                .currentElements(dishPage.getNumberOfElements())
+                .build();
+
+        return Header.OK(dishApiResponseList, pagination);
     }
 
     public Header<DishApiResponse> update(Header<DishApiRequest> request) {
