@@ -1,5 +1,15 @@
 package com.dudungtak.seproject.service;
 
-public abstract class baseCrudApiService {
+import com.dudungtak.seproject.network.Pagination;
+import org.springframework.data.domain.Page;
 
+public abstract class BaseCrudApiService {
+    public static Pagination pagination(Page page) {
+        return Pagination.builder()
+                .totalPages(page.getTotalPages())
+                .totalElements(page.getTotalElements())
+                .currentPage(page.getNumber())
+                .currentElements(page.getNumberOfElements())
+                .build();
+    }
 }

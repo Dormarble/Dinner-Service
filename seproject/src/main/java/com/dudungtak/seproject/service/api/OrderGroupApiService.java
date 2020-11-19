@@ -3,10 +3,13 @@ package com.dudungtak.seproject.service.api;
 import com.dudungtak.seproject.entity.OrderGroup;
 import com.dudungtak.seproject.entity.User;
 import com.dudungtak.seproject.network.Header;
+import com.dudungtak.seproject.network.Pagination;
 import com.dudungtak.seproject.network.response.OrderElementApiResponse;
 import com.dudungtak.seproject.network.response.OrderGroupApiResponse;
 import com.dudungtak.seproject.repository.*;
+import com.dudungtak.seproject.service.BaseCrudApiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +35,9 @@ public class OrderGroupApiService {
 
     public Header<List<OrderGroupApiResponse>> readAll(Long userId, Pageable pageable) {
         User user = userRepository.getOne(userId);
+        Page<OrderGroup> orderGroups =  orderGroupRepository.findAllByUserOrderByCreatedAtDesc(user, pageable);
 
-        List<OrderGroupApiResponse> orderGroupApiResponseList = orderGroupRepository.findAllByUserOrderByCreatedAtDesc(user, pageable).stream()
+        List<OrderGroupApiResponse> orderGroupApiResponseList = orderGroups.stream()
                 .map(orderGroup -> {
                     List<OrderElementApiResponse> orderElementApiResponseList =
                             orderGroup.getOrderElementList().stream()
@@ -44,7 +48,9 @@ public class OrderGroupApiService {
                 })
                 .collect(Collectors.toList());
 
-        return Header.OK(orderGroupApiResponseList);
+        Pagination pagination = BaseCrudApiService.pagination(orderGroups);
+
+        return Header.OK(orderGroupApiResponseList, pagination);
     }
 
     public static OrderGroupApiResponse response(
