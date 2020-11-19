@@ -27,6 +27,8 @@ public class MenuElement {
 
     private BigDecimal totalPrice;
 
+    private Integer quantity;
+
     @CreatedDate
     private LocalDateTime createdAt;
 

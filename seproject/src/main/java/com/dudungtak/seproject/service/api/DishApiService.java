@@ -44,12 +44,6 @@ public class DishApiService {
                 .registeredAt(body.getRegisteredAt())
                 .build();
 
-        System.out.println(dish);
-
-        Dish savedDish = dishRepository.save(dish);
-
-        if(savedDish == null) return Header.ERROR("cannot store data");
-
         // create DishElement
         List<DishElementApiResponse> dishElementApiResponseList = body.getDishElementList().stream()
                 .map(dishElementApiRequest -> {
@@ -68,6 +62,8 @@ public class DishApiService {
                     return DishElementApiService.response(newDishElement);
                 })
                 .collect(Collectors.toList());
+
+        Dish savedDish = dishRepository.save(dish);
 
         return Header.OK(response(savedDish, dishElementApiResponseList));
     }
@@ -145,7 +141,7 @@ public class DishApiService {
                             DishElement dishElement = DishElement.builder()
                                     .totalCost(ingredient.getCost().multiply(BigDecimal.valueOf(dishElementApiRequest.getQuantity())))
                                     .quantity(dishElementApiRequest.getQuantity())
-                                    .dish(dish)
+                                    .dish(updatedDish)
                                     .ingredient(ingredient)
                                     .build();
 
