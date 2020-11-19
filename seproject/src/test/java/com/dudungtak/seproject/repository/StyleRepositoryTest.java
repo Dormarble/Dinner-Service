@@ -1,6 +1,7 @@
 package com.dudungtak.seproject.repository;
 
 import com.dudungtak.seproject.entity.Style;
+import com.dudungtak.seproject.enumpackage.StyleStatus;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ class StyleRepositoryTest {
     public void create() {
         String name = "테스트 스타일";
         BigDecimal price = new BigDecimal(100000);
-        String status = "REGISTERED";
+        StyleStatus status = StyleStatus.REGISTERED;
         String content = "테스트 스타일 내용";
         LocalDateTime createdAt = LocalDateTime.now();
         String createdBy = "AdminServer";

@@ -1,6 +1,8 @@
 package com.dudungtak.seproject.repository;
 
 import com.dudungtak.seproject.entity.Ingredient;
+import com.dudungtak.seproject.enumpackage.IngredientStatus;
+import com.dudungtak.seproject.enumpackage.IngredientType;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +24,8 @@ class IngredientRepositoryTest {
     @Transactional
     public void create() {
         String name = "테스트 재료";
-        String type = "";
-        String status = "activated";
+        IngredientType type = IngredientType.VEGETABLE;
+        IngredientStatus status = IngredientStatus.REGISTERED;
         BigDecimal cost = new BigDecimal(1000);
         Integer stock = 10;
         LocalDateTime createdAt = LocalDateTime.now();

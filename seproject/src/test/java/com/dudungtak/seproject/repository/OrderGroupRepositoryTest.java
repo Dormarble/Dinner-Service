@@ -4,6 +4,7 @@ import com.dudungtak.seproject.entity.Ingredient;
 import com.dudungtak.seproject.entity.OrderGroup;
 import com.dudungtak.seproject.entity.Style;
 import com.dudungtak.seproject.entity.User;
+import com.dudungtak.seproject.enumpackage.OrderPaymentType;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ class OrderGroupRepositoryTest {
         LocalDateTime orderAt = LocalDateTime.now();
         String status = "REGISTERED";
         String revAddress = "서울시 동대문구 휘경동";
-        String paymentType = "CARD";
+        OrderPaymentType paymentType = OrderPaymentType.CARD;
         BigDecimal totalPrice = BigDecimal.valueOf(15000);
         BigDecimal totalCost = BigDecimal.valueOf(12000);
         String comment = "테스트 주문";
