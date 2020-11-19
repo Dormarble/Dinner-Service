@@ -3,6 +3,7 @@ package com.dudungtak.seproject.service.api;
 import com.dudungtak.seproject.entity.User;
 import com.dudungtak.seproject.network.Header;
 import com.dudungtak.seproject.network.Pagination;
+import com.dudungtak.seproject.network.request.UserApiRequest;
 import com.dudungtak.seproject.network.response.UserApiResponse;
 import com.dudungtak.seproject.repository.UserRepository;
 import com.dudungtak.seproject.service.BaseCrudApiService;
@@ -37,6 +38,26 @@ public class UserApiSevice {
         Pagination pagination = BaseCrudApiService.pagination(users);
 
         return Header.OK(userApiResponseList, pagination);
+    }
+
+    public Header<UserApiResponse> update(Header<UserApiRequest> request) {
+        UserApiRequest body = request.getData();
+
+        return userRepository.findById(body.getId())
+                .map(user -> {
+                    user
+                        .setEmail(body.getEmail())
+                        .setPassword(body.getPassword())
+                        .setName(body.getName())
+                        .setGender(body.getGender())
+                        .setAddress(body.getAddress())
+                        .setPhoneNumber(body.getPhoneNumber());
+
+                    return user;
+                })
+                .map(UserApiSevice::response)
+                .map(Header::OK)
+                .orElseGet(() -> Header.ERROR("no user"));
     }
 
     public static UserApiResponse response(User user) {

@@ -1,14 +1,12 @@
 package com.dudungtak.seproject.controller.api;
 
 import com.dudungtak.seproject.network.Header;
+import com.dudungtak.seproject.network.request.UserApiRequest;
 import com.dudungtak.seproject.network.response.UserApiResponse;
 import com.dudungtak.seproject.service.api.UserApiSevice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,5 +24,10 @@ public class UserApiController {
     @GetMapping("")
     public Header<List<UserApiResponse>> readAll(Pageable pageable) {
         return userApiSevice.readAll(pageable);
+    }
+
+    @PutMapping("myinfo")
+    public Header<UserApiResponse> update(@RequestBody Header<UserApiRequest> request) {
+        return userApiSevice.update(request);
     }
 }
