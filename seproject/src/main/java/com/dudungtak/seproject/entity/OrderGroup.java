@@ -1,6 +1,7 @@
 package com.dudungtak.seproject.entity;
 
 import com.dudungtak.seproject.enumpackage.OrderPaymentType;
+import com.dudungtak.seproject.enumpackage.OrderStatus;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.CreatedBy;
@@ -29,7 +30,8 @@ public class OrderGroup {
 
     private LocalDateTime orderAt;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
     private String revAddress;
 
