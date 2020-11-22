@@ -6,7 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Lob;
 import java.math.BigDecimal;
+import java.sql.Blob;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -24,6 +26,11 @@ public class StyleApiResponse {
     private BigDecimal price;
 
     private String content;
+
+    private String imgUrl;
+
+    @Lob
+    private Blob image;
 
     private LocalDate registeredAt;
 

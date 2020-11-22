@@ -39,6 +39,8 @@ public class MenuApiService {
         Menu menu = Menu.builder()
                 .name(body.getName())
                 .price(body.getTotalPrice())
+                .imgUrl(body.getImgUrl())
+                .image(body.getImage())
                 .registeredAt(body.getRegisteredAt())
                 .build();
 
@@ -98,6 +100,8 @@ public class MenuApiService {
                     menu
                             .setName(body.getName())
                             .setPrice(body.getTotalPrice())
+                            .setImgUrl(body.getImgUrl())
+                            .setImage(body.getImage())
                             .setRegisteredAt(body.getRegisteredAt())
                             .setUnregisteredAt(body.getUnregisteredAt());
 
@@ -167,6 +171,8 @@ public class MenuApiService {
                 .id(menu.getId())
                 .name(menu.getName())
                 .totalPrice(menu.getPrice())
+                .imgUrl(menu.getImgUrl())
+                .image(menu.getImage())
                 .registeredAt(menu.getRegisteredAt())
                 .unregisteredAt(menu.getUnregisteredAt())
                 .createdAt(menu.getCreatedAt())
@@ -181,6 +187,8 @@ public class MenuApiService {
                 .id(menu.getId())
                 .name(menu.getName())
                 .totalPrice(menu.getPrice())
+                .imgUrl(menu.getImgUrl())
+                .image(menu.getImage())
                 .registeredAt(menu.getRegisteredAt())
                 .unregisteredAt(menu.getUnregisteredAt())
                 .createdAt(menu.getCreatedAt())

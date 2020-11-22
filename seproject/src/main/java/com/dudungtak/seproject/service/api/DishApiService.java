@@ -41,6 +41,8 @@ public class DishApiService {
                 .name(body.getName())
                 .status(body.getStatus())
                 .price(body.getPrice())
+                .imgUrl(body.getImgUrl())
+                .image(body.getImage())
                 .registeredAt(body.getRegisteredAt())
                 .build();
 
@@ -107,6 +109,8 @@ public class DishApiService {
                         .setName(body.getName())
                         .setStatus(body.getStatus())
                         .setPrice(body.getPrice())
+                        .setImgUrl(body.getImgUrl())
+                        .setImage(body.getImage())
                         .setRegisteredAt(body.getRegisteredAt())
                         .setUnregisteredAt(body.getUnregisteredAt());
 
@@ -176,6 +180,8 @@ public class DishApiService {
                 .name(dish.getName())
                 .status(dish.getStatus())
                 .price(dish.getPrice())
+                .imgUrl(dish.getImgUrl())
+                .image(dish.getImage())
                 .registeredAt(dish.getRegisteredAt())
                 .unregisteredAt(dish.getUnregisteredAt())
                 .createdAt(dish.getCreatedAt())
@@ -192,6 +198,8 @@ public class DishApiService {
                 .status(dish.getStatus())
                 .price(dish.getPrice())
                 .dishElementList(dishElementApiResponseList)
+                .imgUrl(dish.getImgUrl())
+                .image(dish.getImage())
                 .registeredAt(dish.getRegisteredAt())
                 .unregisteredAt(dish.getUnregisteredAt())
                 .createdAt(dish.getCreatedAt())

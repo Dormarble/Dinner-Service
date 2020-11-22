@@ -24,6 +24,8 @@ public class StyleApiService {
                 .price(body.getPrice())
                 .status(body.getStatus())
                 .content(body.getContent())
+                .imgUrl(body.getImgUrl())
+                .image(body.getImage())
                 .registeredAt(LocalDate.now())
                 .build();
 
@@ -49,10 +51,12 @@ public class StyleApiService {
         return styleRepository.findById(body.getId())
                 .map(style -> {
                     style
-                            .setName(body.getName())
-                            .setPrice(body.getPrice())
-                            .setStatus(body.getStatus())
-                            .setContent(body.getContent());
+                        .setName(body.getName())
+                        .setPrice(body.getPrice())
+                        .setStatus(body.getStatus())
+                        .setContent(body.getContent())
+                        .setImgUrl(body.getImgUrl())
+                        .setImage(body.getImage());
 
                     if(body.getRegisteredAt() != null)
                         style.setRegisteredAt(body.getRegisteredAt());
@@ -84,6 +88,8 @@ public class StyleApiService {
                 .price(style.getPrice())
                 .status(style.getStatus())
                 .content(style.getContent())
+                .imgUrl(style.getImgUrl())
+                .image(style.getImage())
                 .registeredAt(style.getRegisteredAt())
                 .unregisteredAt(style.getUnregisteredAt())
                 .createdAt(style.getCreatedAt())

@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.sql.Blob;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,6 +31,11 @@ public class Menu {
     private String name;
 
     private BigDecimal price;
+
+    private String imgUrl;
+
+    @Lob
+    private Blob image;
 
     private LocalDate registeredAt;
 
