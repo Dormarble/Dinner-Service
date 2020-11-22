@@ -24,6 +24,7 @@ public class IngredientApiService {
                 .type(body.getType())
                 .status(body.getStatus())
                 .cost(body.getCost())
+                .stock(body.getStock())
                 .registeredAt(LocalDate.now())
                 .build();
 
@@ -56,8 +57,6 @@ public class IngredientApiService {
 
                     if(body.getRegisteredAt() != null)
                         ingredient.setRegisteredAt(body.getRegisteredAt());
-                    if(body.getUnregisteredAt() != null)
-                        ingredient.setUnregisteredAt(body.getUnregisteredAt());
 
                     Ingredient updatedIngredient = ingredientRepository.save(ingredient);
 

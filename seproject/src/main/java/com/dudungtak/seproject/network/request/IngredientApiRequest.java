@@ -28,6 +28,4 @@ public class IngredientApiRequest {
     protected Integer stock;
 
     protected LocalDate registeredAt;
-
-    protected LocalDate unregisteredAt;
 }

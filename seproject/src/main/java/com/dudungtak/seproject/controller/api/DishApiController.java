@@ -15,7 +15,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/admin/api/dish")
+@RequestMapping("/api/dish")
 public class DishApiController{
     @Autowired
     DishApiService dishApiService;

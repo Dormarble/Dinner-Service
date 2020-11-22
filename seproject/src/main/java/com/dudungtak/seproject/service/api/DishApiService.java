@@ -36,18 +36,17 @@ public class DishApiService {
     public Header<DishApiResponse> create(Header<DishApiRequest> request) {
         DishApiRequest body = request.getData();
 
-        // create dish
+        // create dish without price
         Dish dish = Dish.builder()
                 .name(body.getName())
                 .status(body.getStatus())
-                .price(body.getPrice())
                 .imgUrl(body.getImgUrl())
                 .image(body.getImage())
                 .registeredAt(body.getRegisteredAt())
                 .build();
 
-        // create DishElement
-        List<DishElementApiResponse> dishElementApiResponseList = body.getDishElementList().stream()
+        // create DishElement without dish
+        List<DishElement> dishElementList = body.getDishElementList().stream()
                 .map(dishElementApiRequest -> {
                     Ingredient ingredient = ingredientRepository.getOne(dishElementApiRequest.getIngredientId());
 
@@ -55,17 +54,36 @@ public class DishApiService {
                             // totalCost = ingredientCost * ingredientQuantity
                             .totalCost(ingredient.getCost().multiply(BigDecimal.valueOf(dishElementApiRequest.getQuantity())))
                             .quantity(dishElementApiRequest.getQuantity())
-                            .dish(dish)
                             .ingredient(ingredient)
                             .build();
 
-                    DishElement newDishElement = dishElementRepository.save(dishElement);
 
-                    return DishElementApiService.response(newDishElement);
+                    return dishElement;
                 })
                 .collect(Collectors.toList());
 
+        // calculate total dish price
+        BigDecimal totalPrice = dishElementList.stream()
+                .map(dishElement -> dishElement.getTotalCost())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        // set price & save
+        dish.setPrice(totalPrice);
         Dish savedDish = dishRepository.save(dish);
+
+        // set dish & save
+        List<DishElement> savedDishElementList = dishElementList.stream()
+                .map(dishElement -> {
+                    dishElement.setDish(savedDish);
+                    DishElement savedDishElement = dishElementRepository.save(dishElement);
+
+                    return savedDishElement;
+                })
+                .collect(Collectors.toList());
+
+        List<DishElementApiResponse> dishElementApiResponseList = savedDishElementList.stream()
+                .map(DishElementApiService::response)
+                .collect(Collectors.toList());
 
         return Header.OK(response(savedDish, dishElementApiResponseList));
     }
@@ -161,17 +179,21 @@ public class DishApiService {
     }
 
     public Header delete(Long id) {
-        Dish dish = dishRepository.getOne(id);
+        Optional<Dish> optionalDish = dishRepository.findById(id);
 
-        if(dish == null) return Header.ERROR("no data");
+         optionalDish.ifPresent(dish -> {
+             dish.getDishElementList().forEach(dishElement -> {
+                 dishElementRepository.delete(dishElement);
+             });
 
-        dish.getDishElementList().forEach(dishElement -> {
-                dishElementRepository.delete(dishElement);
-            });
+             dishRepository.delete(dish);
+         });
 
-        dishRepository.delete(dish);
-
-        return Header.OK();
+        return optionalDish
+                .map(dish -> {
+                    return Header.OK();
+                })
+                .orElseGet(() -> Header.ERROR("no data"));
     }
 
     public static DishApiResponse response(Dish dish) {
