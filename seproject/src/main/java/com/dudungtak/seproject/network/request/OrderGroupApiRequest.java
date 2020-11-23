@@ -1,6 +1,5 @@
 package com.dudungtak.seproject.network.request;
 
-import com.dudungtak.seproject.entity.DishElement;
 import com.dudungtak.seproject.enumpackage.OrderPaymentType;
 import com.dudungtak.seproject.enumpackage.OrderStatus;
 import lombok.AllArgsConstructor;
@@ -21,8 +20,6 @@ public class OrderGroupApiRequest {
 
     private BigDecimal totalPrice;
 
-    private BigDecimal totalCost;
-
     private LocalDateTime orderAt;
 
     private Long userId;
@@ -39,5 +36,5 @@ public class OrderGroupApiRequest {
 
     private StyleApiRequest style;
 
-    private List<DishElementApiRequest> dishElementList;
+    private List<OrderElementApiRequest> orderElementList;
 }

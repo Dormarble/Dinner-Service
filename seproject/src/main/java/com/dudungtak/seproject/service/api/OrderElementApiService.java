@@ -10,6 +10,7 @@ public class OrderElementApiService {
                 .dishId(orderElement.getDish().getId())
                 .dishName(orderElement.getDish().getName())
                 .quantity(orderElement.getQuantity())
+                .totalPrice(orderElement.getTotalPrice())
                 .build();
     }
 }

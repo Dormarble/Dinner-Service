@@ -21,8 +21,6 @@ public class OrderGroupApiResponse {
 
     private BigDecimal totalPrice;
 
-    private BigDecimal totalCost;
-
     private LocalDateTime orderAt;
 
     private LocalDateTime createdAt;

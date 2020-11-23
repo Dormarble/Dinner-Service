@@ -1,22 +1,19 @@
 package com.dudungtak.seproject.repository;
 
-import com.dudungtak.seproject.entity.Ingredient;
 import com.dudungtak.seproject.entity.OrderGroup;
 import com.dudungtak.seproject.entity.Style;
 import com.dudungtak.seproject.entity.User;
 import com.dudungtak.seproject.enumpackage.OrderPaymentType;
+import com.dudungtak.seproject.enumpackage.OrderStatus;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class OrderGroupRepositoryTest {
@@ -33,7 +30,7 @@ class OrderGroupRepositoryTest {
     @Transactional
     public void create() {
         LocalDateTime orderAt = LocalDateTime.now();
-        String status = "REGISTERED";
+        OrderStatus status = OrderStatus.RECEIVED;
         String revAddress = "서울시 동대문구 휘경동";
         OrderPaymentType paymentType = OrderPaymentType.CARD;
         BigDecimal totalPrice = BigDecimal.valueOf(15000);
@@ -50,7 +47,6 @@ class OrderGroupRepositoryTest {
                 .revAddress(revAddress)
                 .paymentType(paymentType)
                 .totalPrice(totalPrice)
-                .totalCost(totalCost)
                 .comment(comment)
                 .createdAt(createdAt)
                 .createdBy(createdBy)

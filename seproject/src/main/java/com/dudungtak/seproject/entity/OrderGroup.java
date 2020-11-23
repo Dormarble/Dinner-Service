@@ -35,12 +35,12 @@ public class OrderGroup {
 
     private String revAddress;
 
+    private String revName;
+
     @Enumerated(EnumType.STRING)
     private OrderPaymentType paymentType;
 
     private BigDecimal totalPrice;
-
-    private BigDecimal totalCost;
 
     private String comment;
 

@@ -52,7 +52,7 @@ public class DishApiService {
 
                     DishElement dishElement = DishElement.builder()
                             // totalCost = ingredientCost * ingredientQuantity
-                            .totalCost(ingredient.getCost().multiply(BigDecimal.valueOf(dishElementApiRequest.getQuantity())))
+                            .totalPrice(ingredient.getCost().multiply(BigDecimal.valueOf(dishElementApiRequest.getQuantity())))
                             .quantity(dishElementApiRequest.getQuantity())
                             .ingredient(ingredient)
                             .build();
@@ -64,7 +64,7 @@ public class DishApiService {
 
         // calculate total dish price
         BigDecimal totalPrice = dishElementList.stream()
-                .map(dishElement -> dishElement.getTotalCost())
+                .map(dishElement -> dishElement.getTotalPrice())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         // set price & save
@@ -161,7 +161,7 @@ public class DishApiService {
                             Ingredient ingredient = ingredientRepository.getOne(dishElementApiRequest.getIngredientId());
 
                             DishElement dishElement = DishElement.builder()
-                                    .totalCost(ingredient.getCost().multiply(BigDecimal.valueOf(dishElementApiRequest.getQuantity())))
+                                    .totalPrice(ingredient.getCost().multiply(BigDecimal.valueOf(dishElementApiRequest.getQuantity())))
                                     .quantity(dishElementApiRequest.getQuantity())
                                     .dish(updatedDish)
                                     .ingredient(ingredient)

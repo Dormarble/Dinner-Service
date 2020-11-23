@@ -27,8 +27,6 @@ public class OrderElement {
 
     private BigDecimal totalPrice;
 
-    private BigDecimal totalCost;
-
     private Integer quantity;
 
     @CreatedDate

@@ -99,7 +99,7 @@ public class OrderManager {
         });
     }
 
-    public void changeStatus(OrderGroup orderGroup, OrderStatus status) {
+    private void changeStatus(OrderGroup orderGroup, OrderStatus status) {
         orderGroup.setStatus(status);
         orderConditions.put(orderGroup, status);
 

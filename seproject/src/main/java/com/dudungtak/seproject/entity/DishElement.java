@@ -25,7 +25,7 @@ public class DishElement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private BigDecimal totalCost;
+    private BigDecimal totalPrice;
 
     private Integer quantity;
 
