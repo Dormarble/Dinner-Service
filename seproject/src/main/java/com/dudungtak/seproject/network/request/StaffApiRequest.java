@@ -1,5 +1,6 @@
 package com.dudungtak.seproject.network.request;
 
+import com.dudungtak.seproject.enumpackage.StaffJob;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,5 +29,5 @@ public class StaffApiRequest {
 
     private String phoneNumber;
 
-    private String job;
+    private StaffJob job;
 }

@@ -1,5 +1,6 @@
 package com.dudungtak.seproject.network.response;
 
+import com.dudungtak.seproject.enumpackage.StaffJob;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +27,7 @@ public class StaffApiResponse {
 
     private String phoneNumber;
 
-    private String job;
+    private StaffJob job;
 
     private LocalDateTime createdAt;
 
