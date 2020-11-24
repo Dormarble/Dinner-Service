@@ -196,6 +196,13 @@ public class OrderGroupApiService {
                 .orElseGet(() -> Header.ERROR("invalid input"));
     }
 
+    public Header cancel(Long orderId) {
+        boolean result = orderManager.cancel(orderId);
+
+        if(result) return Header.OK();
+        return Header.ERROR("invalid OrderGroup ID");
+    }
+
     public static OrderGroupApiResponse response(OrderGroup orderGroup) {
         List<OrderElementApiResponse> elementResponseList =
                 orderGroup.getOrderElementList().stream()

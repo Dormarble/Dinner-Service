@@ -56,5 +56,8 @@ public class OrderGroupApiController {
         return orderGroupApiService.finishDelivery(id);
     }
 
-
+    @PutMapping("order/{id}/cancel")
+    public Header cancel(@PathVariable Long id) {
+        return orderGroupApiService.cancel(id);
+    }
 }

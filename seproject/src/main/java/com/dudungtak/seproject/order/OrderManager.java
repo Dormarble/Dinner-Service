@@ -50,6 +50,19 @@ public class OrderManager {
         changeStatus(orderGroup, OrderStatus.PENDINGCONFIRM);
     }
 
+    public boolean cancel(Long orderId) {
+        Optional<OrderGroup> optional = Optional.ofNullable(pendingConfirmMap.get(orderId));
+
+        return optional
+                .map(orderGroup -> {
+                    pendingConfirmMap.remove(orderId);
+                    changeStatus(orderGroup, OrderStatus.CANCELLED);
+
+                    return true;
+                })
+                .orElse(false);
+    }
+
     public List<OrderGroup> getPendingConfirmOrder() {
         List<OrderGroup> orderGroupList = pendingConfirmMap.keySet().stream()
                 .map(orderGroupId -> {
@@ -202,7 +215,7 @@ public class OrderManager {
 
     private Map<Long, OrderGroup> loadMap(OrderStatus status) {
         Map<Long, OrderGroup> hashMap = new HashMap<>();
-        System.out.println(orderGroupRepository);
+
         List<OrderGroup> orderGroupList = orderGroupRepository.findByStatusOrderByCreatedAtAsc(status);
 
         orderGroupList
