@@ -35,4 +35,9 @@ public class OrderGroupApiController {
     public Header confirm(@RequestBody Header<List<OrderGroupApiRequest>> request) {
         return orderGroupApiService.confirm(request);
     }
+
+    @GetMapping("order/cook")
+    public Header<OrderGroupApiResponse> nextCook() {
+        return orderGroupApiService.nextCook();
+    }
 }

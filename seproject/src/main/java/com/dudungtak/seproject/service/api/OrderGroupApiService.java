@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -141,6 +142,21 @@ public class OrderGroupApiService {
         orderManager.confirm(confirmedList);
 
         return Header.OK();
+    }
+
+    public Header<OrderGroupApiResponse> nextCook() {
+        Optional<OrderGroup> optionalNextCook = orderManager.getNextCook();
+
+        return optionalNextCook
+                .map(nextCook -> {
+                    List<OrderElementApiResponse> elementList = nextCook.getOrderElementList().stream()
+                            .map(OrderElementApiService::response)
+                            .collect(Collectors.toList());
+
+                    return OrderGroupApiService.response(nextCook, elementList);
+                })
+                .map(Header::OK)
+        .orElseGet(Header::OK);
     }
 
     public static OrderGroupApiResponse response(OrderGroup orderGroup) {

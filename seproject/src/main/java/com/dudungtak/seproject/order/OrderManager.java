@@ -90,12 +90,14 @@ public class OrderManager {
         return orderGroupList;
     }
 
-    public OrderGroup getNextCook() {
-        OrderGroup orderGroup = standingByCookingQueue.poll();
-        cookingMap.put(orderGroup.getId(), orderGroup);
-        changeStatus(orderGroup, OrderStatus.COOKING);
-
-        return orderGroup;
+    public Optional<OrderGroup> getNextCook() {
+        Optional<OrderGroup> optionalOrderGroup = Optional.ofNullable(standingByCookingQueue.poll());
+        optionalOrderGroup
+                .ifPresent(orderGroup -> {
+                    cookingMap.put(orderGroup.getId(), orderGroup);
+                    changeStatus(orderGroup, OrderStatus.COOKING);
+                });
+        return optionalOrderGroup;
     }
 
     public void finishCooking(OrderGroup order) {
