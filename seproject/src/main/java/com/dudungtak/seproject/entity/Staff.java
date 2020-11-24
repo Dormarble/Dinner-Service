@@ -1,5 +1,6 @@
 package com.dudungtak.seproject.entity;
 
+import com.dudungtak.seproject.enumpackage.StaffJob;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,7 +39,8 @@ public class Staff {
 
     private String phoneNumber;
 
-    private String job;
+    @Enumerated(EnumType.STRING)
+    private StaffJob job;
 
     @CreatedDate
     private LocalDateTime createdAt;

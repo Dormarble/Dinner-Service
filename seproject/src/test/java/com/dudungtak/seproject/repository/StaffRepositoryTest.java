@@ -1,6 +1,7 @@
 package com.dudungtak.seproject.repository;
 
 import com.dudungtak.seproject.entity.Staff;
+import com.dudungtak.seproject.enumpackage.StaffJob;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ class StaffRepositoryTest {
         String gender = "남성";
         String address = "서울시 동대문구";
         String phoneNumber = "010-0000-0000";
-        String job = "요리사";
+        StaffJob job = StaffJob.COOK;
         LocalDateTime createdAt = LocalDateTime.now();
         String createdBy = "AdminServer";
 
