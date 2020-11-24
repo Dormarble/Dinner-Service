@@ -115,6 +115,38 @@ public class OrderGroupApiService {
         return Header.OK(orderGroupApiResponseList, pagination);
     }
 
+    public Header<List<OrderGroupApiResponse>> nextConfirm() {
+        List<OrderGroup> orderGroupList = orderManager.getPendingConfirmOrder();
+        System.out.println(orderGroupList);
+        List<OrderGroupApiResponse> orderGroupApiResponseList = orderGroupList.stream()
+                .map(orderGroup -> {
+                    List<OrderElementApiResponse> orderElementApiResponseList = orderGroup.getOrderElementList().stream()
+                            .map(OrderElementApiService::response)
+                            .collect(Collectors.toList());
+
+                    return OrderGroupApiService.response(orderGroup, orderElementApiResponseList);
+                })
+                .collect(Collectors.toList());
+
+        return Header.OK(orderGroupApiResponseList);
+    }
+
+    public Header confirm(Header<List<OrderGroupApiRequest>> request) {
+        List<OrderGroupApiRequest> body = request.getData();
+
+        List<Long> confirmedList = body.stream()
+                .map(orderGroupApiRequest -> orderGroupApiRequest.getId())
+                .collect(Collectors.toList());
+
+        orderManager.confirm(confirmedList);
+
+        return Header.OK();
+    }
+
+    public static OrderGroupApiResponse response(OrderGroup orderGroup) {
+        return null;
+    }
+
     public static OrderGroupApiResponse response(
             OrderGroup orderGroup,
             List<OrderElementApiResponse> orderElementApiResponseList

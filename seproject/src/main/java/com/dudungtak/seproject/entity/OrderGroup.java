@@ -62,6 +62,6 @@ public class OrderGroup {
     @ManyToOne
     private Style style;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "orderGroup")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "orderGroup")
     private List<OrderElement> orderElementList;
 }

@@ -25,4 +25,14 @@ public class OrderGroupApiController {
     public Header<List<OrderGroupApiResponse>> readAll(@PathVariable Long id, Pageable pageable) {
         return orderGroupApiService.readAll(id, pageable);
     }
+
+    @GetMapping("/order/confirm")
+    public Header<List<OrderGroupApiResponse>> nextConfirm() {
+        return orderGroupApiService.nextConfirm();
+    }
+
+    @PostMapping("/order/confirm")
+    public Header confirm(@RequestBody Header<List<OrderGroupApiRequest>> request) {
+        return orderGroupApiService.confirm(request);
+    }
 }

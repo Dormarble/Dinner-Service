@@ -3,21 +3,21 @@ package com.dudungtak.seproject.order;
 import com.dudungtak.seproject.entity.OrderGroup;
 import com.dudungtak.seproject.enumpackage.OrderStatus;
 import com.dudungtak.seproject.repository.OrderGroupRepository;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
 public class OrderManager {
-    @Autowired
-    private OrderGroupRepository orderGroupRepository;
+    private final OrderGroupRepository orderGroupRepository;
 
     private final Map<Long, OrderGroup> pendingConfirmMap;
+
+    private final Map<Long, OrderGroup> confirmingMap;
 
     private final Queue<OrderGroup> standingByCookingQueue;
 
@@ -29,13 +29,24 @@ public class OrderManager {
 
     private final Map<OrderGroup, OrderStatus> orderConditions;
 
-    public OrderManager() {
-        pendingConfirmMap = new HashMap<>();
-        standingByCookingQueue = new LinkedList<>();
-        cookingMap = new HashMap<>();
-        standingByDeliveryQueue = new LinkedList<>();
-        deliveryMap = new HashMap<>();
+    @Autowired
+    public OrderManager(OrderGroupRepository orderGroupRepository) {
+        this.orderGroupRepository = orderGroupRepository;
         orderConditions = new HashMap<>();
+
+//        pendingConfirmMap = new HashMap<>();
+//        confirmingMap = new HashMap<>();
+//        standingByCookingQueue = new LinkedList<>();
+//        cookingMap = new HashMap<>();
+//        standingByDeliveryQueue = new LinkedList<>();
+//        deliveryMap = new HashMap<>();
+
+        pendingConfirmMap = loadMap(OrderStatus.PENDINGCONFIRM);
+        confirmingMap = loadMap(OrderStatus.CONFIRMING);
+        standingByCookingQueue = loadQueue(OrderStatus.STANDINGBYCOOKING);
+        cookingMap = loadMap(OrderStatus.COOKING);
+        standingByDeliveryQueue = loadQueue(OrderStatus.STANDINGBYDELIVERY);
+        deliveryMap = loadMap(OrderStatus.DELIVERY);
     }
 
     public void register(OrderGroup orderGroup) {
@@ -44,24 +55,42 @@ public class OrderManager {
     }
 
     public List<OrderGroup> getPendingConfirmOrder() {
-        return pendingConfirmMap.keySet().stream()
-                .map(pendingConfirmMap::get)
+        List<OrderGroup> orderGroupList = pendingConfirmMap.keySet().stream()
+                .map(orderGroupId -> {
+                    OrderGroup orderGroup = pendingConfirmMap.get(orderGroupId);
+                    changeStatus(orderGroup, OrderStatus.CONFIRMING);
+                    confirmingMap.put(orderGroupId, orderGroup);
+
+                    return orderGroup;
+                })
                 .collect(Collectors.toList());
+
+        pendingConfirmMap.clear();
+
+        return orderGroupList;
     }
 
-    public void confirm(List<OrderGroup> confirmedList, List<OrderGroup> rejectedList) {
-        confirmedList.stream()
-                .forEach(orderGroup -> {
-                    pendingConfirmMap.remove(orderGroup.getId());
+    public List<OrderGroup> confirm(List<Long> confirmedList) {
+        // confirmed
+        List<OrderGroup> orderGroupList = confirmedList.stream()
+                .map(orderGroupId -> {
+                    OrderGroup orderGroup = confirmingMap.get(orderGroupId);
+                    confirmingMap.remove(orderGroupId);
                     changeStatus(orderGroup, OrderStatus.PENDINGCONFIRM);
                     standingByCookingQueue.add(orderGroup);
-                });
 
-        rejectedList.stream()
-                .forEach(orderGroup -> {
-                    pendingConfirmMap.remove(orderGroup.getId());
+                    return orderGroup;
+                })
+                .collect(Collectors.toList());
+        // rejected
+        confirmingMap.keySet().stream()
+                .forEach(rejectedId -> {
+                    OrderGroup orderGroup = confirmingMap.get(rejectedId);
+                    confirmingMap.remove(rejectedId);
                     changeStatus(orderGroup, OrderStatus.REJECTED);
                 });
+
+        return orderGroupList;
     }
 
     public OrderGroup getNextCook() {
@@ -104,5 +133,32 @@ public class OrderManager {
         orderConditions.put(orderGroup, status);
 
         new Thread(() -> orderGroupRepository.save(orderGroup)).run();
+    }
+
+    private Map<Long, OrderGroup> loadMap(OrderStatus status) {
+        Map<Long, OrderGroup> hashMap = new HashMap<>();
+        System.out.println(orderGroupRepository);
+        List<OrderGroup> orderGroupList = orderGroupRepository.findByStatusOrderByCreatedAtAsc(status);
+
+        orderGroupList
+                .forEach(orderGroup -> {
+                    hashMap.put(orderGroup.getId(), orderGroup);
+                    orderConditions.put(orderGroup, status);
+                });
+
+        return hashMap;
+    }
+
+    public  Queue<OrderGroup> loadQueue(OrderStatus status) {
+        Queue<OrderGroup> orderGroupQueue = new LinkedList<>();
+        List<OrderGroup> orderGroupList = orderGroupRepository.findByStatusOrderByCreatedAtAsc(status);
+
+        orderGroupList
+                .forEach(orderGroup -> {
+                    orderGroupQueue.add(orderGroup);
+                    orderConditions.put(orderGroup, status);
+                });
+
+        return orderGroupQueue;
     }
 }

@@ -8,7 +8,7 @@ import lombok.Getter;
 public enum OrderPaymentType {
     CARD(0, "card", "카드 결제"),
     CASH(1, "cash", "현금 결제"),
-    ACCOUNT(2, "account transfer", "현금 결제");
+    ACCOUNT(2, "account transfer", "계좌 이체");
 
     private Integer id;
     private String title;
