@@ -34,13 +34,6 @@ public class OrderManager {
         this.orderGroupRepository = orderGroupRepository;
         orderConditions = new HashMap<>();
 
-//        pendingConfirmMap = new HashMap<>();
-//        confirmingMap = new HashMap<>();
-//        standingByCookingQueue = new LinkedList<>();
-//        cookingMap = new HashMap<>();
-//        standingByDeliveryQueue = new LinkedList<>();
-//        deliveryMap = new HashMap<>();
-
         pendingConfirmMap = loadMap(OrderStatus.PENDINGCONFIRM);
         confirmingMap = loadMap(OrderStatus.CONFIRMING);
         standingByCookingQueue = loadQueue(OrderStatus.STANDINGBYCOOKING);
@@ -73,10 +66,14 @@ public class OrderManager {
     public List<OrderGroup> confirm(List<Long> confirmedList) {
         // confirmed
         List<OrderGroup> orderGroupList = confirmedList.stream()
+                .filter(orderGroupId -> {
+                    return Optional.ofNullable(confirmingMap.get(orderGroupId)).isPresent();
+                })
                 .map(orderGroupId -> {
                     OrderGroup orderGroup = confirmingMap.get(orderGroupId);
+
                     confirmingMap.remove(orderGroupId);
-                    changeStatus(orderGroup, OrderStatus.PENDINGCONFIRM);
+                    changeStatus(orderGroup, OrderStatus.STANDINGBYCOOKING);
                     standingByCookingQueue.add(orderGroup);
 
                     return orderGroup;

@@ -117,7 +117,7 @@ public class OrderGroupApiService {
 
     public Header<List<OrderGroupApiResponse>> nextConfirm() {
         List<OrderGroup> orderGroupList = orderManager.getPendingConfirmOrder();
-        System.out.println(orderGroupList);
+
         List<OrderGroupApiResponse> orderGroupApiResponseList = orderGroupList.stream()
                 .map(orderGroup -> {
                     List<OrderElementApiResponse> orderElementApiResponseList = orderGroup.getOrderElementList().stream()
