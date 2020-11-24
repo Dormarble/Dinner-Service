@@ -165,12 +165,12 @@ public class OrderManager {
         return optionalCurrentDelivery;
     }
 
-    public void finishDelivery(OrderGroup order) {
-        Optional<OrderGroup> optionalOrderGroup = Optional.ofNullable(deliveryMap.get(order.getId()));
+    public void finishDelivery(Staff deliveryMan) {
+        Optional<OrderGroup> optionalOrderGroup = getCurrentDelivery(deliveryMan);
 
         optionalOrderGroup.ifPresent(orderGroup -> {
-            deliveryMap.remove(order.getId());
-            changeStatus(orderGroup, OrderStatus.DONE);
+            deliveryMap.remove(orderGroup.getId());
+            changeStatus(orderGroup, OrderStatus.DONE, deliveryMan);
         });
     }
 

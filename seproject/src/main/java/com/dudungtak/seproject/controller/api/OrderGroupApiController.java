@@ -51,4 +51,10 @@ public class OrderGroupApiController {
         return orderGroupApiService.nextDelivery(id);
     }
 
+    @PostMapping("order/delivery/{id}/finish")
+    public Header finishDelivery(@PathVariable Long id) {
+        return orderGroupApiService.finishDelivery(id);
+    }
+
+
 }

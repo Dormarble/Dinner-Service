@@ -186,6 +186,16 @@ public class OrderGroupApiService {
                 .orElseGet(() -> Header.ERROR("invalid input"));
     }
 
+    public Header finishDelivery(Long deliveryManId) {
+        Optional<Staff> optionalDeliveryMan = staffRepository.findById(deliveryManId);
+
+        optionalDeliveryMan
+                .ifPresent(deliveryMan -> {orderManager.finishDelivery(deliveryMan);});
+
+        return optionalDeliveryMan.map((deliveryMan) -> Header.OK())
+                .orElseGet(() -> Header.ERROR("invalid input"));
+    }
+
     public static OrderGroupApiResponse response(OrderGroup orderGroup) {
         List<OrderElementApiResponse> elementResponseList =
                 orderGroup.getOrderElementList().stream()
