@@ -22,30 +22,41 @@ import java.util.stream.Collectors;
 
 @Service
 public class OrderGroupApiService {
-    @Autowired
-    OrderGroupRepository orderGroupRepository;
+
+    private final OrderGroupRepository orderGroupRepository;
+
+    private final OrderElementRepository orderElementRepository;
+
+    private final StaffRepository staffRepository;
+
+    private final DishRepository dishRepository;
+
+    private final UserRepository userRepository;
+
+    private final StyleRepository styleRepository;
+
+    private final OrderManager orderManager;
 
     @Autowired
-    OrderElementRepository orderElementRepository;
+    public OrderGroupApiService(OrderGroupRepository og, OrderElementRepository oe, StaffRepository sf, DishRepository d, UserRepository u, StyleRepository sl, OrderManager om) {
+        this.orderGroupRepository = og;
+        this.orderElementRepository = oe;
+        this.staffRepository = sf;
+        this.dishRepository = d;
+        this.userRepository = u;
+        this.styleRepository = sl;
+        this.orderManager = om;
+    }
 
-    @Autowired
-    DishRepository dishRepository;
-
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    StyleRepository styleRepository;
-
-    @Autowired
-    OrderManager orderManager;
 
     public Header<OrderGroupApiResponse> create(Header<OrderGroupApiRequest> request) {
         OrderGroupApiRequest body = request.getData();
 
+        // find user  &  find style
         User user = userRepository.getOne(body.getUserId());
         Style style = styleRepository.getOne(body.getStyle().getId());
 
+        // build new OrderGroup
         OrderGroup orderGroup = OrderGroup.builder()
                                     .orderAt(body.getOrderAt())
                                     .revAddress(body.getRevAddress())
@@ -57,6 +68,7 @@ public class OrderGroupApiService {
                                     .style(style)
                                     .build();
 
+        // build new OrderElements
         List<OrderElement> orderElementList = body.getOrderElementList().stream()
                 .map(orderElementApiRequest -> {
                     Dish dish = dishRepository.getOne(orderElementApiRequest.getDishId());
@@ -75,24 +87,27 @@ public class OrderGroupApiService {
                 .map(orderElement -> orderElement.getTotalPrice())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
+        // set total price of orderGroup  &  save orderGroup
         orderGroup.setTotalPrice(totalPrice);
         OrderGroup savedOrderGroup = orderGroupRepository.save(orderGroup);
 
-        List<OrderElementApiResponse> orderElementApiResponseList = orderElementList.stream()
+        // set orderGroup field of orderElement  &  save orderElement
+        List<OrderElement> orderElementApiResponseList = orderElementList.stream()
                 .map(orderElement -> {
                     orderElement.setOrderGroup(savedOrderGroup);
                     OrderElement savedOrderElement = orderElementRepository.save(orderElement);
 
                     return savedOrderElement;
                 })
-                .map(OrderElementApiService::response)
                 .collect(Collectors.toList());
 
+        // register to OrderManager
         orderManager.register(savedOrderGroup);
 
-        OrderGroupApiResponse response = response(savedOrderGroup, orderElementApiResponseList);
+        // build response  & return
+        savedOrderGroup.setOrderElementList(orderElementApiResponseList);
 
-        return Header.OK(response);
+        return Header.OK(response(savedOrderGroup));
     }
 
     public Header<List<OrderGroupApiResponse>> readAll(Long userId, Pageable pageable) {
@@ -101,14 +116,7 @@ public class OrderGroupApiService {
         Page<OrderGroup> orderGroups =  orderGroupRepository.findByUserOrderByCreatedAtDesc(user, pageable);
 
         List<OrderGroupApiResponse> orderGroupApiResponseList = orderGroups.stream()
-                .map(orderGroup -> {
-                    List<OrderElementApiResponse> orderElementApiResponseList =
-                            orderGroup.getOrderElementList().stream()
-                                .map(OrderElementApiService::response)
-                                .collect(Collectors.toList());
-
-                    return response(orderGroup, orderElementApiResponseList);
-                })
+                .map(OrderGroupApiService::response)
                 .collect(Collectors.toList());
 
         Pagination pagination = BaseCrudApiService.pagination(orderGroups);
@@ -120,13 +128,7 @@ public class OrderGroupApiService {
         List<OrderGroup> orderGroupList = orderManager.getPendingConfirmOrder();
 
         List<OrderGroupApiResponse> orderGroupApiResponseList = orderGroupList.stream()
-                .map(orderGroup -> {
-                    List<OrderElementApiResponse> orderElementApiResponseList = orderGroup.getOrderElementList().stream()
-                            .map(OrderElementApiService::response)
-                            .collect(Collectors.toList());
-
-                    return OrderGroupApiService.response(orderGroup, orderElementApiResponseList);
-                })
+                .map(OrderGroupApiService::response)
                 .collect(Collectors.toList());
 
         return Header.OK(orderGroupApiResponseList);
@@ -144,29 +146,52 @@ public class OrderGroupApiService {
         return Header.OK();
     }
 
-    public Header<OrderGroupApiResponse> nextCook() {
-        Optional<OrderGroup> optionalNextCook = orderManager.getNextCook();
+    public Header<OrderGroupApiResponse> nextCook(Long cookId) {
+        Optional<Staff> optionalCook = staffRepository.findById(cookId);
 
-        return optionalNextCook
-                .map(nextCook -> {
-                    List<OrderElementApiResponse> elementList = nextCook.getOrderElementList().stream()
-                            .map(OrderElementApiService::response)
-                            .collect(Collectors.toList());
+        return optionalCook
+                .map(cook -> {
+                    Optional<OrderGroup> optionalNextCook = orderManager.getNextCook(cook);
 
-                    return OrderGroupApiService.response(nextCook, elementList);
+                    return optionalNextCook
+                            .map(OrderGroupApiService::response)
+                            .map(Header::OK)
+                            .orElseGet(Header::OK);
                 })
-                .map(Header::OK)
-        .orElseGet(Header::OK);
+                .orElseGet(() -> Header.ERROR("invalid input"));
+    }
+
+    public Header finishCook(Long cookId) {
+        Optional<Staff> optionalCook = staffRepository.findById(cookId);
+
+        optionalCook
+                .ifPresent(cook -> {orderManager.finishCooking(cook);});
+
+        return optionalCook.map((cook) -> Header.OK())
+                .orElseGet(() -> Header.ERROR("invalid input"));
+    }
+
+    public Header<OrderGroupApiResponse> nextDelivery(Long deliveryManId) {
+        Optional<Staff> optionalDeliveryMan = staffRepository.findById(deliveryManId);
+
+        return optionalDeliveryMan
+                .map(deliveryMan -> {
+                    Optional<OrderGroup> optionalNextDelivery = orderManager.getNextDelivery(deliveryMan);
+
+                    return optionalNextDelivery
+                            .map(OrderGroupApiService::response)
+                            .map(Header::OK)
+                            .orElseGet(Header::OK);
+                })
+                .orElseGet(() -> Header.ERROR("invalid input"));
     }
 
     public static OrderGroupApiResponse response(OrderGroup orderGroup) {
-        return null;
-    }
+        List<OrderElementApiResponse> elementResponseList =
+                orderGroup.getOrderElementList().stream()
+                        .map(OrderElementApiService::response)
+                        .collect(Collectors.toList());
 
-    public static OrderGroupApiResponse response(
-            OrderGroup orderGroup,
-            List<OrderElementApiResponse> orderElementApiResponseList
-    ) {
         return OrderGroupApiResponse.builder()
                 .id(orderGroup.getId())
                 .totalPrice(orderGroup.getTotalPrice())
@@ -182,7 +207,7 @@ public class OrderGroupApiService {
                 .comment(orderGroup.getComment())
                 .revName(orderGroup.getRevAddress())
                 .style(StyleApiService.response(orderGroup.getStyle()))
-                .orderElementList(orderElementApiResponseList)
+                .orderElementList(elementResponseList)
                 .build();
     }
 }

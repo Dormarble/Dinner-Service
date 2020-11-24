@@ -36,8 +36,19 @@ public class OrderGroupApiController {
         return orderGroupApiService.confirm(request);
     }
 
-    @GetMapping("order/cook")
-    public Header<OrderGroupApiResponse> nextCook() {
-        return orderGroupApiService.nextCook();
+    @GetMapping("order/cook/{id}")
+    public Header<OrderGroupApiResponse> nextCook(@PathVariable Long id) {
+        return orderGroupApiService.nextCook(id);
     }
+
+    @PostMapping("order/cook/{id}/finish")
+    public Header finishCook(@PathVariable Long id) {
+        return orderGroupApiService.finishCook(id);
+    }
+
+    @GetMapping("order/delivery/{id}")
+    public Header<OrderGroupApiResponse> nextDelivery(@PathVariable Long id) {
+        return orderGroupApiService.nextDelivery(id);
+    }
+
 }

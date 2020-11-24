@@ -62,6 +62,16 @@ public class OrderGroup {
     @ManyToOne
     private Style style;
 
+    @OneToOne
+    private Staff cook;
+
+    @OneToOne
+    private Staff deliveryMan;
+
+    private LocalDateTime cookAt;
+
+    private LocalDateTime deliveryAt;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "orderGroup")
     private List<OrderElement> orderElementList;
 }

@@ -1,13 +1,16 @@
 package com.dudungtak.seproject.order;
 
 import com.dudungtak.seproject.entity.OrderGroup;
+import com.dudungtak.seproject.entity.Staff;
 import com.dudungtak.seproject.enumpackage.OrderStatus;
+import com.dudungtak.seproject.enumpackage.StaffJob;
 import com.dudungtak.seproject.repository.OrderGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -90,32 +93,76 @@ public class OrderManager {
         return orderGroupList;
     }
 
-    public Optional<OrderGroup> getNextCook() {
+    public Optional<OrderGroup> getNextCook(Staff cook) {
+        // check if cook has order
+        Optional<OrderGroup> optionalCurrentCook = getCurrentCook(cook);
+        if(optionalCurrentCook.isPresent())
+            return optionalCurrentCook;
+
+        // load new cook if cook doesn't have order
         Optional<OrderGroup> optionalOrderGroup = Optional.ofNullable(standingByCookingQueue.poll());
         optionalOrderGroup
                 .ifPresent(orderGroup -> {
                     cookingMap.put(orderGroup.getId(), orderGroup);
-                    changeStatus(orderGroup, OrderStatus.COOKING);
+                    changeStatus(orderGroup, OrderStatus.COOKING, cook);
                 });
         return optionalOrderGroup;
     }
 
-    public void finishCooking(OrderGroup order) {
-        Optional<OrderGroup> optionalOrderGroup = Optional.ofNullable(cookingMap.get(order.getId()));
+    private Optional<OrderGroup> getCurrentCook(Staff cook) {
+        Optional<OrderGroup> optionalCurrentCook = cookingMap.entrySet().stream()
+                .filter(entry -> {
+                    OrderGroup orderGroup = entry.getValue();
+
+                    if(orderGroup.getCook().getId() == cook.getId())
+                        return true;
+                    return false;
+                })
+                .map(entry -> entry.getValue())
+                .findFirst();
+
+        return optionalCurrentCook;
+    }
+
+    public void finishCooking(Staff cook) {
+        Optional<OrderGroup> optionalOrderGroup = getCurrentCook(cook);
 
         optionalOrderGroup.ifPresent(orderGroup -> {
-            cookingMap.remove(order.getId());
+            cookingMap.remove(orderGroup.getId());
             standingByDeliveryQueue.add(orderGroup);
-            changeStatus(orderGroup, OrderStatus.STANDINGBYDELIVERY);
+            changeStatus(orderGroup, OrderStatus.STANDINGBYDELIVERY, cook);
         });
     }
 
-    public OrderGroup getNextDelivery() {
-        OrderGroup orderGroup = standingByDeliveryQueue.poll();
-        deliveryMap.put(orderGroup.getId(), orderGroup);
-        changeStatus(orderGroup, OrderStatus.DELIVERY);
+    public Optional<OrderGroup> getNextDelivery(Staff deliveryMan) {
+        // check if delivery man has order
+        Optional<OrderGroup> optionalCurrentDelivery = getCurrentDelivery(deliveryMan);
+        if(optionalCurrentDelivery.isPresent())
+            return optionalCurrentDelivery;
 
-        return orderGroup;
+        // load new delivery if delivery man doesn't have order
+        Optional<OrderGroup> optionalOrderGroup = Optional.ofNullable(standingByDeliveryQueue.poll());
+        optionalOrderGroup
+                .ifPresent(orderGroup -> {
+                    deliveryMap.put(orderGroup.getId(), orderGroup);
+                    changeStatus(orderGroup, OrderStatus.DELIVERY, deliveryMan);
+                });
+        return optionalOrderGroup;
+    }
+
+    private Optional<OrderGroup> getCurrentDelivery(Staff deliveryMan) {
+        Optional<OrderGroup> optionalCurrentDelivery = deliveryMap.entrySet().stream()
+                .filter(entry -> {
+                    OrderGroup orderGroup = entry.getValue();
+
+                    if(orderGroup.getDeliveryMan().getId() == deliveryMan.getId())
+                        return true;
+                    return false;
+                })
+                .map(entry -> entry.getValue())
+                .findFirst();
+
+        return optionalCurrentDelivery;
     }
 
     public void finishDelivery(OrderGroup order) {
@@ -129,6 +176,25 @@ public class OrderManager {
 
     private void changeStatus(OrderGroup orderGroup, OrderStatus status) {
         orderGroup.setStatus(status);
+        orderConditions.put(orderGroup, status);
+
+        new Thread(() -> orderGroupRepository.save(orderGroup)).run();
+    }
+
+    private void changeStatus(OrderGroup orderGroup, OrderStatus status, Staff staff) {
+        orderGroup.setStatus(status);
+        if(staff.getJob() == StaffJob.COOK) {
+            orderGroup.setCook(staff);
+        } else if (staff.getJob() == StaffJob.DELIVERYMAN) {
+            orderGroup.setDeliveryMan(staff);
+        }
+
+        if(status == OrderStatus.STANDINGBYDELIVERY) {
+            orderGroup.setCookAt(LocalDateTime.now());
+        } else if(status == OrderStatus.DONE) {
+            orderGroup.setDeliveryAt(LocalDateTime.now());
+        }
+
         orderConditions.put(orderGroup, status);
 
         new Thread(() -> orderGroupRepository.save(orderGroup)).run();
