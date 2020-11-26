@@ -24,11 +24,37 @@
         <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
         <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
         <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:origin/authentication" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e4c8ad17-5ab9-4ff3-a001-7d42b4ca0dd4" name="Default Changelist" comment="" />
+    <list default="true" id="e4c8ad17-5ab9-4ff3-a001-7d42b4ca0dd4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/SeprojectApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/SeprojectApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/config/WebConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/controller/api/IngredientApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/controller/api/IngredientApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/controller/api/StyleApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/controller/api/StyleApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/controller/api/UserApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/controller/api/UserApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/service/api/IngredientApiService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/service/api/IngredientApiService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/service/api/StyleApiService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/service/api/StyleApiService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/service/api/UserApiSevice.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/service/api/UserApiSevice.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/source-classes-mapping.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/source-classes-mapping.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/controller/api/IngredientApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/controller/api/IngredientApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/controller/api/StyleApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/controller/api/StyleApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/controller/api/UserApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/controller/api/UserApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/service/api/IngredientApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/service/api/IngredientApiService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/service/api/StyleApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/service/api/StyleApiService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/service/api/UserApiSevice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/service/api/UserApiSevice.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,6 +64,31 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="seproject" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="seproject" type="f1a62948:ProjectNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -67,24 +118,46 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="extract.method.default.visibility" value="private" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="show.unlinked.gradle.project.popup" value="true" />
   </component>
-  <component name="RunManager">
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+  <component name="RunManager" selected="Spring Boot.SeprojectApplication">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
+    </configuration>
+    <configuration name="seproject [dependencies]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="dependencies" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
     </configuration>
     <configuration name="SeprojectApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="seproject.main" />
@@ -93,6 +166,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.seproject [dependencies]" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -103,7 +181,9 @@
       <option name="presentableId" value="Default" />
       <updated>1605940894260</updated>
       <workItem from="1605940896123" duration="944000" />
-      <workItem from="1606032774894" duration="55291000" />
+      <workItem from="1606032774894" duration="56112000" />
+      <workItem from="1606328645188" duration="746000" />
+      <workItem from="1606332718155" duration="17609000" />
     </task>
     <servers />
   </component>
@@ -115,7 +195,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/authentication" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -138,65 +230,82 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1659" height="251" key="GridCell.Tab.0.bottom" timestamp="1606223468495">
+    <state x="1729" y="351" key="#com.intellij.ide.util.MemberChooser" timestamp="1606414268792">
+      <screen x="0" y="23" width="2560" height="1417" />
+    </state>
+    <state x="1729" y="351" key="#com.intellij.ide.util.MemberChooser/0.23.2560.1417@0.23.2560.1417" timestamp="1606414268792" />
+    <state width="2508" height="251" key="GridCell.Tab.0.bottom" timestamp="1606429478569">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
     <state width="1740" height="265" key="GridCell.Tab.0.bottom/0.23.1792.1097@0.23.1792.1097" timestamp="1606058834595" />
     <state width="2510" height="383" key="GridCell.Tab.0.bottom/0.23.2560.1359@0.23.2560.1359" timestamp="1605941894621" />
-    <state width="1659" height="251" key="GridCell.Tab.0.bottom/0.23.2560.1417@0.23.2560.1417" timestamp="1606223468495" />
-    <state width="1659" height="251" key="GridCell.Tab.0.center" timestamp="1606223468494">
+    <state width="2508" height="251" key="GridCell.Tab.0.bottom/0.23.2560.1417@0.23.2560.1417" timestamp="1606429478569" />
+    <state width="2508" height="251" key="GridCell.Tab.0.bottom/672.1463.1288.865/0.23.2560.1417@0.23.2560.1417" timestamp="1606329514513" />
+    <state width="2508" height="251" key="GridCell.Tab.0.center" timestamp="1606429478569">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
     <state width="1740" height="265" key="GridCell.Tab.0.center/0.23.1792.1097@0.23.1792.1097" timestamp="1606058834594" />
     <state width="2510" height="383" key="GridCell.Tab.0.center/0.23.2560.1359@0.23.2560.1359" timestamp="1605941894620" />
-    <state width="1659" height="251" key="GridCell.Tab.0.center/0.23.2560.1417@0.23.2560.1417" timestamp="1606223468494" />
-    <state width="1659" height="251" key="GridCell.Tab.0.left" timestamp="1606223468494">
+    <state width="2508" height="251" key="GridCell.Tab.0.center/0.23.2560.1417@0.23.2560.1417" timestamp="1606429478569" />
+    <state width="2508" height="251" key="GridCell.Tab.0.center/672.1463.1288.865/0.23.2560.1417@0.23.2560.1417" timestamp="1606329514513" />
+    <state width="2508" height="251" key="GridCell.Tab.0.left" timestamp="1606429478568">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
     <state width="1740" height="265" key="GridCell.Tab.0.left/0.23.1792.1097@0.23.1792.1097" timestamp="1606058834594" />
     <state width="2510" height="383" key="GridCell.Tab.0.left/0.23.2560.1359@0.23.2560.1359" timestamp="1605941894620" />
-    <state width="1659" height="251" key="GridCell.Tab.0.left/0.23.2560.1417@0.23.2560.1417" timestamp="1606223468494" />
-    <state width="1659" height="251" key="GridCell.Tab.0.right" timestamp="1606223468494">
+    <state width="2508" height="251" key="GridCell.Tab.0.left/0.23.2560.1417@0.23.2560.1417" timestamp="1606429478568" />
+    <state width="2508" height="251" key="GridCell.Tab.0.left/672.1463.1288.865/0.23.2560.1417@0.23.2560.1417" timestamp="1606329514513" />
+    <state width="2508" height="251" key="GridCell.Tab.0.right" timestamp="1606429478569">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
     <state width="1740" height="265" key="GridCell.Tab.0.right/0.23.1792.1097@0.23.1792.1097" timestamp="1606058834595" />
     <state width="2510" height="383" key="GridCell.Tab.0.right/0.23.2560.1359@0.23.2560.1359" timestamp="1605941894621" />
-    <state width="1659" height="251" key="GridCell.Tab.0.right/0.23.2560.1417@0.23.2560.1417" timestamp="1606223468494" />
-    <state width="1659" height="251" key="GridCell.Tab.1.bottom" timestamp="1606223468495">
+    <state width="2508" height="251" key="GridCell.Tab.0.right/0.23.2560.1417@0.23.2560.1417" timestamp="1606429478569" />
+    <state width="2508" height="251" key="GridCell.Tab.0.right/672.1463.1288.865/0.23.2560.1417@0.23.2560.1417" timestamp="1606329514513" />
+    <state width="2508" height="251" key="GridCell.Tab.1.bottom" timestamp="1606429478570">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
     <state width="1740" height="265" key="GridCell.Tab.1.bottom/0.23.1792.1097@0.23.1792.1097" timestamp="1606058834597" />
     <state width="2510" height="383" key="GridCell.Tab.1.bottom/0.23.2560.1359@0.23.2560.1359" timestamp="1605941894622" />
-    <state width="1659" height="251" key="GridCell.Tab.1.bottom/0.23.2560.1417@0.23.2560.1417" timestamp="1606223468495" />
-    <state width="1659" height="251" key="GridCell.Tab.1.center" timestamp="1606223468495">
+    <state width="2508" height="251" key="GridCell.Tab.1.bottom/0.23.2560.1417@0.23.2560.1417" timestamp="1606429478570" />
+    <state width="2508" height="251" key="GridCell.Tab.1.bottom/672.1463.1288.865/0.23.2560.1417@0.23.2560.1417" timestamp="1606329514514" />
+    <state width="2508" height="251" key="GridCell.Tab.1.center" timestamp="1606429478569">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
     <state width="1740" height="265" key="GridCell.Tab.1.center/0.23.1792.1097@0.23.1792.1097" timestamp="1606058834596" />
     <state width="2510" height="383" key="GridCell.Tab.1.center/0.23.2560.1359@0.23.2560.1359" timestamp="1605941894621" />
-    <state width="1659" height="251" key="GridCell.Tab.1.center/0.23.2560.1417@0.23.2560.1417" timestamp="1606223468495" />
-    <state width="1659" height="251" key="GridCell.Tab.1.left" timestamp="1606223468495">
+    <state width="2508" height="251" key="GridCell.Tab.1.center/0.23.2560.1417@0.23.2560.1417" timestamp="1606429478569" />
+    <state width="2508" height="251" key="GridCell.Tab.1.center/672.1463.1288.865/0.23.2560.1417@0.23.2560.1417" timestamp="1606329514514" />
+    <state width="2508" height="251" key="GridCell.Tab.1.left" timestamp="1606429478569">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
     <state width="1740" height="265" key="GridCell.Tab.1.left/0.23.1792.1097@0.23.1792.1097" timestamp="1606058834595" />
     <state width="2510" height="383" key="GridCell.Tab.1.left/0.23.2560.1359@0.23.2560.1359" timestamp="1605941894621" />
-    <state width="1659" height="251" key="GridCell.Tab.1.left/0.23.2560.1417@0.23.2560.1417" timestamp="1606223468495" />
-    <state width="1659" height="251" key="GridCell.Tab.1.right" timestamp="1606223468495">
+    <state width="2508" height="251" key="GridCell.Tab.1.left/0.23.2560.1417@0.23.2560.1417" timestamp="1606429478569" />
+    <state width="2508" height="251" key="GridCell.Tab.1.left/672.1463.1288.865/0.23.2560.1417@0.23.2560.1417" timestamp="1606329514514" />
+    <state width="2508" height="251" key="GridCell.Tab.1.right" timestamp="1606429478569">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
     <state width="1740" height="265" key="GridCell.Tab.1.right/0.23.1792.1097@0.23.1792.1097" timestamp="1606058834596" />
     <state width="2510" height="383" key="GridCell.Tab.1.right/0.23.2560.1359@0.23.2560.1359" timestamp="1605941894621" />
-    <state width="1659" height="251" key="GridCell.Tab.1.right/0.23.2560.1417@0.23.2560.1417" timestamp="1606223468495" />
-    <state x="781" y="341" key="SettingsEditor" timestamp="1605941880381">
-      <screen x="0" y="23" width="2560" height="1359" />
+    <state width="2508" height="251" key="GridCell.Tab.1.right/0.23.2560.1417@0.23.2560.1417" timestamp="1606429478569" />
+    <state width="2508" height="251" key="GridCell.Tab.1.right/672.1463.1288.865/0.23.2560.1417@0.23.2560.1417" timestamp="1606329514514" />
+    <state x="781" y="355" key="SettingsEditor" timestamp="1606401496999">
+      <screen x="0" y="23" width="2560" height="1417" />
     </state>
     <state x="781" y="341" key="SettingsEditor/0.23.2560.1359@0.23.2560.1359" timestamp="1605941880381" />
+    <state x="781" y="355" key="SettingsEditor/0.23.2560.1417@0.23.2560.1417" timestamp="1606401496999" />
+    <state x="1636" y="406" key="extract.method.dialog" timestamp="1606413008034">
+      <screen x="0" y="23" width="2560" height="1417" />
+    </state>
+    <state x="1636" y="406" key="extract.method.dialog/0.23.2560.1417@0.23.2560.1417" timestamp="1606413008034" />
     <state x="1285" y="327" key="run.anything.popup" timestamp="1606106475669">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
     <state x="1285" y="327" key="run.anything.popup/0.23.2560.1417@0.23.2560.1417" timestamp="1606106475669" />
-    <state x="1285" y="326" width="838" height="1032" key="search.everywhere.popup" timestamp="1606204914369">
+    <state x="1285" y="326" width="838" height="1032" key="search.everywhere.popup" timestamp="1606428283587">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
-    <state x="1285" y="326" width="838" height="1032" key="search.everywhere.popup/0.23.2560.1417@0.23.2560.1417" timestamp="1606204914369" />
+    <state x="1285" y="326" width="838" height="1032" key="search.everywhere.popup/0.23.2560.1417@0.23.2560.1417" timestamp="1606428283587" />
   </component>
 </project>

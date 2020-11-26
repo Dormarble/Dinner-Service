@@ -5,7 +5,10 @@ import com.dudungtak.seproject.network.request.StyleApiRequest;
 import com.dudungtak.seproject.network.response.StyleApiResponse;
 import com.dudungtak.seproject.service.api.StyleApiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/style")
@@ -14,13 +17,18 @@ public class StyleApiController {
     StyleApiService styleApiService;
 
     @PostMapping("")
-    public Header<StyleApiResponse> create(@RequestBody Header<StyleApiRequest> request) {
-        return styleApiService.create(request);
+    public Header<StyleApiResponse> create(Authentication authentication, @RequestBody Header<StyleApiRequest> request) {
+        return styleApiService.create(authentication, request);
     }
 
     @GetMapping("{id}")
     public Header<StyleApiResponse> read(@PathVariable Long id) {
         return styleApiService.read(id);
+    }
+
+    @GetMapping("")
+    public Header<List<StyleApiResponse>> readAll() {
+        return styleApiService.readAll();
     }
 
     @PutMapping("")

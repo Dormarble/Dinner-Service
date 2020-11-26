@@ -1,5 +1,6 @@
 package com.dudungtak.seproject.service.api;
 
+import com.dudungtak.seproject.component.JwtUtil;
 import com.dudungtak.seproject.entity.User;
 import com.dudungtak.seproject.network.Header;
 import com.dudungtak.seproject.network.Pagination;
@@ -25,10 +26,13 @@ public class UserApiSevice {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final JwtUtil jwtUtil;
+
     @Autowired
-    public UserApiSevice(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserApiSevice(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
 
     public Header create(Header<UserApiRequest> request) {
@@ -51,6 +55,22 @@ public class UserApiSevice {
             return Header.OK();
         return Header.ERROR("existing user id");
     }
+
+    public Header signIn(Header<UserApiRequest> request) {
+        UserApiRequest body = request.getData();
+
+        String email = body.getEmail();
+        String password = body.getPassword();
+
+        Optional<User> optionalUser = authenticate(email, password);
+
+        return optionalUser.map(user -> {
+            String token = jwtUtil.createToken(user.getId(), user.getName(), "customer");
+            return Header.OK(token);
+        })
+                .orElseGet(() -> Header.ERROR("fail to sign in"));
+    }
+
 
     private Optional<User> register(User user) {
         Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());

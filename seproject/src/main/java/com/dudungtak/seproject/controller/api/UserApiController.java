@@ -16,6 +16,11 @@ public class UserApiController {
     @Autowired
     UserApiSevice userApiSevice;
 
+    @PostMapping("signIn")
+    public Header signIn(@RequestBody Header<UserApiRequest> request) {
+        return userApiSevice.signIn(request);
+    }
+
     @PostMapping("")
     public Header create(@RequestBody Header<UserApiRequest> request) {
         return userApiSevice.create(request);

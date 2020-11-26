@@ -6,6 +6,7 @@ import com.dudungtak.seproject.network.request.IngredientApiRequest;
 import com.dudungtak.seproject.network.response.IngredientApiResponse;
 import com.dudungtak.seproject.repository.IngredientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -16,7 +17,7 @@ public class IngredientApiService {
     @Autowired
     IngredientRepository ingredientRepository;
 
-    public Header<IngredientApiResponse> create(Header<IngredientApiRequest> request) {
+    public Header<IngredientApiResponse> create(Authentication authentication, Header<IngredientApiRequest> request) {
         IngredientApiRequest body = request.getData();
 
         Ingredient ingredient = Ingredient.builder()
@@ -36,7 +37,7 @@ public class IngredientApiService {
                 .orElseGet(() -> Header.ERROR("error on store"));
     }
 
-    public Header<IngredientApiResponse> read(Long id) {
+    public Header<IngredientApiResponse> read(Authentication authentication, Long id) {
         return ingredientRepository.findById(id)
                 .map(IngredientApiService::response)
                 .map(Header::OK)
@@ -44,7 +45,7 @@ public class IngredientApiService {
 
     }
 
-    public Header<IngredientApiResponse> update(Header<IngredientApiRequest> request) {
+    public Header<IngredientApiResponse> update(Authentication authentication, Header<IngredientApiRequest> request) {
         IngredientApiRequest body = request.getData();
 
         return ingredientRepository.findById(body.getId())
@@ -67,7 +68,7 @@ public class IngredientApiService {
                 .orElseGet(() -> Header.ERROR("no data"));
     }
 
-    public Header delete(Long id) {
+    public Header delete(Authentication authentication, Long id) {
         return ingredientRepository.findById(id)
                 .map(dish -> {
                     ingredientRepository.delete(dish);

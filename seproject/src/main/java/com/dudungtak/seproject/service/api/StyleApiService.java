@@ -5,18 +5,31 @@ import com.dudungtak.seproject.network.Header;
 import com.dudungtak.seproject.network.request.StyleApiRequest;
 import com.dudungtak.seproject.network.response.StyleApiResponse;
 import com.dudungtak.seproject.repository.StyleRepository;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StyleApiService {
     @Autowired
     StyleRepository styleRepository;
 
-    public Header<StyleApiResponse> create(Header<StyleApiRequest> request) {
+    public Header<StyleApiResponse> create(Authentication authentication, Header<StyleApiRequest> request) {
+        Claims claims = (Claims)authentication.getPrincipal();
+        Long userId = claims.get("userId", Long.class);
+        String name = claims.get("name", String.class);
+        String job = claims.get("job", String.class);
+
+        if(job != "manager") {
+            return Header.ERROR("permission denied");
+        }
+
         StyleApiRequest body = request.getData();
 
         Style style = Style.builder()
@@ -44,6 +57,15 @@ public class StyleApiService {
                 .orElseGet(() -> Header.ERROR("no data"));
 
     }
+
+    public Header<List<StyleApiResponse>> readAll() {
+        List<StyleApiResponse> styleApiResponseList = styleRepository.findAll().stream()
+                                                        .map(StyleApiService::response)
+                                                        .collect(Collectors.toList());
+
+        return Header.OK(styleApiResponseList);
+    }
+
 
     public Header<StyleApiResponse> update(Header<StyleApiRequest> request) {
         StyleApiRequest body = request.getData();
@@ -98,4 +120,5 @@ public class StyleApiService {
                 .updatedBy(style.getUpdatedBy())
                 .build();
     }
+
 }
