@@ -16,6 +16,10 @@ public class UserApiController {
     @Autowired
     UserApiSevice userApiSevice;
 
+    @PostMapping("")
+    public Header create(@RequestBody Header<UserApiRequest> request) {
+        return userApiSevice.create(request);
+    }
     @GetMapping("{id}")
     public Header<UserApiResponse> read(@PathVariable Long id) {
         return userApiSevice.read(id);
