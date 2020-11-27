@@ -1,5 +1,7 @@
 package com.dudungtak.seproject.controller.api;
 
+import com.dudungtak.seproject.controller.AuthFilter;
+import com.dudungtak.seproject.enumpackage.AccessType;
 import com.dudungtak.seproject.network.Header;
 import com.dudungtak.seproject.network.request.DishApiRequest;
 import com.dudungtak.seproject.network.response.DishApiResponse;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,27 +24,42 @@ public class DishApiController{
     DishApiService dishApiService;
 
     @PostMapping("")
-    public Header<DishApiResponse> create(@RequestBody Header<DishApiRequest> request) {
+    public Header<DishApiResponse> create(Authentication authentication, @RequestBody Header<DishApiRequest> request) {
+        if(!AuthFilter.isValidAccess(authentication, AccessType.MANAGER))
+            return Header.ERROR("permission denied");
+
         return dishApiService.create(request);
     }
 
     @GetMapping("{id}")
-    public Header<DishApiResponse> read(@PathVariable Long id) {
+    public Header<DishApiResponse> read(Authentication authentication, @PathVariable Long id) {
+        if(!AuthFilter.isValidAccess(authentication, AccessType.ALL))
+            return Header.ERROR("permission denied");
+
         return dishApiService.read(id);
     }
 
     @GetMapping("")
-    public Header<List<DishApiResponse>> readAll(@PageableDefault(sort="name", size=20, direction = Sort.Direction.ASC)Pageable pageable) {
+    public Header<List<DishApiResponse>> readAll(Authentication authentication, @PageableDefault(sort="name", size=20, direction = Sort.Direction.ASC)Pageable pageable) {
+        if(!AuthFilter.isValidAccess(authentication, AccessType.ALL))
+            return Header.ERROR("permission denied");
+
         return dishApiService.readAll(pageable);
     }
 
     @PutMapping("")
-    public Header<DishApiResponse> update(@RequestBody Header<DishApiRequest> request) {
+    public Header<DishApiResponse> update(Authentication authentication, @RequestBody Header<DishApiRequest> request) {
+        if(!AuthFilter.isValidAccess(authentication, AccessType.MANAGER))
+            return Header.ERROR("permission denied");
+
         return dishApiService.update(request);
     }
 
     @DeleteMapping("{id}")
-    public Header delete(@PathVariable Long id) {
+    public Header delete(Authentication authentication, @PathVariable Long id) {
+        if(!AuthFilter.isValidAccess(authentication, AccessType.MANAGER))
+            return Header.ERROR("permission denied");
+
         return dishApiService.delete(id);
     }
 }

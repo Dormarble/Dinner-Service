@@ -30,9 +30,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e4c8ad17-5ab9-4ff3-a001-7d42b4ca0dd4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/controller/api/StyleApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/controller/api/StyleApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/service/api/StyleApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/service/api/StyleApiService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/controller/api/DishApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/controller/api/DishApiController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -162,7 +160,7 @@
       <workItem from="1605940896123" duration="944000" />
       <workItem from="1606032774894" duration="56112000" />
       <workItem from="1606328645188" duration="746000" />
-      <workItem from="1606332718155" duration="28076000" />
+      <workItem from="1606332718155" duration="28257000" />
     </task>
     <servers />
   </component>
