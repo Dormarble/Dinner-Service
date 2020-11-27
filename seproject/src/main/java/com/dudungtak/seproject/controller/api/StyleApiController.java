@@ -1,6 +1,6 @@
 package com.dudungtak.seproject.controller.api;
 
-import com.dudungtak.seproject.controller.AuthFilter;
+import com.dudungtak.seproject.controller.Permission;
 import com.dudungtak.seproject.enumpackage.AccessType;
 import com.dudungtak.seproject.network.Header;
 import com.dudungtak.seproject.network.request.StyleApiRequest;
@@ -20,7 +20,7 @@ public class StyleApiController {
 
     @PostMapping("")
     public Header<StyleApiResponse> create(Authentication authentication, @RequestBody Header<StyleApiRequest> request) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.MANAGER))
+        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
             return Header.ERROR("permission denied");
 
         return styleApiService.create(request);
@@ -28,7 +28,7 @@ public class StyleApiController {
 
     @GetMapping("{id}")
     public Header<StyleApiResponse> read(Authentication authentication, @PathVariable Long id) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.ALL))
+        if(!Permission.isValidAccess(authentication, AccessType.ALL))
             return Header.ERROR("permission denied");
 
         return styleApiService.read(id);
@@ -36,7 +36,7 @@ public class StyleApiController {
 
     @GetMapping("")
     public Header<List<StyleApiResponse>> readAll(Authentication authentication) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.ALL))
+        if(!Permission.isValidAccess(authentication, AccessType.ALL))
             return Header.ERROR("permission denied");
 
         return styleApiService.readAll();
@@ -44,7 +44,7 @@ public class StyleApiController {
 
     @PutMapping("")
     public Header<StyleApiResponse> update(Authentication authentication, @RequestBody Header<StyleApiRequest> request) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.MANAGER))
+        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
             return Header.ERROR("permission denied");
 
         return styleApiService.update(request);
@@ -52,7 +52,7 @@ public class StyleApiController {
 
     @DeleteMapping("{id}")
     public Header delete(Authentication authentication, @PathVariable Long id) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.MANAGER))
+        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
             return Header.ERROR("permission denied");
 
         return styleApiService.delete(id);

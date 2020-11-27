@@ -1,6 +1,6 @@
 package com.dudungtak.seproject.controller.api;
 
-import com.dudungtak.seproject.controller.AuthFilter;
+import com.dudungtak.seproject.controller.Permission;
 import com.dudungtak.seproject.enumpackage.AccessType;
 import com.dudungtak.seproject.network.Header;
 import com.dudungtak.seproject.network.request.DishApiRequest;
@@ -25,7 +25,7 @@ public class DishApiController{
 
     @PostMapping("")
     public Header<DishApiResponse> create(Authentication authentication, @RequestBody Header<DishApiRequest> request) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.MANAGER))
+        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
             return Header.ERROR("permission denied");
 
         return dishApiService.create(request);
@@ -33,7 +33,7 @@ public class DishApiController{
 
     @GetMapping("{id}")
     public Header<DishApiResponse> read(Authentication authentication, @PathVariable Long id) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.ALL))
+        if(!Permission.isValidAccess(authentication, AccessType.ALL))
             return Header.ERROR("permission denied");
 
         return dishApiService.read(id);
@@ -41,7 +41,7 @@ public class DishApiController{
 
     @GetMapping("")
     public Header<List<DishApiResponse>> readAll(Authentication authentication, @PageableDefault(sort="name", size=20, direction = Sort.Direction.ASC)Pageable pageable) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.ALL))
+        if(!Permission.isValidAccess(authentication, AccessType.ALL))
             return Header.ERROR("permission denied");
 
         return dishApiService.readAll(pageable);
@@ -49,7 +49,7 @@ public class DishApiController{
 
     @PutMapping("")
     public Header<DishApiResponse> update(Authentication authentication, @RequestBody Header<DishApiRequest> request) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.MANAGER))
+        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
             return Header.ERROR("permission denied");
 
         return dishApiService.update(request);
@@ -57,7 +57,7 @@ public class DishApiController{
 
     @DeleteMapping("{id}")
     public Header delete(Authentication authentication, @PathVariable Long id) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.MANAGER))
+        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
             return Header.ERROR("permission denied");
 
         return dishApiService.delete(id);

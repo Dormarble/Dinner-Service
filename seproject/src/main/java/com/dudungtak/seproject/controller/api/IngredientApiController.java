@@ -1,8 +1,7 @@
 package com.dudungtak.seproject.controller.api;
 
-import com.dudungtak.seproject.controller.AuthFilter;
+import com.dudungtak.seproject.controller.Permission;
 import com.dudungtak.seproject.enumpackage.AccessType;
-import com.dudungtak.seproject.enumpackage.UserType;
 import com.dudungtak.seproject.network.Header;
 import com.dudungtak.seproject.network.request.IngredientApiRequest;
 import com.dudungtak.seproject.network.response.IngredientApiResponse;
@@ -19,7 +18,7 @@ public class IngredientApiController {
 
     @PostMapping("")
     public Header<IngredientApiResponse> create(Authentication authentication, @RequestBody Header<IngredientApiRequest> request) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.MANAGER))
+        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
             return Header.ERROR("permission denied");
 
         return ingredientApiService.create(authentication, request);
@@ -27,7 +26,7 @@ public class IngredientApiController {
 
     @GetMapping("{id}")
     public Header<IngredientApiResponse> read(Authentication authentication, @PathVariable Long id) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.MANAGER))
+        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
             return Header.ERROR("permission denied");
 
         return ingredientApiService.read(authentication, id);
@@ -36,7 +35,7 @@ public class IngredientApiController {
 
     @PutMapping("")
     public Header<IngredientApiResponse> update(Authentication authentication, @RequestBody Header<IngredientApiRequest> request) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.MANAGER))
+        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
             return Header.ERROR("permission denied");
 
         return ingredientApiService.update(authentication, request);
@@ -44,7 +43,7 @@ public class IngredientApiController {
 
     @DeleteMapping("{id}")
     public Header delete(Authentication authentication, @PathVariable Long id) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.MANAGER))
+        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
             return Header.ERROR("permission denied");
 
         return ingredientApiService.delete(authentication, id);

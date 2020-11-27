@@ -1,6 +1,6 @@
 package com.dudungtak.seproject.controller.api;
 
-import com.dudungtak.seproject.controller.AuthFilter;
+import com.dudungtak.seproject.controller.Permission;
 import com.dudungtak.seproject.enumpackage.AccessType;
 import com.dudungtak.seproject.network.Header;
 import com.dudungtak.seproject.network.request.OrderGroupApiRequest;
@@ -21,7 +21,7 @@ public class OrderGroupApiController {
 
     @PostMapping("/{id}/order")         // --> /order
     public Header<OrderGroupApiResponse> create(Authentication authentication, @RequestBody Header<OrderGroupApiRequest> request) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.CUSTOMER))
+        if(!Permission.isValidAccess(authentication, AccessType.CUSTOMER))
             return Header.ERROR("permission denied");
 
         return orderGroupApiService.create(authentication, request);
@@ -29,7 +29,7 @@ public class OrderGroupApiController {
 
     @GetMapping("/{id}/orders")         // --> /orders
     public Header<List<OrderGroupApiResponse>> readAll(Authentication authentication, @PathVariable Long id, Pageable pageable) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.LOGINEDALL))
+        if(!Permission.isValidAccess(authentication, AccessType.LOGINEDALL))
             return Header.ERROR("permission denied");
 
         return orderGroupApiService.readAll(authentication, id, pageable);
@@ -37,7 +37,7 @@ public class OrderGroupApiController {
 
     @GetMapping("/order/confirm")
     public Header<List<OrderGroupApiResponse>> nextConfirm(Authentication authentication) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.MANAGER))
+        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
             return Header.ERROR("permission denied");
 
         return orderGroupApiService.nextConfirm();
@@ -45,7 +45,7 @@ public class OrderGroupApiController {
 
     @PostMapping("/order/confirm")
     public Header confirm(Authentication authentication, @RequestBody Header<List<OrderGroupApiRequest>> request) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.MANAGER))
+        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
             return Header.ERROR("permission denied");
 
         return orderGroupApiService.confirm(request);
@@ -53,7 +53,7 @@ public class OrderGroupApiController {
 
     @GetMapping("order/cook/{id}")              // --> order/cook
     public Header<OrderGroupApiResponse> nextCook(Authentication authentication, @PathVariable Long id) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.COOK))
+        if(!Permission.isValidAccess(authentication, AccessType.COOK))
             return Header.ERROR("permission denied");
 
         return orderGroupApiService.nextCook(authentication, id);
@@ -61,7 +61,7 @@ public class OrderGroupApiController {
 
     @PostMapping("order/cook/{id}/finish")      // --> order/cook/finish
     public Header finishCook(Authentication authentication, @PathVariable Long id) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.COOK))
+        if(!Permission.isValidAccess(authentication, AccessType.COOK))
             return Header.ERROR("permission denied");
 
         return orderGroupApiService.finishCook(authentication, id);
@@ -69,7 +69,7 @@ public class OrderGroupApiController {
 
     @GetMapping("order/delivery/{id}")          // --> order/delivery
     public Header<OrderGroupApiResponse> nextDelivery(Authentication authentication, @PathVariable Long id) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.DELIVERYMAN))
+        if(!Permission.isValidAccess(authentication, AccessType.DELIVERYMAN))
             return Header.ERROR("permission denied");
 
         return orderGroupApiService.nextDelivery(authentication, id);
@@ -77,7 +77,7 @@ public class OrderGroupApiController {
 
     @PostMapping("order/delivery/{id}/finish")  // --> order/delivery/finish
     public Header finishDelivery(Authentication authentication, @PathVariable Long id) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.DELIVERYMAN))
+        if(!Permission.isValidAccess(authentication, AccessType.DELIVERYMAN))
             return Header.ERROR("permission denied");
 
         return orderGroupApiService.finishDelivery(authentication, id);
@@ -85,7 +85,7 @@ public class OrderGroupApiController {
 
     @PutMapping("order/{id}/cancel")            // --> order/cancel
     public Header cancel(Authentication authentication, @RequestBody Header<OrderGroupApiRequest> request) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.CUSTOMER))
+        if(!Permission.isValidAccess(authentication, AccessType.CUSTOMER))
             return Header.ERROR("permission denied");
 
         return orderGroupApiService.cancel(authentication, request);

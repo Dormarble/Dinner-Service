@@ -24,8 +24,8 @@ com/dudungtak/seproject/repository/OrderGroupRepository.java
  com.dudungtak.seproject.repository.OrderGroupRepository
 com/dudungtak/seproject/service/BaseCrudApiService.java
  com.dudungtak.seproject.service.BaseCrudApiService
-com/dudungtak/seproject/controller/api/DishApiController.java
- com.dudungtak.seproject.controller.api.DishApiController
+com/dudungtak/seproject/order/OrderManager.java
+ com.dudungtak.seproject.order.OrderManager
 com/dudungtak/seproject/entity/Dish.java
  com.dudungtak.seproject.entity.Dish
  com.dudungtak.seproject.entity.Dish$DishBuilder
@@ -37,8 +37,8 @@ com/dudungtak/seproject/config/SecurityConfig.java
 com/dudungtak/seproject/entity/Style.java
  com.dudungtak.seproject.entity.Style
  com.dudungtak.seproject.entity.Style$StyleBuilder
-com/dudungtak/seproject/service/api/StyleApiService.java
- com.dudungtak.seproject.service.api.StyleApiService
+com/dudungtak/seproject/repository/OrderElementRepository.java
+ com.dudungtak.seproject.repository.OrderElementRepository
 com/dudungtak/seproject/repository/UserRepository.java
  com.dudungtak.seproject.repository.UserRepository
 com/dudungtak/seproject/network/response/MenuElementApiResponse.java
@@ -99,8 +99,8 @@ com/dudungtak/seproject/network/response/UserApiResponse.java
  com.dudungtak.seproject.network.response.UserApiResponse$UserApiResponseBuilder
 com/dudungtak/seproject/service/api/IngredientApiService.java
  com.dudungtak.seproject.service.api.IngredientApiService
-com/dudungtak/seproject/controller/api/IngredientApiController.java
- com.dudungtak.seproject.controller.api.IngredientApiController
+com/dudungtak/seproject/service/api/MenuApiService.java
+ com.dudungtak.seproject.service.api.MenuApiService
 com/dudungtak/seproject/repository/StyleRepository.java
  com.dudungtak.seproject.repository.StyleRepository
 com/dudungtak/seproject/component/JwtUtil.java
@@ -137,8 +137,8 @@ com/dudungtak/seproject/entity/DishElement.java
  com.dudungtak.seproject.entity.DishElement$DishElementBuilder
 com/dudungtak/seproject/controller/CrudController.java
  com.dudungtak.seproject.controller.CrudController
-com/dudungtak/seproject/controller/api/UserApiController.java
- com.dudungtak.seproject.controller.api.UserApiController
+com/dudungtak/seproject/filters/JwtAuthenticationFilter.java
+ com.dudungtak.seproject.filters.JwtAuthenticationFilter
 com/dudungtak/seproject/enumpackage/OrderStatus.java
  com.dudungtak.seproject.enumpackage.OrderStatus
 com/dudungtak/seproject/network/Header.java
@@ -156,8 +156,9 @@ com/dudungtak/seproject/network/response/DishElementApiResponse.java
  com.dudungtak.seproject.network.response.DishElementApiResponse$DishElementApiResponseBuilder
 com/dudungtak/seproject/service/api/OrderElementApiService.java
  com.dudungtak.seproject.service.api.OrderElementApiService
-com/dudungtak/seproject/controller/AuthFilter.java
- com.dudungtak.seproject.controller.AuthFilter
+com/dudungtak/seproject/network/response/DishApiResponse.java
+ com.dudungtak.seproject.network.response.DishApiResponse
+ com.dudungtak.seproject.network.response.DishApiResponse$DishApiResponseBuilder
 com/dudungtak/seproject/enumpackage/AccessType.java
  com.dudungtak.seproject.enumpackage.AccessType
 com/dudungtak/seproject/network/request/IngredientApiRequest.java
@@ -167,20 +168,19 @@ com/dudungtak/seproject/service/api/StaffApiService.java
  com.dudungtak.seproject.service.api.StaffApiService
 com/dudungtak/seproject/controller/api/StyleApiController.java
  com.dudungtak.seproject.controller.api.StyleApiController
-com/dudungtak/seproject/repository/OrderElementRepository.java
- com.dudungtak.seproject.repository.OrderElementRepository
-com/dudungtak/seproject/filters/JwtAuthenticationFilter.java
- com.dudungtak.seproject.filters.JwtAuthenticationFilter
-com/dudungtak/seproject/network/response/DishApiResponse.java
- com.dudungtak.seproject.network.response.DishApiResponse
- com.dudungtak.seproject.network.response.DishApiResponse$DishApiResponseBuilder
-com/dudungtak/seproject/service/api/MenuApiService.java
- com.dudungtak.seproject.service.api.MenuApiService
-com/dudungtak/seproject/controller/api/MenuApiController.java
- com.dudungtak.seproject.controller.api.MenuApiController
-com/dudungtak/seproject/order/OrderManager.java
- com.dudungtak.seproject.order.OrderManager
+com/dudungtak/seproject/controller/Permission.java
+ com.dudungtak.seproject.controller.Permission
+com/dudungtak/seproject/controller/api/DishApiController.java
+ com.dudungtak.seproject.controller.api.DishApiController
 com/dudungtak/seproject/service/api/OrderGroupApiService.java
  com.dudungtak.seproject.service.api.OrderGroupApiService
+com/dudungtak/seproject/controller/api/IngredientApiController.java
+ com.dudungtak.seproject.controller.api.IngredientApiController
 com/dudungtak/seproject/controller/api/OrderGroupApiController.java
  com.dudungtak.seproject.controller.api.OrderGroupApiController
+com/dudungtak/seproject/controller/api/MenuApiController.java
+ com.dudungtak.seproject.controller.api.MenuApiController
+com/dudungtak/seproject/service/api/StyleApiService.java
+ com.dudungtak.seproject.service.api.StyleApiService
+com/dudungtak/seproject/controller/api/UserApiController.java
+ com.dudungtak.seproject.controller.api.UserApiController

@@ -1,8 +1,7 @@
 package com.dudungtak.seproject.controller.api;
 
-import com.dudungtak.seproject.controller.AuthFilter;
+import com.dudungtak.seproject.controller.Permission;
 import com.dudungtak.seproject.enumpackage.AccessType;
-import com.dudungtak.seproject.enumpackage.UserType;
 import com.dudungtak.seproject.network.Header;
 import com.dudungtak.seproject.network.request.UserApiRequest;
 import com.dudungtak.seproject.network.response.UserApiResponse;
@@ -22,7 +21,7 @@ public class UserApiController {
 
     @PostMapping("signIn")
     public Header signIn(Authentication authentication, @RequestBody Header<UserApiRequest> request) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.ALL))
+        if(!Permission.isValidAccess(authentication, AccessType.ALL))
             return Header.ERROR("permission denied");
 
         return userApiSevice.signIn(authentication, request);
@@ -30,14 +29,14 @@ public class UserApiController {
 
     @PostMapping("")
     public Header create(Authentication authentication, @RequestBody Header<UserApiRequest> request) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.ALL))
+        if(!Permission.isValidAccess(authentication, AccessType.ALL))
             return Header.ERROR("permission denied");
 
         return userApiSevice.create(authentication, request);
     }
     @GetMapping("{id}")     // --> ""
     public Header<UserApiResponse> read(Authentication authentication, @PathVariable Long id) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.LOGINEDALL))
+        if(!Permission.isValidAccess(authentication, AccessType.LOGINEDALL))
             return Header.ERROR("permission denied");
 
         return userApiSevice.read(authentication, id);
@@ -45,7 +44,7 @@ public class UserApiController {
 
     @GetMapping("")         // --> "api/users"
     public Header<List<UserApiResponse>> readAll(Authentication authentication, Pageable pageable) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.MANAGER))
+        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
             return Header.ERROR("permission denied");
 
         return userApiSevice.readAll(authentication, pageable);
@@ -53,7 +52,7 @@ public class UserApiController {
 
     @PutMapping("myinfo") // --> ""
     public Header<UserApiResponse> update(Authentication authentication, @RequestBody Header<UserApiRequest> request) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.LOGINEDALL))
+        if(!Permission.isValidAccess(authentication, AccessType.LOGINEDALL))
             return Header.ERROR("permission denied");
 
         return userApiSevice.update(authentication, request);

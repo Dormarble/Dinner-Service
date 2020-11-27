@@ -1,6 +1,6 @@
 package com.dudungtak.seproject.controller.api;
 
-import com.dudungtak.seproject.controller.AuthFilter;
+import com.dudungtak.seproject.controller.Permission;
 import com.dudungtak.seproject.enumpackage.AccessType;
 import com.dudungtak.seproject.network.Header;
 import com.dudungtak.seproject.network.request.MenuApiRequest;
@@ -21,7 +21,7 @@ public class MenuApiController {
 
     @PostMapping("")
     public Header<MenuApiResponse> create(Authentication authentication, @RequestBody Header<MenuApiRequest> request) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.MANAGER))
+        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
             return Header.ERROR("permission denied");
 
         return menuApiService.create(request);
@@ -29,7 +29,7 @@ public class MenuApiController {
 
     @GetMapping("{id}")
     public Header<MenuApiResponse> read(Authentication authentication, @PathVariable Long id) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.ALL))
+        if(!Permission.isValidAccess(authentication, AccessType.ALL))
             return Header.ERROR("permission denied");
 
         return menuApiService.read(id);
@@ -37,7 +37,7 @@ public class MenuApiController {
 
     @GetMapping("")
     public Header<List<MenuApiResponse>> readAll(Authentication authentication, Pageable pageable) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.ALL))
+        if(!Permission.isValidAccess(authentication, AccessType.ALL))
             return Header.ERROR("permission denied");
 
         return menuApiService.readAll(pageable);
@@ -45,7 +45,7 @@ public class MenuApiController {
 
     @PutMapping("")
     public Header<MenuApiResponse> update(Authentication authentication, @RequestBody Header<MenuApiRequest> request) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.MANAGER))
+        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
             return Header.ERROR("permission denied");
 
         return menuApiService.update(request);
@@ -53,7 +53,7 @@ public class MenuApiController {
 
     @DeleteMapping("{id}")
     public Header<MenuApiResponse> delete(Authentication authentication, @PathVariable Long id) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.MANAGER))
+        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
             return Header.ERROR("permission denied");
 
         return menuApiService.delete(id);
