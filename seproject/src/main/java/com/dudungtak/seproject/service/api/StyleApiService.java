@@ -20,16 +20,7 @@ public class StyleApiService {
     @Autowired
     StyleRepository styleRepository;
 
-    public Header<StyleApiResponse> create(Authentication authentication, Header<StyleApiRequest> request) {
-        Claims claims = (Claims)authentication.getPrincipal();
-        Long userId = claims.get("userId", Long.class);
-        String name = claims.get("name", String.class);
-        String job = claims.get("job", String.class);
-
-        if(job != "manager") {
-            return Header.ERROR("permission denied");
-        }
-
+    public Header<StyleApiResponse> create(Header<StyleApiRequest> request) {
         StyleApiRequest body = request.getData();
 
         Style style = Style.builder()
