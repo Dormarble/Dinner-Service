@@ -1,5 +1,6 @@
 package com.dudungtak.seproject.component;
 
+import com.dudungtak.seproject.enumpackage.UserType;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -15,11 +16,11 @@ public class JwtUtil {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String createToken(Long userId, String name, String job) {
+    public String createToken(Long userId, String name, UserType userType) {
         String token = Jwts.builder()
-                .claim("userId", userId)
+                .claim("id", userId)
                 .claim("name", name)
-                .claim("job", job)
+                .claim("type", userType)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 

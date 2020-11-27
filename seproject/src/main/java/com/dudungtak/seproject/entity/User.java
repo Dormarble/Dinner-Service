@@ -1,5 +1,6 @@
 package com.dudungtak.seproject.entity;
 
+import com.dudungtak.seproject.enumpackage.UserType;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.CreatedBy;
@@ -36,6 +37,9 @@ public class User {
     private String address;
 
     private String phoneNumber;
+
+    @Enumerated(EnumType.STRING)
+    private UserType type;
 
     @CreatedDate
     private LocalDateTime createdAt;

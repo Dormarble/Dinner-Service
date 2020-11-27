@@ -1,7 +1,10 @@
 package com.dudungtak.seproject.network.response;
 
+import com.dudungtak.seproject.enumpackage.UserType;
 import lombok.*;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -14,8 +17,6 @@ public class UserApiResponse {
 
     private String email;
 
-    private String password;
-
     private String name;
 
     private String gender;
@@ -23,6 +24,9 @@ public class UserApiResponse {
     private String address;
 
     private String phoneNumber;
+
+    @Enumerated(EnumType.STRING)
+    private UserType type;
 
     private LocalDateTime createdAt;
 

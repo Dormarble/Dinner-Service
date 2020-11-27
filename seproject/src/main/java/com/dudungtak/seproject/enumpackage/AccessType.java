@@ -10,7 +10,8 @@ public enum AccessType {
     COOK(1, "cook", "요리사"),
     DELIVERYMAN(2, "delivery man", "배달원"),
     MANAGER(3, "manager", "관리자"),
-    ALL(4, "all", "모든 사용자");
+    LOGINEDALL(4, "logined all", "로그인한 모든 사용자"),
+    ALL(5, "all", "모든 사용자");
 
     private Integer id;
     private String title;

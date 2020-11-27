@@ -2,6 +2,7 @@ package com.dudungtak.seproject.controller.api;
 
 import com.dudungtak.seproject.controller.AuthFilter;
 import com.dudungtak.seproject.enumpackage.AccessType;
+import com.dudungtak.seproject.enumpackage.UserType;
 import com.dudungtak.seproject.network.Header;
 import com.dudungtak.seproject.network.request.IngredientApiRequest;
 import com.dudungtak.seproject.network.response.IngredientApiResponse;
