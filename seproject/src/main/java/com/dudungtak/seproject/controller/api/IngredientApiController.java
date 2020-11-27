@@ -27,7 +27,7 @@ public class IngredientApiController {
 
     @GetMapping("{id}")
     public Header<IngredientApiResponse> read(Authentication authentication, @PathVariable Long id) {
-        if(!AuthFilter.isValidAccess(authentication, AccessType.ALL))
+        if(!AuthFilter.isValidAccess(authentication, AccessType.MANAGER))
             return Header.ERROR("permission denied");
 
         return ingredientApiService.read(authentication, id);

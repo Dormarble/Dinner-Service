@@ -18,7 +18,7 @@ public class AuthFilter {
 
         Claims claims = (Claims)authentication.getPrincipal();
 
-        AccessType userType = claims.get("type", AccessType.class);
+        AccessType userType = AccessType.valueOf(claims.get("type", String.class));
         String userTypeTitle = userType.getTitle();
         String accessTitle = accessType.getTitle();
 

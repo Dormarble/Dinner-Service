@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -99,7 +100,6 @@ public class MenuApiService {
                 .map(menu -> {
                     menu
                             .setName(body.getName())
-                            .setPrice(body.getTotalPrice())
                             .setImgUrl(body.getImgUrl())
                             .setImage(body.getImage())
                             .setRegisteredAt(body.getRegisteredAt())
@@ -115,7 +115,10 @@ public class MenuApiService {
                             map(menuElement -> menuElement.getId())
                             .collect(Collectors.toList());
 
-                    for(MenuElementApiRequest menuElementApiRequest : menuElementApiRequestList) {
+                    Iterator<MenuElementApiRequest> iter = menuElementApiRequestList.iterator();
+
+                    while(iter.hasNext()) {
+                        MenuElementApiRequest menuElementApiRequest = iter.next();
                         Long id = menuElementApiRequest.getId();
 
                         // 기존 요리를 변경한 경우
@@ -143,7 +146,6 @@ public class MenuApiService {
                             menuElementRepository.save(menuElement);
                         }
                     }
-
                     return updatedMenu;
                 })
                 .map(MenuApiService::response)

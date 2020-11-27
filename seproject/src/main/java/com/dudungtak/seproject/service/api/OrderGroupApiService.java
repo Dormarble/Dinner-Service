@@ -1,6 +1,7 @@
 package com.dudungtak.seproject.service.api;
 
 import com.dudungtak.seproject.entity.*;
+import com.dudungtak.seproject.enumpackage.AccessType;
 import com.dudungtak.seproject.enumpackage.OrderStatus;
 import com.dudungtak.seproject.network.Header;
 import com.dudungtak.seproject.network.Pagination;
@@ -10,9 +11,11 @@ import com.dudungtak.seproject.network.response.OrderGroupApiResponse;
 import com.dudungtak.seproject.order.OrderManager;
 import com.dudungtak.seproject.repository.*;
 import com.dudungtak.seproject.service.BaseCrudApiService;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -49,11 +52,14 @@ public class OrderGroupApiService {
     }
 
 
-    public Header<OrderGroupApiResponse> create(Header<OrderGroupApiRequest> request) {
+    public Header<OrderGroupApiResponse> create(Authentication authentication, Header<OrderGroupApiRequest> request) {
+        Claims claims = (Claims)authentication.getPrincipal();
+        Long userId = claims.get("id", Long.class);
+
         OrderGroupApiRequest body = request.getData();
 
         // find user  &  find style
-        User user = userRepository.getOne(body.getUserId());
+        User user = userRepository.getOne(userId);
         Style style = styleRepository.getOne(body.getStyle().getId());
 
         // build new OrderGroup
@@ -110,7 +116,10 @@ public class OrderGroupApiService {
         return Header.OK(response(savedOrderGroup));
     }
 
-    public Header<List<OrderGroupApiResponse>> readAll(Long userId, Pageable pageable) {
+    public Header<List<OrderGroupApiResponse>> readAll(Authentication authentication, Long neverUsedId, Pageable pageable) {
+        Claims claims = (Claims)authentication.getPrincipal();
+        Long userId = claims.get("id", Long.class);
+
         User user = userRepository.getOne(userId);
 
         Page<OrderGroup> orderGroups =  orderGroupRepository.findByUserOrderByCreatedAtDesc(user, pageable);
@@ -146,7 +155,10 @@ public class OrderGroupApiService {
         return Header.OK();
     }
 
-    public Header<OrderGroupApiResponse> nextCook(Long cookId) {
+    public Header<OrderGroupApiResponse> nextCook(Authentication authentication, Long neverUserd) {
+        Claims claims = (Claims)authentication.getPrincipal();
+        Long cookId = claims.get("id", Long.class);
+
         Optional<Staff> optionalCook = staffRepository.findById(cookId);
 
         return optionalCook
@@ -161,7 +173,10 @@ public class OrderGroupApiService {
                 .orElseGet(() -> Header.ERROR("invalid input"));
     }
 
-    public Header finishCook(Long cookId) {
+    public Header finishCook(Authentication authentication, Long neverUserd) {
+        Claims claims = (Claims)authentication.getPrincipal();
+        Long cookId = claims.get("id", Long.class);
+
         Optional<Staff> optionalCook = staffRepository.findById(cookId);
 
         optionalCook
@@ -171,7 +186,10 @@ public class OrderGroupApiService {
                 .orElseGet(() -> Header.ERROR("invalid input"));
     }
 
-    public Header<OrderGroupApiResponse> nextDelivery(Long deliveryManId) {
+    public Header<OrderGroupApiResponse> nextDelivery(Authentication authentication, Long neverUsed) {
+        Claims claims = (Claims)authentication.getPrincipal();
+        Long deliveryManId = claims.get("id", Long.class);
+
         Optional<Staff> optionalDeliveryMan = staffRepository.findById(deliveryManId);
 
         return optionalDeliveryMan
@@ -186,7 +204,10 @@ public class OrderGroupApiService {
                 .orElseGet(() -> Header.ERROR("invalid input"));
     }
 
-    public Header finishDelivery(Long deliveryManId) {
+    public Header finishDelivery(Authentication authentication, Long neverUsed) {
+        Claims claims = (Claims)authentication.getPrincipal();
+        Long deliveryManId = claims.get("id", Long.class);
+
         Optional<Staff> optionalDeliveryMan = staffRepository.findById(deliveryManId);
 
         optionalDeliveryMan
@@ -196,11 +217,21 @@ public class OrderGroupApiService {
                 .orElseGet(() -> Header.ERROR("invalid input"));
     }
 
-    public Header cancel(Long orderId) {
-        boolean result = orderManager.cancel(orderId);
+    public Header cancel(Authentication authentication, Header<OrderGroupApiRequest> request) {
+        Claims claims = (Claims)authentication.getPrincipal();
+        Long userId = claims.get("id", Long.class);
 
-        if(result) return Header.OK();
-        return Header.ERROR("invalid OrderGroup ID");
+        OrderGroupApiRequest body = request.getData();
+
+        Optional<OrderGroup> optional = orderManager.findById(body.getId());
+        if(!optional.isPresent()) return Header.ERROR("invalid OrderGroupID");
+        Long orderGroupUserId = optional.get().getUser().getId();
+
+        if(userId.equals(orderGroupUserId)) return Header.ERROR("permission denied");
+
+        orderManager.cancel(body.getId());
+
+        return Header.OK();
     }
 
     public static OrderGroupApiResponse response(OrderGroup orderGroup) {

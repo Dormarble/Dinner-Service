@@ -6,9 +6,7 @@ import com.dudungtak.seproject.enumpackage.OrderStatus;
 import com.dudungtak.seproject.enumpackage.StaffJob;
 import com.dudungtak.seproject.repository.OrderGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -30,7 +28,7 @@ public class OrderManager {
 
     private final Map<Long, OrderGroup> deliveryMap;
 
-    private final Map<OrderGroup, OrderStatus> orderConditions;
+    private final Map<Long, OrderGroup> orderConditions;
 
     @Autowired
     public OrderManager(OrderGroupRepository orderGroupRepository) {
@@ -43,6 +41,10 @@ public class OrderManager {
         cookingMap = loadMap(OrderStatus.COOKING);
         standingByDeliveryQueue = loadQueue(OrderStatus.STANDINGBYDELIVERY);
         deliveryMap = loadMap(OrderStatus.DELIVERY);
+    }
+
+    public Optional<OrderGroup> findById(Long id) {
+        return Optional.ofNullable(orderConditions.get(id));
     }
 
     public void register(OrderGroup orderGroup) {
@@ -189,7 +191,7 @@ public class OrderManager {
 
     private void changeStatus(OrderGroup orderGroup, OrderStatus status) {
         orderGroup.setStatus(status);
-        orderConditions.put(orderGroup, status);
+        orderConditions.put(orderGroup.getId(), orderGroup);
 
         new Thread(() -> orderGroupRepository.save(orderGroup)).run();
     }
@@ -208,7 +210,7 @@ public class OrderManager {
             orderGroup.setDeliveryAt(LocalDateTime.now());
         }
 
-        orderConditions.put(orderGroup, status);
+        orderConditions.put(orderGroup.getId(), orderGroup);
 
         new Thread(() -> orderGroupRepository.save(orderGroup)).run();
     }
@@ -221,7 +223,7 @@ public class OrderManager {
         orderGroupList
                 .forEach(orderGroup -> {
                     hashMap.put(orderGroup.getId(), orderGroup);
-                    orderConditions.put(orderGroup, status);
+                    orderConditions.put(orderGroup.getId(), orderGroup);
                 });
 
         return hashMap;
@@ -234,7 +236,7 @@ public class OrderManager {
         orderGroupList
                 .forEach(orderGroup -> {
                     orderGroupQueue.add(orderGroup);
-                    orderConditions.put(orderGroup, status);
+                    orderConditions.put(orderGroup.getId(), orderGroup);
                 });
 
         return orderGroupQueue;

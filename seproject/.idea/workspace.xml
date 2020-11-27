@@ -38,28 +38,22 @@
       <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/component/JwtUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/component/JwtUtil.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/controller/AuthFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/controller/AuthFilter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/controller/api/IngredientApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/controller/api/IngredientApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/controller/api/MenuApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/controller/api/MenuApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/controller/api/OrderGroupApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/controller/api/OrderGroupApiController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/controller/api/UserApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/controller/api/UserApiController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/entity/User$UserBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/entity/User$UserBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/entity/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/entity/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/enumpackage/AccessType.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/enumpackage/AccessType.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/network/request/UserApiRequest$UserApiRequestBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/network/request/UserApiRequest$UserApiRequestBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/network/request/UserApiRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/network/request/UserApiRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/network/response/UserApiResponse$UserApiResponseBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/network/response/UserApiResponse$UserApiResponseBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/network/response/UserApiResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/network/response/UserApiResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/service/api/UserApiSevice.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/service/api/UserApiSevice.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/order/OrderManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/order/OrderManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/service/api/MenuApiService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/service/api/MenuApiService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/service/api/OrderGroupApiService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/dudungtak/seproject/service/api/OrderGroupApiService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/source-classes-mapping.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/source-classes-mapping.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/component/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/component/JwtUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/controller/AuthFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/controller/AuthFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/controller/api/IngredientApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/controller/api/IngredientApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/controller/api/UserApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/controller/api/UserApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/enumpackage/AccessType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/enumpackage/UserType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/network/request/UserApiRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/network/request/UserApiRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/network/response/UserApiResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/network/response/UserApiResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/service/api/UserApiSevice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/service/api/UserApiSevice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/controller/api/MenuApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/controller/api/MenuApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/controller/api/OrderGroupApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/controller/api/OrderGroupApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/order/OrderManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/order/OrderManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/service/api/MenuApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/service/api/MenuApiService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/service/api/OrderGroupApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dudungtak/seproject/service/api/OrderGroupApiService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -189,7 +183,7 @@
       <workItem from="1605940896123" duration="944000" />
       <workItem from="1606032774894" duration="56112000" />
       <workItem from="1606328645188" duration="746000" />
-      <workItem from="1606332718155" duration="23484000" />
+      <workItem from="1606332718155" duration="27733000" />
     </task>
     <servers />
   </component>
@@ -244,61 +238,61 @@
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
     <state x="671" y="189" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.2560.1417@0.23.2560.1417" timestamp="1606430984176" />
-    <state width="2508" height="251" key="GridCell.Tab.0.bottom" timestamp="1606436611691">
+    <state width="2508" height="251" key="GridCell.Tab.0.bottom" timestamp="1606440600169">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
     <state width="1740" height="265" key="GridCell.Tab.0.bottom/0.23.1792.1097@0.23.1792.1097" timestamp="1606058834595" />
     <state width="2510" height="383" key="GridCell.Tab.0.bottom/0.23.2560.1359@0.23.2560.1359" timestamp="1605941894621" />
-    <state width="2508" height="251" key="GridCell.Tab.0.bottom/0.23.2560.1417@0.23.2560.1417" timestamp="1606436611691" />
+    <state width="2508" height="251" key="GridCell.Tab.0.bottom/0.23.2560.1417@0.23.2560.1417" timestamp="1606440600169" />
     <state width="2508" height="251" key="GridCell.Tab.0.bottom/672.1463.1288.865/0.23.2560.1417@0.23.2560.1417" timestamp="1606329514513" />
-    <state width="2508" height="251" key="GridCell.Tab.0.center" timestamp="1606436611690">
+    <state width="2508" height="251" key="GridCell.Tab.0.center" timestamp="1606440600169">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
     <state width="1740" height="265" key="GridCell.Tab.0.center/0.23.1792.1097@0.23.1792.1097" timestamp="1606058834594" />
     <state width="2510" height="383" key="GridCell.Tab.0.center/0.23.2560.1359@0.23.2560.1359" timestamp="1605941894620" />
-    <state width="2508" height="251" key="GridCell.Tab.0.center/0.23.2560.1417@0.23.2560.1417" timestamp="1606436611690" />
+    <state width="2508" height="251" key="GridCell.Tab.0.center/0.23.2560.1417@0.23.2560.1417" timestamp="1606440600169" />
     <state width="2508" height="251" key="GridCell.Tab.0.center/672.1463.1288.865/0.23.2560.1417@0.23.2560.1417" timestamp="1606329514513" />
-    <state width="2508" height="251" key="GridCell.Tab.0.left" timestamp="1606436611690">
+    <state width="2508" height="251" key="GridCell.Tab.0.left" timestamp="1606440600169">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
     <state width="1740" height="265" key="GridCell.Tab.0.left/0.23.1792.1097@0.23.1792.1097" timestamp="1606058834594" />
     <state width="2510" height="383" key="GridCell.Tab.0.left/0.23.2560.1359@0.23.2560.1359" timestamp="1605941894620" />
-    <state width="2508" height="251" key="GridCell.Tab.0.left/0.23.2560.1417@0.23.2560.1417" timestamp="1606436611690" />
+    <state width="2508" height="251" key="GridCell.Tab.0.left/0.23.2560.1417@0.23.2560.1417" timestamp="1606440600169" />
     <state width="2508" height="251" key="GridCell.Tab.0.left/672.1463.1288.865/0.23.2560.1417@0.23.2560.1417" timestamp="1606329514513" />
-    <state width="2508" height="251" key="GridCell.Tab.0.right" timestamp="1606436611691">
+    <state width="2508" height="251" key="GridCell.Tab.0.right" timestamp="1606440600169">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
     <state width="1740" height="265" key="GridCell.Tab.0.right/0.23.1792.1097@0.23.1792.1097" timestamp="1606058834595" />
     <state width="2510" height="383" key="GridCell.Tab.0.right/0.23.2560.1359@0.23.2560.1359" timestamp="1605941894621" />
-    <state width="2508" height="251" key="GridCell.Tab.0.right/0.23.2560.1417@0.23.2560.1417" timestamp="1606436611691" />
+    <state width="2508" height="251" key="GridCell.Tab.0.right/0.23.2560.1417@0.23.2560.1417" timestamp="1606440600169" />
     <state width="2508" height="251" key="GridCell.Tab.0.right/672.1463.1288.865/0.23.2560.1417@0.23.2560.1417" timestamp="1606329514513" />
-    <state width="2508" height="251" key="GridCell.Tab.1.bottom" timestamp="1606436611692">
+    <state width="2508" height="251" key="GridCell.Tab.1.bottom" timestamp="1606440600170">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
     <state width="1740" height="265" key="GridCell.Tab.1.bottom/0.23.1792.1097@0.23.1792.1097" timestamp="1606058834597" />
     <state width="2510" height="383" key="GridCell.Tab.1.bottom/0.23.2560.1359@0.23.2560.1359" timestamp="1605941894622" />
-    <state width="2508" height="251" key="GridCell.Tab.1.bottom/0.23.2560.1417@0.23.2560.1417" timestamp="1606436611692" />
+    <state width="2508" height="251" key="GridCell.Tab.1.bottom/0.23.2560.1417@0.23.2560.1417" timestamp="1606440600170" />
     <state width="2508" height="251" key="GridCell.Tab.1.bottom/672.1463.1288.865/0.23.2560.1417@0.23.2560.1417" timestamp="1606329514514" />
-    <state width="2508" height="251" key="GridCell.Tab.1.center" timestamp="1606436611691">
+    <state width="2508" height="251" key="GridCell.Tab.1.center" timestamp="1606440600169">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
     <state width="1740" height="265" key="GridCell.Tab.1.center/0.23.1792.1097@0.23.1792.1097" timestamp="1606058834596" />
     <state width="2510" height="383" key="GridCell.Tab.1.center/0.23.2560.1359@0.23.2560.1359" timestamp="1605941894621" />
-    <state width="2508" height="251" key="GridCell.Tab.1.center/0.23.2560.1417@0.23.2560.1417" timestamp="1606436611691" />
+    <state width="2508" height="251" key="GridCell.Tab.1.center/0.23.2560.1417@0.23.2560.1417" timestamp="1606440600169" />
     <state width="2508" height="251" key="GridCell.Tab.1.center/672.1463.1288.865/0.23.2560.1417@0.23.2560.1417" timestamp="1606329514514" />
-    <state width="2508" height="251" key="GridCell.Tab.1.left" timestamp="1606436611691">
+    <state width="2508" height="251" key="GridCell.Tab.1.left" timestamp="1606440600169">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
     <state width="1740" height="265" key="GridCell.Tab.1.left/0.23.1792.1097@0.23.1792.1097" timestamp="1606058834595" />
     <state width="2510" height="383" key="GridCell.Tab.1.left/0.23.2560.1359@0.23.2560.1359" timestamp="1605941894621" />
-    <state width="2508" height="251" key="GridCell.Tab.1.left/0.23.2560.1417@0.23.2560.1417" timestamp="1606436611691" />
+    <state width="2508" height="251" key="GridCell.Tab.1.left/0.23.2560.1417@0.23.2560.1417" timestamp="1606440600169" />
     <state width="2508" height="251" key="GridCell.Tab.1.left/672.1463.1288.865/0.23.2560.1417@0.23.2560.1417" timestamp="1606329514514" />
-    <state width="2508" height="251" key="GridCell.Tab.1.right" timestamp="1606436611692">
+    <state width="2508" height="251" key="GridCell.Tab.1.right" timestamp="1606440600170">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
     <state width="1740" height="265" key="GridCell.Tab.1.right/0.23.1792.1097@0.23.1792.1097" timestamp="1606058834596" />
     <state width="2510" height="383" key="GridCell.Tab.1.right/0.23.2560.1359@0.23.2560.1359" timestamp="1605941894621" />
-    <state width="2508" height="251" key="GridCell.Tab.1.right/0.23.2560.1417@0.23.2560.1417" timestamp="1606436611692" />
+    <state width="2508" height="251" key="GridCell.Tab.1.right/0.23.2560.1417@0.23.2560.1417" timestamp="1606440600170" />
     <state width="2508" height="251" key="GridCell.Tab.1.right/672.1463.1288.865/0.23.2560.1417@0.23.2560.1417" timestamp="1606329514514" />
     <state x="781" y="355" key="SettingsEditor" timestamp="1606401496999">
       <screen x="0" y="23" width="2560" height="1417" />
@@ -313,9 +307,9 @@
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
     <state x="1285" y="327" key="run.anything.popup/0.23.2560.1417@0.23.2560.1417" timestamp="1606106475669" />
-    <state x="1285" y="326" width="838" height="1032" key="search.everywhere.popup" timestamp="1606428283587">
+    <state x="1285" y="326" width="838" height="1032" key="search.everywhere.popup" timestamp="1606439160311">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
-    <state x="1285" y="326" width="838" height="1032" key="search.everywhere.popup/0.23.2560.1417@0.23.2560.1417" timestamp="1606428283587" />
+    <state x="1285" y="326" width="838" height="1032" key="search.everywhere.popup/0.23.2560.1417@0.23.2560.1417" timestamp="1606439160311" />
   </component>
 </project>
