@@ -1,4 +1,4 @@
-package com.dudungtak.seproject.component;
+package com.dudungtak.seproject.util;
 
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;

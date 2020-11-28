@@ -1,6 +1,6 @@
 package com.dudungtak.seproject.filters;
 
-import com.dudungtak.seproject.component.JwtUtil;
+import com.dudungtak.seproject.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

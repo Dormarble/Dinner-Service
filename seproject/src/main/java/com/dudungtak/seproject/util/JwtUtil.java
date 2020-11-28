@@ -1,4 +1,4 @@
-package com.dudungtak.seproject.component;
+package com.dudungtak.seproject.util;
 
 import com.dudungtak.seproject.enumpackage.UserType;
 import io.jsonwebtoken.Claims;

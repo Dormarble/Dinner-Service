@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api")
 public class OrderGroupApiController {
     @Autowired
     OrderGroupApiService orderGroupApiService;
 
-    @PostMapping("/{id}/order")         // --> /order
+    @PostMapping("order")
     public Header<OrderGroupApiResponse> create(Authentication authentication, @RequestBody Header<OrderGroupApiRequest> request) {
         if(!Permission.isValidAccess(authentication, AccessType.CUSTOMER))
             return Header.ERROR("permission denied");
@@ -27,7 +27,7 @@ public class OrderGroupApiController {
         return orderGroupApiService.create(authentication, request);
     }
 
-    @GetMapping("/{id}/orders")         // --> /orders
+    @GetMapping("user/orders")
     public Header<List<OrderGroupApiResponse>> readAll(Authentication authentication, @PathVariable Long id, Pageable pageable) {
         if(!Permission.isValidAccess(authentication, AccessType.LOGINEDALL))
             return Header.ERROR("permission denied");
@@ -51,39 +51,39 @@ public class OrderGroupApiController {
         return orderGroupApiService.confirm(request);
     }
 
-    @GetMapping("order/cook/{id}")              // --> order/cook
-    public Header<OrderGroupApiResponse> nextCook(Authentication authentication, @PathVariable Long id) {
+    @GetMapping("order/cook")
+    public Header<OrderGroupApiResponse> nextCook(Authentication authentication) {
         if(!Permission.isValidAccess(authentication, AccessType.COOK))
             return Header.ERROR("permission denied");
 
-        return orderGroupApiService.nextCook(authentication, id);
+        return orderGroupApiService.nextCook(authentication);
     }
 
-    @PostMapping("order/cook/{id}/finish")      // --> order/cook/finish
-    public Header finishCook(Authentication authentication, @PathVariable Long id) {
+    @PostMapping("order/cook/finish")
+    public Header finishCook(Authentication authentication) {
         if(!Permission.isValidAccess(authentication, AccessType.COOK))
             return Header.ERROR("permission denied");
 
-        return orderGroupApiService.finishCook(authentication, id);
+        return orderGroupApiService.finishCook(authentication);
     }
 
-    @GetMapping("order/delivery/{id}")          // --> order/delivery
-    public Header<OrderGroupApiResponse> nextDelivery(Authentication authentication, @PathVariable Long id) {
+    @GetMapping("order/delivery")
+    public Header<OrderGroupApiResponse> nextDelivery(Authentication authentication) {
         if(!Permission.isValidAccess(authentication, AccessType.DELIVERYMAN))
             return Header.ERROR("permission denied");
 
-        return orderGroupApiService.nextDelivery(authentication, id);
+        return orderGroupApiService.nextDelivery(authentication);
     }
 
-    @PostMapping("order/delivery/{id}/finish")  // --> order/delivery/finish
-    public Header finishDelivery(Authentication authentication, @PathVariable Long id) {
+    @PostMapping("order/delivery/finish")
+    public Header finishDelivery(Authentication authentication) {
         if(!Permission.isValidAccess(authentication, AccessType.DELIVERYMAN))
             return Header.ERROR("permission denied");
 
-        return orderGroupApiService.finishDelivery(authentication, id);
+        return orderGroupApiService.finishDelivery(authentication);
     }
 
-    @PutMapping("order/{id}/cancel")            // --> order/cancel
+    @PutMapping("order/cancel")
     public Header cancel(Authentication authentication, @RequestBody Header<OrderGroupApiRequest> request) {
         if(!Permission.isValidAccess(authentication, AccessType.CUSTOMER))
             return Header.ERROR("permission denied");

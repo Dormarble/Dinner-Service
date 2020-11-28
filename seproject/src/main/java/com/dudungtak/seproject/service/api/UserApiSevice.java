@@ -1,6 +1,6 @@
 package com.dudungtak.seproject.service.api;
 
-import com.dudungtak.seproject.component.JwtUtil;
+import com.dudungtak.seproject.util.JwtUtil;
 import com.dudungtak.seproject.entity.User;
 import com.dudungtak.seproject.enumpackage.UserType;
 import com.dudungtak.seproject.network.Header;
@@ -104,7 +104,7 @@ public class UserApiSevice {
         return Optional.empty();
     }
 
-    public Header<UserApiResponse> read(Authentication authentication, Long neverUsed) {
+    public Header<UserApiResponse> read(Authentication authentication) {
         Claims claims = (Claims)authentication.getPrincipal();
         Long id = claims.get("id", Long.class);
         System.out.println(id);

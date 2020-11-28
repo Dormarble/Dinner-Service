@@ -155,7 +155,7 @@ public class OrderGroupApiService {
         return Header.OK();
     }
 
-    public Header<OrderGroupApiResponse> nextCook(Authentication authentication, Long neverUserd) {
+    public Header<OrderGroupApiResponse> nextCook(Authentication authentication) {
         Claims claims = (Claims)authentication.getPrincipal();
         Long cookId = claims.get("id", Long.class);
 
@@ -173,7 +173,7 @@ public class OrderGroupApiService {
                 .orElseGet(() -> Header.ERROR("invalid input"));
     }
 
-    public Header finishCook(Authentication authentication, Long neverUserd) {
+    public Header finishCook(Authentication authentication) {
         Claims claims = (Claims)authentication.getPrincipal();
         Long cookId = claims.get("id", Long.class);
 
@@ -186,7 +186,7 @@ public class OrderGroupApiService {
                 .orElseGet(() -> Header.ERROR("invalid input"));
     }
 
-    public Header<OrderGroupApiResponse> nextDelivery(Authentication authentication, Long neverUsed) {
+    public Header<OrderGroupApiResponse> nextDelivery(Authentication authentication) {
         Claims claims = (Claims)authentication.getPrincipal();
         Long deliveryManId = claims.get("id", Long.class);
 
@@ -204,7 +204,7 @@ public class OrderGroupApiService {
                 .orElseGet(() -> Header.ERROR("invalid input"));
     }
 
-    public Header finishDelivery(Authentication authentication, Long neverUsed) {
+    public Header finishDelivery(Authentication authentication) {
         Claims claims = (Claims)authentication.getPrincipal();
         Long deliveryManId = claims.get("id", Long.class);
 

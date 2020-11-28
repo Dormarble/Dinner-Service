@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/user")
+@RequestMapping("api")
 public class UserApiController {
     @Autowired
     UserApiSevice userApiSevice;
 
-    @PostMapping("signIn")
+    @PostMapping("user/login")
     public Header signIn(Authentication authentication, @RequestBody Header<UserApiRequest> request) {
         if(!Permission.isValidAccess(authentication, AccessType.ALL))
             return Header.ERROR("permission denied");
@@ -27,22 +27,23 @@ public class UserApiController {
         return userApiSevice.signIn(authentication, request);
     }
 
-    @PostMapping("")
+    @PostMapping("user")
     public Header create(Authentication authentication, @RequestBody Header<UserApiRequest> request) {
         if(!Permission.isValidAccess(authentication, AccessType.ALL))
             return Header.ERROR("permission denied");
 
         return userApiSevice.create(authentication, request);
     }
-    @GetMapping("{id}")     // --> ""
-    public Header<UserApiResponse> read(Authentication authentication, @PathVariable Long id) {
+
+    @GetMapping("user")
+    public Header<UserApiResponse> read(Authentication authentication) {
         if(!Permission.isValidAccess(authentication, AccessType.LOGINEDALL))
             return Header.ERROR("permission denied");
 
-        return userApiSevice.read(authentication, id);
+        return userApiSevice.read(authentication);
     }
 
-    @GetMapping("")         // --> "api/users"
+    @GetMapping("users")
     public Header<List<UserApiResponse>> readAll(Authentication authentication, Pageable pageable) {
         if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
             return Header.ERROR("permission denied");
@@ -50,7 +51,7 @@ public class UserApiController {
         return userApiSevice.readAll(authentication, pageable);
     }
 
-    @PutMapping("myinfo") // --> ""
+    @PutMapping("user")
     public Header<UserApiResponse> update(Authentication authentication, @RequestBody Header<UserApiRequest> request) {
         if(!Permission.isValidAccess(authentication, AccessType.LOGINEDALL))
             return Header.ERROR("permission denied");
