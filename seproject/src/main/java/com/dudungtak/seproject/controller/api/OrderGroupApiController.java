@@ -28,11 +28,11 @@ public class OrderGroupApiController {
     }
 
     @GetMapping("user/orders")
-    public Header<List<OrderGroupApiResponse>> readAll(Authentication authentication, @PathVariable Long id, Pageable pageable) {
+    public Header<List<OrderGroupApiResponse>> readAll(Authentication authentication, Pageable pageable) {
         if(!Permission.isValidAccess(authentication, AccessType.LOGINEDALL))
             return Header.ERROR("permission denied");
 
-        return orderGroupApiService.readAll(authentication, id, pageable);
+        return orderGroupApiService.readAll(authentication, pageable);
     }
 
     @GetMapping("/order/confirm")

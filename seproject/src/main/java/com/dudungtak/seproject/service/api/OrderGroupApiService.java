@@ -116,7 +116,7 @@ public class OrderGroupApiService {
         return Header.OK(response(savedOrderGroup));
     }
 
-    public Header<List<OrderGroupApiResponse>> readAll(Authentication authentication, Long neverUsedId, Pageable pageable) {
+    public Header<List<OrderGroupApiResponse>> readAll(Authentication authentication, Pageable pageable) {
         Claims claims = (Claims)authentication.getPrincipal();
         Long userId = claims.get("id", Long.class);
 
