@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
-public class UserApiSevice {
+public class UserApiService {
     private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
@@ -32,13 +32,13 @@ public class UserApiSevice {
     private final JwtUtil jwtUtil;
 
     @Autowired
-    public UserApiSevice(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
+    public UserApiService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
     }
 
-    public Header create(Authentication authentication, Header<UserApiRequest> request) {
+    public Header signUp(Header<UserApiRequest> request) {
         UserApiRequest body = request.getData();
 
         User user = User.builder()
@@ -51,7 +51,7 @@ public class UserApiSevice {
                 .type(body.getType())
                 .build();
 
-        if(!UserApiSevice.isValidUser(user))
+        if(!UserApiService.isValidUser(user))
             return Header.ERROR("fill all required field(name, email, password, address, phone_number, type)");
 
         Optional<User> optionalUser = register(user);
@@ -60,21 +60,22 @@ public class UserApiSevice {
         return Header.ERROR("existing user id");
     }
 
-    public Header signIn(Authentication authentication, Header<UserApiRequest> request) {
+    public Header signIn(Header<UserApiRequest> request) {
         UserApiRequest body = request.getData();
 
         String email = body.getEmail();
         String password = body.getPassword();
 
         Optional<User> optionalUser = authenticate(email, password);
+
         return optionalUser
                 .map(user -> {
                     String token = jwtUtil.createToken(user.getId(), user.getName(), user.getType());
+
                     return Header.OK(token);
                 })
                 .orElseGet(() -> Header.ERROR("fail to sign in"));
     }
-
 
     private Optional<User> register(User user) {
         Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
@@ -107,22 +108,53 @@ public class UserApiSevice {
     public Header<UserApiResponse> read(Authentication authentication) {
         Claims claims = (Claims)authentication.getPrincipal();
         Long id = claims.get("id", Long.class);
-        System.out.println(id);
 
         return userRepository.findById(id)
-            .map(UserApiSevice::response)
+            .map(UserApiService::response)
             .map(Header::OK)
             .orElseGet(() -> Header.ERROR("no data"));
     }
 
-    public Header<List<UserApiResponse>> readAll(Authentication authentication, Pageable pageable) {
-        Page<User> users = userRepository.findAll(pageable);
+    public Header<List<UserApiResponse>> readAllCustomer(Pageable pageable) {
+        Page<User> customerUsers = userRepository.findByTypeEquals(UserType.CUSTOMER, pageable);
 
-        List<UserApiResponse> userApiResponseList = users.stream()
-                .map(UserApiSevice::response)
+        List<UserApiResponse> userApiResponseList = customerUsers.stream()
+                .map(UserApiService::response)
                 .collect(Collectors.toList());
 
-        Pagination pagination = BaseCrudApiService.pagination(users);
+        Pagination pagination = BaseCrudApiService.pagination(customerUsers);
+
+        return Header.OK(userApiResponseList, pagination);
+    }
+
+    public Header<UserApiResponse> readStaff(Long id) {
+        Optional<User> optionalStaff = userRepository.findById(id);
+
+        optionalStaff
+                .map(staff -> {
+                    if(staff.getType() == UserType.CUSTOMER)
+                        return null;
+
+                    return staff;
+                })
+                .map(UserApiService::response)
+                .map(Header::OK)
+                .orElseGet(() -> Header.ERROR("invalid staff id"));
+
+        return userRepository.findById(id)
+                .map(UserApiService::response)
+                .map(Header::OK)
+                .orElseGet(() -> Header.ERROR("no data"));
+    }
+
+    public Header<List<UserApiResponse>> readAllStaff(Pageable pageable) {
+        Page<User> staffUsers = userRepository.findByTypeNot(UserType.CUSTOMER, pageable);
+
+        List<UserApiResponse> userApiResponseList = staffUsers.stream()
+                .map(UserApiService::response)
+                .collect(Collectors.toList());
+
+        Pagination pagination = BaseCrudApiService.pagination(staffUsers);
 
         return Header.OK(userApiResponseList, pagination);
     }
@@ -145,9 +177,38 @@ public class UserApiSevice {
 
                     return user;
                 })
-                .map(UserApiSevice::response)
+                .map(UserApiService::response)
                 .map(Header::OK)
                 .orElseGet(() -> Header.ERROR("no user"));
+    }
+
+    public Header delete(Authentication authentication) {
+        Claims claims = (Claims)authentication.getPrincipal();
+        Long id = claims.get("id", Long.class);
+
+        userRepository.deleteById(id);
+
+        return Header.OK();
+    }
+
+    public Header deleteStaff(Long id) {
+        Optional<User> optionalStaff = userRepository.findById(id);
+        boolean isDeleted = optionalStaff
+                .map(staff -> {
+                    boolean result = false;
+
+                    if(!staff.getType().equals(UserType.CUSTOMER)) {
+                        userRepository.deleteById(id);
+                        result = true;
+                    }
+                    return result;
+                })
+                .orElse(false);
+
+        if(isDeleted) {
+            return Header.OK();
+        }
+        return Header.ERROR("invalid staff id");
     }
 
     public static boolean isValidUser(User user) {

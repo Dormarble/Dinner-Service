@@ -1,11 +1,13 @@
 package com.dudungtak.seproject.controller.api;
 
+import com.dudungtak.seproject.controller.Permission;
+import com.dudungtak.seproject.enumpackage.AccessType;
 import com.dudungtak.seproject.network.Header;
-import com.dudungtak.seproject.network.request.StaffApiRequest;
-import com.dudungtak.seproject.network.response.StaffApiResponse;
-import com.dudungtak.seproject.service.api.StaffApiService;
+import com.dudungtak.seproject.network.response.UserApiResponse;
+import com.dudungtak.seproject.service.api.UserApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,30 +17,29 @@ import java.util.List;
 public class StaffApiController {
 
     @Autowired
-    StaffApiService staffApiService;
-
-    @PostMapping("")
-    public Header<StaffApiResponse> create(@RequestBody Header<StaffApiRequest> request) {
-        return staffApiService.create(request);
-    }
+    UserApiService userApiService;
 
     @GetMapping("{id}")
-    public Header<StaffApiResponse> read(@PathVariable Long id) {
-        return staffApiService.read(id);
+    public Header<UserApiResponse> read(Authentication authentication, @PathVariable Long id) {
+        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
+            return Header.ERROR("permission denied");
+
+        return userApiService.readStaff(id);
     }
 
     @GetMapping("")
-    public Header<List<StaffApiResponse>> readAll(Pageable pageable) {
-        return staffApiService.readAll(pageable);
-    }
+    public Header<List<UserApiResponse>> readAll(Authentication authentication, Pageable pageable) {
+        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
+            return Header.ERROR("permission denied");
 
-    @PutMapping("")
-    public Header<StaffApiResponse> update(@RequestBody Header<StaffApiRequest> request) {
-        return staffApiService.update(request);
+        return userApiService.readAllStaff(pageable);
     }
 
     @DeleteMapping("{id}")
-    public Header<StaffApiResponse> delete(@PathVariable Long id) {
-        return staffApiService.delete(id);
+    public Header<UserApiResponse> delete(Authentication authentication, @PathVariable Long id) {
+        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
+            return Header.ERROR("permission denied");
+
+        return userApiService.deleteStaff(id);
     }
 }

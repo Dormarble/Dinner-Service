@@ -53,7 +53,7 @@ public class Header<T> {
     public static <T> Header<T> ERROR(String message) {
         return (Header<T>)Header.builder()
                 .transactionTime(LocalDateTime.now())
-                .resultCode("200")
+                .resultCode("400")
                 .description(message)
                 .build();
     }
