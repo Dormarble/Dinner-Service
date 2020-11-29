@@ -23,7 +23,8 @@ repositories {
 }
 
 dependencies {
-	compile('javax.xml.bind:jaxb-api')
+	implementation 'org.jetbrains:annotations:19.0.0'
+    compile('javax.xml.bind:jaxb-api')
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'junit:junit:4.12'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -41,6 +42,9 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+}
+bootJar {
+	archiveFileName = "server.jar"
 }
 
 test {
