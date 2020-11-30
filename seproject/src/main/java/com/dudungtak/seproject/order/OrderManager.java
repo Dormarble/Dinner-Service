@@ -1,9 +1,9 @@
 package com.dudungtak.seproject.order;
 
 import com.dudungtak.seproject.entity.OrderGroup;
-import com.dudungtak.seproject.entity.Staff;
+import com.dudungtak.seproject.entity.User;
 import com.dudungtak.seproject.enumpackage.OrderStatus;
-import com.dudungtak.seproject.enumpackage.StaffJob;
+import com.dudungtak.seproject.enumpackage.UserType;
 import com.dudungtak.seproject.repository.OrderGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -108,7 +108,7 @@ public class OrderManager {
         return orderGroupList;
     }
 
-    public Optional<OrderGroup> getNextCook(Staff cook) {
+    public Optional<OrderGroup> getNextCook(User cook) {
         // check if cook has order
         Optional<OrderGroup> optionalCurrentCook = getCurrentCook(cook);
         if(optionalCurrentCook.isPresent())
@@ -124,7 +124,7 @@ public class OrderManager {
         return optionalOrderGroup;
     }
 
-    private Optional<OrderGroup> getCurrentCook(Staff cook) {
+    private Optional<OrderGroup> getCurrentCook(User cook) {
         Optional<OrderGroup> optionalCurrentCook = cookingMap.entrySet().stream()
                 .filter(entry -> {
                     OrderGroup orderGroup = entry.getValue();
@@ -139,7 +139,7 @@ public class OrderManager {
         return optionalCurrentCook;
     }
 
-    public void finishCooking(Staff cook) {
+    public void finishCooking(User cook) {
         Optional<OrderGroup> optionalOrderGroup = getCurrentCook(cook);
 
         optionalOrderGroup.ifPresent(orderGroup -> {
@@ -149,7 +149,7 @@ public class OrderManager {
         });
     }
 
-    public Optional<OrderGroup> getNextDelivery(Staff deliveryMan) {
+    public Optional<OrderGroup> getNextDelivery(User deliveryMan) {
         // check if delivery man has order
         Optional<OrderGroup> optionalCurrentDelivery = getCurrentDelivery(deliveryMan);
         if(optionalCurrentDelivery.isPresent())
@@ -165,7 +165,7 @@ public class OrderManager {
         return optionalOrderGroup;
     }
 
-    private Optional<OrderGroup> getCurrentDelivery(Staff deliveryMan) {
+    private Optional<OrderGroup> getCurrentDelivery(User deliveryMan) {
         Optional<OrderGroup> optionalCurrentDelivery = deliveryMap.entrySet().stream()
                 .filter(entry -> {
                     OrderGroup orderGroup = entry.getValue();
@@ -180,7 +180,7 @@ public class OrderManager {
         return optionalCurrentDelivery;
     }
 
-    public void finishDelivery(Staff deliveryMan) {
+    public void finishDelivery(User deliveryMan) {
         Optional<OrderGroup> optionalOrderGroup = getCurrentDelivery(deliveryMan);
 
         optionalOrderGroup.ifPresent(orderGroup -> {
@@ -196,11 +196,11 @@ public class OrderManager {
         new Thread(() -> orderGroupRepository.save(orderGroup)).run();
     }
 
-    private void changeStatus(OrderGroup orderGroup, OrderStatus status, Staff staff) {
+    private void changeStatus(OrderGroup orderGroup, OrderStatus status, User staff) {
         orderGroup.setStatus(status);
-        if(staff.getJob() == StaffJob.COOK) {
+        if(staff.getType() == UserType.COOK) {
             orderGroup.setCook(staff);
-        } else if (staff.getJob() == StaffJob.DELIVERYMAN) {
+        } else if (staff.getType() == UserType.DELIVERYMAN) {
             orderGroup.setDeliveryMan(staff);
         }
 

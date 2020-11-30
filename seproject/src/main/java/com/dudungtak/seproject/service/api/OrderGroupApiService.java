@@ -30,8 +30,6 @@ public class OrderGroupApiService {
 
     private final OrderElementRepository orderElementRepository;
 
-    private final StaffRepository staffRepository;
-
     private final DishRepository dishRepository;
 
     private final UserRepository userRepository;
@@ -41,10 +39,9 @@ public class OrderGroupApiService {
     private final OrderManager orderManager;
 
     @Autowired
-    public OrderGroupApiService(OrderGroupRepository og, OrderElementRepository oe, StaffRepository sf, DishRepository d, UserRepository u, StyleRepository sl, OrderManager om) {
+    public OrderGroupApiService(OrderGroupRepository og, OrderElementRepository oe, DishRepository d, UserRepository u, StyleRepository sl, OrderManager om) {
         this.orderGroupRepository = og;
         this.orderElementRepository = oe;
-        this.staffRepository = sf;
         this.dishRepository = d;
         this.userRepository = u;
         this.styleRepository = sl;
@@ -159,7 +156,7 @@ public class OrderGroupApiService {
         Claims claims = (Claims)authentication.getPrincipal();
         Long cookId = claims.get("id", Long.class);
 
-        Optional<Staff> optionalCook = staffRepository.findById(cookId);
+        Optional<User> optionalCook = userRepository.findById(cookId);
 
         return optionalCook
                 .map(cook -> {
@@ -177,7 +174,7 @@ public class OrderGroupApiService {
         Claims claims = (Claims)authentication.getPrincipal();
         Long cookId = claims.get("id", Long.class);
 
-        Optional<Staff> optionalCook = staffRepository.findById(cookId);
+        Optional<User> optionalCook = userRepository.findById(cookId);
 
         optionalCook
                 .ifPresent(cook -> {orderManager.finishCooking(cook);});
@@ -190,7 +187,7 @@ public class OrderGroupApiService {
         Claims claims = (Claims)authentication.getPrincipal();
         Long deliveryManId = claims.get("id", Long.class);
 
-        Optional<Staff> optionalDeliveryMan = staffRepository.findById(deliveryManId);
+        Optional<User> optionalDeliveryMan = userRepository.findById(deliveryManId);
 
         return optionalDeliveryMan
                 .map(deliveryMan -> {
@@ -208,7 +205,7 @@ public class OrderGroupApiService {
         Claims claims = (Claims)authentication.getPrincipal();
         Long deliveryManId = claims.get("id", Long.class);
 
-        Optional<Staff> optionalDeliveryMan = staffRepository.findById(deliveryManId);
+        Optional<User> optionalDeliveryMan = userRepository.findById(deliveryManId);
 
         optionalDeliveryMan
                 .ifPresent(deliveryMan -> {orderManager.finishDelivery(deliveryMan);});

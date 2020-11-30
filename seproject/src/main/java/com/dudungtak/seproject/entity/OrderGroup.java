@@ -63,10 +63,10 @@ public class OrderGroup {
     private Style style;
 
     @OneToOne
-    private Staff cook;
+    private User cook;
 
     @OneToOne
-    private Staff deliveryMan;
+    private User deliveryMan;
 
     private LocalDateTime cookAt;
 
