@@ -18,9 +18,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,36 +36,49 @@ public class MenuApiService {
     @Autowired
     DishRepository dishRepository;
 
+    @Transactional
     public Header<MenuApiResponse> create(Header<MenuApiRequest> request) {
         MenuApiRequest body = request.getData();
 
+        // build menu
         Menu menu = Menu.builder()
                 .name(body.getName())
-                .price(body.getTotalPrice())
                 .imgUrl(body.getImgUrl())
                 .image(body.getImage())
                 .registeredAt(body.getRegisteredAt())
                 .build();
 
-        Menu savedMenu = menuRepository.save(menu);
-
-        List<MenuElementApiResponse> menuElementApiResponseList = body.getMenuElementList().stream()
+        // build menuElement
+        List<MenuElement> menuElementList = body.getMenuElementList().stream()
                 .map(menuElementApiRequest -> {
                     Dish dish = dishRepository.getOne(menuElementApiRequest.getDishId());
 
                     MenuElement menuElement = MenuElement.builder()
                             .totalPrice(dish.getPrice().multiply(BigDecimal.valueOf(menuElementApiRequest.getQuantity())))
                             .quantity(menuElementApiRequest.getQuantity())
-                            .menu(savedMenu)
                             .dish(dish)
                             .build();
 
-                    return menuElementRepository.save(menuElement);
+                    return menuElement;
                 })
-                .map(MenuElementApiService::response)
                 .collect(Collectors.toList());
 
-        MenuApiResponse menuApiResponse = response(savedMenu, menuElementApiResponseList);
+        // estimate total price of menu  &  save menu
+        BigDecimal totalPrice = menuElementList.stream()
+                .map(menuElement -> menuElement.getTotalPrice())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        menu.setPrice(totalPrice);
+        Menu savedMenu = menuRepository.save(menu);
+
+        // set menu id to menuElements  & save menuElements
+        List<MenuElement> savedMenuElementList = menuElementList.stream()
+                .map(menuElement -> {
+                    menuElement.setMenu(savedMenu);
+                    return menuElementRepository.save(menuElement);
+                })
+                .collect(Collectors.toList());
+
+        MenuApiResponse menuApiResponse = response(savedMenu, savedMenuElementList);
 
         return Header.OK(menuApiResponse);
     }
@@ -71,11 +86,9 @@ public class MenuApiService {
     public Header<MenuApiResponse> read(Long id) {
         return menuRepository.findById(id)
             .map(menu -> {
-                List<MenuElementApiResponse> menuElementApiResponseList = menu.getMenuElementList().stream()
-                    .map(MenuElementApiService::response)
-                    .collect(Collectors.toList());
+                List<MenuElement> menuElementList = menu.getMenuElementList();
 
-                return response(menu, menuElementApiResponseList);
+                return response(menu, menuElementList);
             })
             .map(Header::OK)
             .orElseGet(() -> Header.ERROR("no data"));
@@ -85,7 +98,11 @@ public class MenuApiService {
         Page<Menu> menus = menuRepository.findAll(pageable);
 
         List<MenuApiResponse> menuApiResponseList = menus.stream()
-                .map(MenuApiService::response)
+                .map(menu -> {
+                    List<MenuElement> menuElementList = menu.getMenuElementList();
+
+                    return MenuApiService.response(menu, menuElementList);
+                })
                 .collect(Collectors.toList());
 
         Pagination pagination = BaseCrudApiService.pagination(menus);
@@ -93,64 +110,56 @@ public class MenuApiService {
         return Header.OK(menuApiResponseList, pagination);
     }
 
+    @Transactional
     public Header<MenuApiResponse> update(Header<MenuApiRequest> request) {
         MenuApiRequest body = request.getData();
 
-        return menuRepository.findById(body.getId())
+        Optional<Menu> optionalMenu = menuRepository.findById(body.getId());
+
+        return optionalMenu
                 .map(menu -> {
-                    menu
-                            .setName(body.getName())
-                            .setImgUrl(body.getImgUrl())
-                            .setImage(body.getImage())
-                            .setRegisteredAt(body.getRegisteredAt())
-                            .setUnregisteredAt(body.getUnregisteredAt());
+                    // update menu
+                    menu.setName(body.getName())
+                        .setImgUrl(body.getImgUrl())
+                        .setImage(body.getImage())
+                        .setRegisteredAt(body.getRegisteredAt())
+                        .setUnregisteredAt(body.getUnregisteredAt());
 
-                    Menu updatedMenu = menuRepository.save(menu);
-                    System.out.println(updatedMenu);
-                    // update MenuElement
-                    List<MenuElementApiRequest> menuElementApiRequestList = body.getMenuElementList();
+                    // delete old menuElement
+                    menuElementRepository.deleteAllByMenu(menu);
 
+                    // create updated menuElement
+                    List<MenuElement> menuElementList = body.getMenuElementList().stream()
+                            .map(menuElementApiRequest -> {
+                                Dish dish = dishRepository.getOne(menuElementApiRequest.getDishId());
 
-                    List<Long> menuElementIdList = updatedMenu.getMenuElementList().stream().
-                            map(menuElement -> menuElement.getId())
-                            .collect(Collectors.toList());
-
-                    Iterator<MenuElementApiRequest> iter = menuElementApiRequestList.iterator();
-
-                    while(iter.hasNext()) {
-                        MenuElementApiRequest menuElementApiRequest = iter.next();
-                        Long id = menuElementApiRequest.getId();
-
-                        // 기존 요리를 변경한 경우
-                        if(menuElementIdList.contains(id)) {
-                            Integer quantity = menuElementApiRequest.getQuantity();
-                            // 기존 요리의 수량을 변경한 경우
-                            if(quantity != 0) {
-                                MenuElement menuElement = menuElementRepository.getOne(id)
-                                        .setQuantity(menuElementApiRequest.getQuantity());
-                                menuElementRepository.save(menuElement);
-                            } else {        // 기존 요리를 삭제한 경우
-                                MenuElement menuElement = menuElementRepository.getOne(id);
-                                menuElementRepository.delete(menuElement);
-                            }
-                        } else {        // 새로운 요리를 추가한 경우
-                            Dish dish = dishRepository.getOne(menuElementApiRequest.getDishId());
-
-                            MenuElement menuElement = MenuElement.builder()
+                                MenuElement menuElement = MenuElement.builder()
                                     .totalPrice(dish.getPrice().multiply(BigDecimal.valueOf(menuElementApiRequest.getQuantity())))
                                     .quantity(menuElementApiRequest.getQuantity())
-                                    .menu(updatedMenu)
+                                    .menu(menu)
                                     .dish(dish)
                                     .build();
 
-                            menuElementRepository.save(menuElement);
-                        }
-                    }
-                    return updatedMenu;
+                                MenuElement savedMenuElement = menuElementRepository.save(menuElement);
+
+                                return savedMenuElement;
+                            })
+                            .collect(Collectors.toList());
+
+                    // save updated menu
+                    BigDecimal totalPrice = menuElementList.stream()
+                            .map(menuElement -> menuElement.getTotalPrice())
+                            .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+                    menu.setMenuElementList(menuElementList);
+                    menu.setPrice(totalPrice);
+                    Menu savedMenu = menuRepository.save(menu);
+
+                    MenuApiResponse menuApiResponse = MenuApiService.response(savedMenu);
+
+                    return Header.OK(menuApiResponse);
                 })
-                .map(MenuApiService::response)
-                .map(Header::OK)
-                .orElseGet(() -> Header.ERROR("no data"));
+                .orElseGet(() -> Header.ERROR("invalid menu id"));
     }
 
     public Header delete(Long id) {
@@ -184,7 +193,12 @@ public class MenuApiService {
                 .build();
     }
 
-    public static MenuApiResponse response(Menu menu, List<MenuElementApiResponse> menuElementApiResponseList) {
+    public static MenuApiResponse response(Menu menu, List<MenuElement> menuElementList) {
+        List<MenuElementApiResponse> menuElementApiResponseList =
+                menuElementList.stream()
+                    .map(MenuElementApiService::response)
+                    .collect(Collectors.toList());
+
         return MenuApiResponse.builder()
                 .id(menu.getId())
                 .name(menu.getName())

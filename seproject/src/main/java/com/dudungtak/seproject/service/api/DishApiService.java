@@ -12,6 +12,7 @@ import com.dudungtak.seproject.network.response.DishElementApiResponse;
 import com.dudungtak.seproject.repository.DishElementRepository;
 import com.dudungtak.seproject.repository.DishRepository;
 import com.dudungtak.seproject.repository.IngredientRepository;
+import com.dudungtak.seproject.service.BaseCrudApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -104,16 +105,18 @@ public class DishApiService {
     public Header<List<DishApiResponse>> readAll(Pageable pageable) {
         Page<Dish> dishPage = dishRepository.findAll(pageable);
 
-        List<DishApiResponse> dishApiResponseList = dishPage.stream()
-                .map(DishApiService::response)
-                .collect(Collectors.toList());
+        List<DishApiResponse> dishApiResponseList =
+                dishPage.stream()
+                    .map(dish -> {
+                        List<DishElementApiResponse> dishElementApiResponseList = dish.getDishElementList().stream()
+                                .map(DishElementApiService::response)
+                                .collect(Collectors.toList());
 
-        Pagination pagination = Pagination.builder()
-                .totalPages(dishPage.getTotalPages())
-                .totalElements(dishPage.getTotalElements())
-                .currentPage(dishPage.getNumber())
-                .currentElements(dishPage.getNumberOfElements())
-                .build();
+                        return DishApiService.response(dish, dishElementApiResponseList);
+                    })
+                    .collect(Collectors.toList());
+
+        Pagination pagination = BaseCrudApiService.pagination(dishPage);
 
         return Header.OK(dishApiResponseList, pagination);
     }
