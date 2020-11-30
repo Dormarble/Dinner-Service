@@ -1,24 +1,27 @@
 package com.dudungtak.seproject.service.api;
 
 import com.dudungtak.seproject.entity.Style;
+import com.dudungtak.seproject.exception.BadInputException;
 import com.dudungtak.seproject.network.Header;
 import com.dudungtak.seproject.network.request.StyleApiRequest;
 import com.dudungtak.seproject.network.response.StyleApiResponse;
 import com.dudungtak.seproject.repository.StyleRepository;
-import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class StyleApiService {
+
+    private final StyleRepository styleRepository;
+
     @Autowired
-    StyleRepository styleRepository;
+    public StyleApiService(StyleRepository styleRepository) {
+        this.styleRepository = styleRepository;
+    }
 
     public Header<StyleApiResponse> create(Header<StyleApiRequest> request) {
         StyleApiRequest body = request.getData();
@@ -34,19 +37,16 @@ public class StyleApiService {
                 .build();
 
         Style savedStyle = styleRepository.save(style);
+        StyleApiResponse styleApiResponse = response(savedStyle);
 
-        return Optional.ofNullable(savedStyle)
-                .map(StyleApiService::response)
-                .map(Header::OK)
-                .orElseGet(() -> Header.ERROR("error on store"));
+        return Header.OK(styleApiResponse);
     }
 
     public Header<StyleApiResponse> read(Long id) {
         return styleRepository.findById(id)
                 .map(StyleApiService::response)
                 .map(Header::OK)
-                .orElseGet(() -> Header.ERROR("no data"));
-
+                .orElseThrow(BadInputException::new);
     }
 
     public Header<List<StyleApiResponse>> readAll() {
@@ -82,16 +82,16 @@ public class StyleApiService {
                 })
                 .map(StyleApiService::response)
                 .map(Header::OK)
-                .orElseGet(() -> Header.ERROR("no data"));
+                .orElseThrow(BadInputException::new);
     }
 
     public Header delete(Long id) {
         return styleRepository.findById(id)
                 .map(dish -> {
                     styleRepository.delete(dish);
-                    return Header.OK("");
+                    return Header.OK();
                 })
-                .orElseGet(() -> Header.ERROR("no data"));
+                .orElseThrow(BadInputException::new);
     }
 
     public static StyleApiResponse response(Style style) {

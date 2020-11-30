@@ -1,8 +1,9 @@
 package com.dudungtak.seproject.service.api;
 
 import com.dudungtak.seproject.entity.*;
-import com.dudungtak.seproject.enumpackage.AccessType;
 import com.dudungtak.seproject.enumpackage.OrderStatus;
+import com.dudungtak.seproject.exception.AuthenticationException;
+import com.dudungtak.seproject.exception.BadInputException;
 import com.dudungtak.seproject.network.Header;
 import com.dudungtak.seproject.network.Pagination;
 import com.dudungtak.seproject.network.request.OrderGroupApiRequest;
@@ -177,7 +178,7 @@ public class OrderGroupApiService {
         Optional<User> optionalCook = userRepository.findById(cookId);
 
         optionalCook
-                .ifPresent(cook -> {orderManager.finishCooking(cook);});
+                .ifPresent(orderManager::finishCooking);
 
         return optionalCook.map((cook) -> Header.OK())
                 .orElseGet(() -> Header.ERROR("invalid input"));
@@ -208,10 +209,10 @@ public class OrderGroupApiService {
         Optional<User> optionalDeliveryMan = userRepository.findById(deliveryManId);
 
         optionalDeliveryMan
-                .ifPresent(deliveryMan -> {orderManager.finishDelivery(deliveryMan);});
+                .ifPresent(deliveryMan -> orderManager.finishDelivery(deliveryMan));
 
-        return optionalDeliveryMan.map((deliveryMan) -> Header.OK())
-                .orElseGet(() -> Header.ERROR("invalid input"));
+        return optionalDeliveryMan.map(deliveryMan -> Header.OK())
+                .orElseThrow(BadInputException::new);
     }
 
     public Header cancel(Authentication authentication, Header<OrderGroupApiRequest> request) {
@@ -220,15 +221,16 @@ public class OrderGroupApiService {
 
         OrderGroupApiRequest body = request.getData();
 
-        Optional<OrderGroup> optional = orderManager.findById(body.getId());
-        if(!optional.isPresent()) return Header.ERROR("invalid OrderGroupID");
-        Long orderGroupUserId = optional.get().getUser().getId();
+        Optional<OrderGroup> optionalOrderGroup = orderManager.findById(body.getId());
+        if(!optionalOrderGroup.isPresent()) throw new BadInputException();
 
-        if(userId.equals(orderGroupUserId)) return Header.ERROR("permission denied");
+        Long orderGroupUserId = optionalOrderGroup.get().getUser().getId();
+        if(!userId.equals(orderGroupUserId)) throw new AuthenticationException();
 
-        orderManager.cancel(body.getId());
+        boolean cancelResult = orderManager.cancel(body.getId());
 
-        return Header.OK();
+        if(cancelResult) return Header.OK();
+        return Header.ERROR("cannot cancel order");
     }
 
     public static OrderGroupApiResponse response(OrderGroup orderGroup) {

@@ -3,12 +3,10 @@ package com.dudungtak.seproject.service.api;
 import com.dudungtak.seproject.entity.Dish;
 import com.dudungtak.seproject.entity.DishElement;
 import com.dudungtak.seproject.entity.Ingredient;
-import com.dudungtak.seproject.entity.MenuElement;
 import com.dudungtak.seproject.exception.BadInputException;
 import com.dudungtak.seproject.network.Header;
 import com.dudungtak.seproject.network.Pagination;
 import com.dudungtak.seproject.network.request.DishApiRequest;
-import com.dudungtak.seproject.network.request.DishElementApiRequest;
 import com.dudungtak.seproject.network.response.DishApiResponse;
 import com.dudungtak.seproject.network.response.DishElementApiResponse;
 import com.dudungtak.seproject.repository.DishElementRepository;
@@ -58,19 +56,15 @@ public class DishApiService {
         // create dishElements without dish
         List<DishElement> dishElementList = body.getDishElementList().stream()
                 .map(dishElementApiRequest -> {
-                    Optional<Ingredient> optionalIngredient = ingredientRepository.findById(dishElementApiRequest.getIngredientId());
+                    Ingredient ingredient = ingredientRepository.getOne(dishElementApiRequest.getIngredientId());
 
-                    return optionalIngredient
-                            .map(ingredient -> {
-                                DishElement dishElement = DishElement.builder()
-                                        .totalPrice(ingredient.getCost().multiply(BigDecimal.valueOf(dishElementApiRequest.getQuantity())))
-                                        .quantity(dishElementApiRequest.getQuantity())
-                                        .ingredient(ingredient)
-                                        .build();
+                    DishElement dishElement = DishElement.builder()
+                            .totalPrice(ingredient.getCost().multiply(BigDecimal.valueOf(dishElementApiRequest.getQuantity())))
+                            .quantity(dishElementApiRequest.getQuantity())
+                            .ingredient(ingredient)
+                            .build();
 
-                                return dishElement;
-                            })
-                            .orElseThrow(BadInputException::new);
+                    return dishElement;
                 })
                 .collect(Collectors.toList());
 
@@ -100,12 +94,9 @@ public class DishApiService {
     }
 
     public Header<DishApiResponse> read(Long id) {
-        Optional<Dish> optionalDish = dishRepository.findById(id);
+        Dish dish = dishRepository.getOne(id);
 
-        return optionalDish
-                .map(DishApiService::response)
-                .map(Header::OK)
-                .orElseThrow(BadInputException::new);
+        return Header.OK(DishApiService.response(dish));
     }
 
     public Header<List<DishApiResponse>> readAll(Pageable pageable) {

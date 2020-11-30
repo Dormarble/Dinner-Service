@@ -4,7 +4,6 @@ import com.dudungtak.seproject.entity.Dish;
 import com.dudungtak.seproject.entity.Menu;
 import com.dudungtak.seproject.entity.MenuElement;
 import com.dudungtak.seproject.exception.BadInputException;
-import com.dudungtak.seproject.exception.CannotStoreToDatabaseException;
 import com.dudungtak.seproject.network.Header;
 import com.dudungtak.seproject.network.Pagination;
 import com.dudungtak.seproject.network.request.MenuApiRequest;
@@ -56,18 +55,15 @@ public class MenuApiService {
         // build menuElement without menu
         List<MenuElement> menuElementList = body.getMenuElementList().stream()
                 .map(menuElementApiRequest -> {
-                    Optional<Dish> optionalDish = dishRepository.findById(menuElementApiRequest.getDishId());
+                    Dish dish = dishRepository.getOne(menuElementApiRequest.getDishId());
 
-                    return optionalDish.map(dish -> {
-                        MenuElement menuElement = MenuElement.builder()
-                                .totalPrice(dish.getPrice().multiply(BigDecimal.valueOf(menuElementApiRequest.getQuantity())))
-                                .quantity(menuElementApiRequest.getQuantity())
-                                .dish(dish)
-                                .build();
+                    MenuElement menuElement = MenuElement.builder()
+                            .totalPrice(dish.getPrice().multiply(BigDecimal.valueOf(menuElementApiRequest.getQuantity())))
+                            .quantity(menuElementApiRequest.getQuantity())
+                            .dish(dish)
+                            .build();
 
-                        return menuElement;
-                    })
-                    .orElseThrow(BadInputException::new);
+                    return menuElement;
                 })
                 .collect(Collectors.toList());
 

@@ -1,5 +1,8 @@
 package com.dudungtak.seproject.service.api;
 
+import com.dudungtak.seproject.exception.BadInputException;
+import com.dudungtak.seproject.exception.ExistedUserException;
+import com.dudungtak.seproject.exception.LoginFailedException;
 import com.dudungtak.seproject.util.JwtUtil;
 import com.dudungtak.seproject.entity.User;
 import com.dudungtak.seproject.enumpackage.UserType;
@@ -52,12 +55,12 @@ public class UserApiService {
                 .build();
 
         if(!UserApiService.isValidUser(user))
-            return Header.ERROR("fill all required field(name, email, password, address, phone_number, type)");
+            throw new BadInputException();
 
         Optional<User> optionalUser = register(user);
         if(optionalUser.isPresent())
             return Header.OK();
-        return Header.ERROR("existing user id");
+        else throw new ExistedUserException();
     }
 
     public Header signIn(Header<UserApiRequest> request) {
@@ -74,7 +77,7 @@ public class UserApiService {
 
                     return Header.OK(token);
                 })
-                .orElseGet(() -> Header.ERROR("fail to sign in"));
+                .orElseThrow(LoginFailedException::new);
     }
 
     private Optional<User> register(User user) {
@@ -89,7 +92,7 @@ public class UserApiService {
 
         User savedUser = userRepository.save(user);
 
-        return Optional.ofNullable(savedUser);
+        return Optional.of(savedUser);
     }
 
     public Optional<User> authenticate(String email, String password) {
@@ -112,7 +115,7 @@ public class UserApiService {
         return userRepository.findById(id)
             .map(UserApiService::response)
             .map(Header::OK)
-            .orElseGet(() -> Header.ERROR("no data"));
+            .orElseThrow(BadInputException::new);
     }
 
     public Header<List<UserApiResponse>> readAllCustomer(Pageable pageable) {
@@ -139,12 +142,12 @@ public class UserApiService {
                 })
                 .map(UserApiService::response)
                 .map(Header::OK)
-                .orElseGet(() -> Header.ERROR("invalid staff id"));
+                .orElseThrow(BadInputException::new);
 
         return userRepository.findById(id)
                 .map(UserApiService::response)
                 .map(Header::OK)
-                .orElseGet(() -> Header.ERROR("no data"));
+                .orElseThrow(BadInputException::new);
     }
 
     public Header<List<UserApiResponse>> readAllStaff(Pageable pageable) {
@@ -169,17 +172,19 @@ public class UserApiService {
                 .map(user -> {
                     user
                         .setEmail(body.getEmail())
-                        .setPassword(body.getPassword())
+                        .setPassword(passwordEncoder.encode(body.getPassword()))
                         .setName(body.getName())
                         .setGender(body.getGender())
                         .setAddress(body.getAddress())
                         .setPhoneNumber(body.getPhoneNumber());
 
-                    return user;
+                    User savedUser = userRepository.save(user);
+
+                    return savedUser;
                 })
                 .map(UserApiService::response)
                 .map(Header::OK)
-                .orElseGet(() -> Header.ERROR("no user"));
+                .orElseThrow(BadInputException::new);
     }
 
     public Header delete(Authentication authentication) {
@@ -208,7 +213,7 @@ public class UserApiService {
         if(isDeleted) {
             return Header.OK();
         }
-        return Header.ERROR("invalid staff id");
+        throw new BadInputException();
     }
 
     public static boolean isValidUser(User user) {
