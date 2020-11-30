@@ -24,8 +24,9 @@ public class Permission {
         boolean canAccess = false;
         Integer checkBit = 1;
         for (int i = 0; i < 32; i++) {
-            if ((bitMapResult & (checkBit << i)) == 1)
+            if ((bitMapResult & (checkBit << i)) != 0) {
                 canAccess = true;
+            }
         }
 
         if (!canAccess) throw new PermissionDeniedException();
