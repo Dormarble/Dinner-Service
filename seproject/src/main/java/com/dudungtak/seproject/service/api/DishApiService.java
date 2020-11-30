@@ -28,14 +28,19 @@ import java.util.stream.Collectors;
 
 @Service
 public class DishApiService {
-    @Autowired
-    DishRepository dishRepository;
+
+    private final DishRepository dishRepository;
+
+    private final DishElementRepository dishElementRepository;
+
+    private final IngredientRepository ingredientRepository;
 
     @Autowired
-    DishElementRepository dishElementRepository;
-
-    @Autowired
-    IngredientRepository ingredientRepository;
+    public DishApiService(DishRepository dishRepository, DishElementRepository dishElementRepository, IngredientRepository ingredientRepository) {
+        this.dishRepository = dishRepository;
+        this.dishElementRepository = dishElementRepository;
+        this.ingredientRepository = ingredientRepository;
+    }
 
     @Transactional
     public Header<DishApiResponse> create(Header<DishApiRequest> request) {

@@ -27,14 +27,19 @@ import java.util.stream.Collectors;
 
 @Service
 public class MenuApiService {
-    @Autowired
-    MenuRepository menuRepository;
+
+    private final MenuRepository menuRepository;
+
+    private final MenuElementRepository menuElementRepository;
+
+    private final DishRepository dishRepository;
 
     @Autowired
-    MenuElementRepository menuElementRepository;
-
-    @Autowired
-    DishRepository dishRepository;
+    public MenuApiService(MenuRepository menuRepository, MenuElementRepository menuElementRepository, DishRepository dishRepository) {
+        this.menuRepository = menuRepository;
+        this.menuElementRepository = menuElementRepository;
+        this.dishRepository = dishRepository;
+    }
 
     @Transactional
     public Header<MenuApiResponse> create(Header<MenuApiRequest> request) {

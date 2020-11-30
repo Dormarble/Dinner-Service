@@ -1,23 +1,36 @@
 package com.dudungtak.seproject.service.api;
 
 import com.dudungtak.seproject.entity.Ingredient;
+import com.dudungtak.seproject.exception.BadInputException;
 import com.dudungtak.seproject.network.Header;
+import com.dudungtak.seproject.network.Pagination;
 import com.dudungtak.seproject.network.request.IngredientApiRequest;
 import com.dudungtak.seproject.network.response.IngredientApiResponse;
 import com.dudungtak.seproject.repository.IngredientRepository;
+import com.dudungtak.seproject.service.BaseCrudApiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class IngredientApiService {
-    @Autowired
-    IngredientRepository ingredientRepository;
 
-    public Header<IngredientApiResponse> create(Authentication authentication, Header<IngredientApiRequest> request) {
+    private final IngredientRepository ingredientRepository;
+
+    @Autowired
+    public IngredientApiService(IngredientRepository ingredientRepository) {
+        this.ingredientRepository = ingredientRepository;
+    }
+
+    public Header<IngredientApiResponse> create(Header<IngredientApiRequest> request) {
         IngredientApiRequest body = request.getData();
 
         Ingredient ingredient = Ingredient.builder()
@@ -31,21 +44,31 @@ public class IngredientApiService {
 
         Ingredient savedIngredient = ingredientRepository.save(ingredient);
 
-        return Optional.ofNullable(savedIngredient)
-                .map(IngredientApiService::response)
-                .map(Header::OK)
-                .orElseGet(() -> Header.ERROR("error on store"));
+        IngredientApiResponse ingredientApiResponse = response(savedIngredient);
+
+        return Header.OK(ingredientApiResponse);
     }
 
-    public Header<IngredientApiResponse> read(Authentication authentication, Long id) {
+    public Header<IngredientApiResponse> read(Long id) {
         return ingredientRepository.findById(id)
                 .map(IngredientApiService::response)
                 .map(Header::OK)
-                .orElseGet(() -> Header.ERROR("no data"));
-
+                .orElseThrow(BadInputException::new);
     }
 
-    public Header<IngredientApiResponse> update(Authentication authentication, Header<IngredientApiRequest> request) {
+    public Header<List<IngredientApiResponse>> readAll(Pageable pageable) {
+        Page<Ingredient> pageIngredient = ingredientRepository.findAll(pageable);
+
+        List<IngredientApiResponse> ingredientApiResponseList = pageIngredient.stream()
+                .map(IngredientApiService::response)
+                .collect(Collectors.toList());
+
+        Pagination pagination = BaseCrudApiService.pagination(pageIngredient);
+
+        return Header.OK(ingredientApiResponseList, pagination);
+    }
+
+    public Header<IngredientApiResponse> update(Header<IngredientApiRequest> request) {
         IngredientApiRequest body = request.getData();
 
         return ingredientRepository.findById(body.getId())
@@ -65,16 +88,16 @@ public class IngredientApiService {
                 })
                 .map(IngredientApiService::response)
                 .map(Header::OK)
-                .orElseGet(() -> Header.ERROR("no data"));
+                .orElseThrow(BadInputException::new);
     }
 
-    public Header delete(Authentication authentication, Long id) {
+    public Header delete(Long id) {
         return ingredientRepository.findById(id)
                 .map(dish -> {
                     ingredientRepository.delete(dish);
                     return Header.OK("");
                 })
-                .orElseGet(() -> Header.ERROR("no data"));
+                .orElseThrow(BadInputException::new);
     }
 
     public static IngredientApiResponse response(Ingredient ingredient) {

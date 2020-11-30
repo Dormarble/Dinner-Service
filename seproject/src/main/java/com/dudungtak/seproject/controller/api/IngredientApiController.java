@@ -7,8 +7,11 @@ import com.dudungtak.seproject.network.request.IngredientApiRequest;
 import com.dudungtak.seproject.network.response.IngredientApiResponse;
 import com.dudungtak.seproject.service.api.IngredientApiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/ingredient")
@@ -21,7 +24,7 @@ public class IngredientApiController {
         if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
             return Header.ERROR("permission denied");
 
-        return ingredientApiService.create(authentication, request);
+        return ingredientApiService.create(request);
     }
 
     @GetMapping("{id}")
@@ -29,16 +32,24 @@ public class IngredientApiController {
         if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
             return Header.ERROR("permission denied");
 
-        return ingredientApiService.read(authentication, id);
+        return ingredientApiService.read(id);
     }
 
+    @GetMapping("")
+    public Header<List<IngredientApiResponse>> readAll(Authentication authentication, Pageable pageable) {
+        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
+            return Header.ERROR("permission denied");
+
+
+        return ingredientApiService.readAll(pageable);
+    }
 
     @PutMapping("")
     public Header<IngredientApiResponse> update(Authentication authentication, @RequestBody Header<IngredientApiRequest> request) {
         if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
             return Header.ERROR("permission denied");
 
-        return ingredientApiService.update(authentication, request);
+        return ingredientApiService.update(request);
     }
 
     @DeleteMapping("{id}")
@@ -46,6 +57,6 @@ public class IngredientApiController {
         if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
             return Header.ERROR("permission denied");
 
-        return ingredientApiService.delete(authentication, id);
+        return ingredientApiService.delete(id);
     }
 }
