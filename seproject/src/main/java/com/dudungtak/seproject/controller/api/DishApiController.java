@@ -25,40 +25,35 @@ public class DishApiController{
 
     @PostMapping("")
     public Header<DishApiResponse> create(Authentication authentication, @RequestBody Header<DishApiRequest> request) {
-        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.MANAGER);
 
         return dishApiService.create(request);
     }
 
     @GetMapping("{id}")
     public Header<DishApiResponse> read(Authentication authentication, @PathVariable Long id) {
-        if(!Permission.isValidAccess(authentication, AccessType.ALL))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.ALL);
 
         return dishApiService.read(id);
     }
 
     @GetMapping("")
     public Header<List<DishApiResponse>> readAll(Authentication authentication, @PageableDefault(sort="name", size=20, direction = Sort.Direction.ASC)Pageable pageable) {
-        if(!Permission.isValidAccess(authentication, AccessType.ALL))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.ALL);
 
         return dishApiService.readAll(pageable);
     }
 
     @PutMapping("")
     public Header<DishApiResponse> update(Authentication authentication, @RequestBody Header<DishApiRequest> request) {
-        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.MANAGER);
 
         return dishApiService.update(request);
     }
 
     @DeleteMapping("{id}")
     public Header delete(Authentication authentication, @PathVariable Long id) {
-        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.MANAGER);
 
         return dishApiService.delete(id);
     }

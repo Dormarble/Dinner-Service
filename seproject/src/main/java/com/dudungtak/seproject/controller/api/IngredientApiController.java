@@ -21,24 +21,21 @@ public class IngredientApiController {
 
     @PostMapping("")
     public Header<IngredientApiResponse> create(Authentication authentication, @RequestBody Header<IngredientApiRequest> request) {
-        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.MANAGER);
 
         return ingredientApiService.create(request);
     }
 
     @GetMapping("{id}")
     public Header<IngredientApiResponse> read(Authentication authentication, @PathVariable Long id) {
-        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.MANAGER);
 
         return ingredientApiService.read(id);
     }
 
     @GetMapping("")
     public Header<List<IngredientApiResponse>> readAll(Authentication authentication, Pageable pageable) {
-        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.MANAGER);
 
 
         return ingredientApiService.readAll(pageable);
@@ -46,16 +43,14 @@ public class IngredientApiController {
 
     @PutMapping("")
     public Header<IngredientApiResponse> update(Authentication authentication, @RequestBody Header<IngredientApiRequest> request) {
-        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.MANAGER);
 
         return ingredientApiService.update(request);
     }
 
     @DeleteMapping("{id}")
     public Header delete(Authentication authentication, @PathVariable Long id) {
-        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.MANAGER);
 
         return ingredientApiService.delete(id);
     }

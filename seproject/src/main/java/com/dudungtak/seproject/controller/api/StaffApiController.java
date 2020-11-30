@@ -21,24 +21,21 @@ public class StaffApiController {
 
     @GetMapping("{id}")
     public Header<UserApiResponse> read(Authentication authentication, @PathVariable Long id) {
-        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.MANAGER);
 
         return userApiService.readStaff(id);
     }
 
     @GetMapping("")
     public Header<List<UserApiResponse>> readAll(Authentication authentication, Pageable pageable) {
-        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.MANAGER);
 
         return userApiService.readAllStaff(pageable);
     }
 
     @DeleteMapping("{id}")
     public Header<UserApiResponse> delete(Authentication authentication, @PathVariable Long id) {
-        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.MANAGER);
 
         return userApiService.deleteStaff(id);
     }

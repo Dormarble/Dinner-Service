@@ -20,40 +20,35 @@ public class StyleApiController {
 
     @PostMapping("")
     public Header<StyleApiResponse> create(Authentication authentication, @RequestBody Header<StyleApiRequest> request) {
-        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.MANAGER);
 
         return styleApiService.create(request);
     }
 
     @GetMapping("{id}")
     public Header<StyleApiResponse> read(Authentication authentication, @PathVariable Long id) {
-        if(!Permission.isValidAccess(authentication, AccessType.ALL))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.ALL);
 
         return styleApiService.read(id);
     }
 
     @GetMapping("")
     public Header<List<StyleApiResponse>> readAll(Authentication authentication) {
-        if(!Permission.isValidAccess(authentication, AccessType.ALL))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.ALL);
 
         return styleApiService.readAll();
     }
 
     @PutMapping("")
     public Header<StyleApiResponse> update(Authentication authentication, @RequestBody Header<StyleApiRequest> request) {
-        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.MANAGER);
 
         return styleApiService.update(request);
     }
 
     @DeleteMapping("{id}")
     public Header delete(Authentication authentication, @PathVariable Long id) {
-        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.MANAGER);
 
         return styleApiService.delete(id);
     }

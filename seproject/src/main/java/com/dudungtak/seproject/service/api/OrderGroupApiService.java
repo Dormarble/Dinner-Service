@@ -2,7 +2,7 @@ package com.dudungtak.seproject.service.api;
 
 import com.dudungtak.seproject.entity.*;
 import com.dudungtak.seproject.enumpackage.OrderStatus;
-import com.dudungtak.seproject.exception.AuthenticationException;
+import com.dudungtak.seproject.exception.PermissionDeniedException;
 import com.dudungtak.seproject.exception.BadInputException;
 import com.dudungtak.seproject.network.Header;
 import com.dudungtak.seproject.network.Pagination;
@@ -225,7 +225,7 @@ public class OrderGroupApiService {
         if(!optionalOrderGroup.isPresent()) throw new BadInputException();
 
         Long orderGroupUserId = optionalOrderGroup.get().getUser().getId();
-        if(!userId.equals(orderGroupUserId)) throw new AuthenticationException();
+        if(!userId.equals(orderGroupUserId)) throw new PermissionDeniedException();
 
         boolean cancelResult = orderManager.cancel(body.getId());
 

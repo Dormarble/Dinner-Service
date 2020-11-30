@@ -21,40 +21,35 @@ public class UserApiController {
 
     @PostMapping("user/login")
     public Header signIn(Authentication authentication, @RequestBody Header<UserApiRequest> request) {
-        if(!Permission.isValidAccess(authentication, AccessType.ALL))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.ALL);
 
         return userApiService.signIn(request);
     }
 
     @PostMapping("user")
     public Header create(Authentication authentication, @RequestBody Header<UserApiRequest> request) {
-        if(!Permission.isValidAccess(authentication, AccessType.ALL))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.ALL);
 
         return userApiService.signUp(request);
     }
 
     @GetMapping("user")
     public Header<UserApiResponse> read(Authentication authentication) {
-        if(!Permission.isValidAccess(authentication, AccessType.LOGINEDALL))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.LOGINEDALL);
 
         return userApiService.read(authentication);
     }
 
     @GetMapping("users")
     public Header<List<UserApiResponse>> readAll(Authentication authentication, Pageable pageable) {
-        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.MANAGER);
 
         return userApiService.readAllCustomer(pageable);
     }
 
     @PutMapping("user")
     public Header<UserApiResponse> update(Authentication authentication, @RequestBody Header<UserApiRequest> request) {
-        if(!Permission.isValidAccess(authentication, AccessType.LOGINEDALL))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.LOGINEDALL);
 
         return userApiService.update(authentication, request);
     }

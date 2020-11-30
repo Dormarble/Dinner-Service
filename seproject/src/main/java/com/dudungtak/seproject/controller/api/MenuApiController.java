@@ -21,40 +21,35 @@ public class MenuApiController {
 
     @PostMapping("")
     public Header<MenuApiResponse> create(Authentication authentication, @RequestBody Header<MenuApiRequest> request) {
-        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.MANAGER);
 
         return menuApiService.create(request);
     }
 
     @GetMapping("{id}")
     public Header<MenuApiResponse> read(Authentication authentication, @PathVariable Long id) {
-        if(!Permission.isValidAccess(authentication, AccessType.ALL))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.ALL);
 
         return menuApiService.read(id);
     }
 
     @GetMapping("")
     public Header<List<MenuApiResponse>> readAll(Authentication authentication, Pageable pageable) {
-        if(!Permission.isValidAccess(authentication, AccessType.ALL))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.ALL);
 
         return menuApiService.readAll(pageable);
     }
 
     @PutMapping("")
     public Header<MenuApiResponse> update(Authentication authentication, @RequestBody Header<MenuApiRequest> request) {
-        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.MANAGER);
 
         return menuApiService.update(request);
     }
 
     @DeleteMapping("{id}")
     public Header<MenuApiResponse> delete(Authentication authentication, @PathVariable Long id) {
-        if(!Permission.isValidAccess(authentication, AccessType.MANAGER))
-            return Header.ERROR("permission denied");
+        Permission.isValidAccess(authentication, AccessType.MANAGER);
 
         return menuApiService.delete(id);
     }

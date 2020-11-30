@@ -1,8 +1,9 @@
 package com.dudungtak.seproject.controller;
 
-import com.dudungtak.seproject.exception.AuthenticationException;
+import com.dudungtak.seproject.exception.PermissionDeniedException;
 import com.dudungtak.seproject.exception.BadInputException;
 import com.dudungtak.seproject.exception.ExistedUserException;
+import com.dudungtak.seproject.exception.LoginFailedException;
 import com.dudungtak.seproject.network.Header;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,10 +14,10 @@ import javax.persistence.EntityNotFoundException;
 @ControllerAdvice
 @Slf4j
 public class ExceptionController {
-    @ExceptionHandler({AuthenticationException.class})
-    public Header authenticationException(AuthenticationException authenticationException) {
-        log.info("{}", authenticationException.getMessage());
-        return Header.ERROR(authenticationException.getMessage());
+    @ExceptionHandler({PermissionDeniedException.class})
+    public Header permissionDeniedException(PermissionDeniedException permissionDeniedException) {
+        log.info("{}", permissionDeniedException.getMessage());
+        return Header.ERROR(permissionDeniedException.getMessage());
     }
 
     @ExceptionHandler({BadInputException.class})
@@ -37,9 +38,15 @@ public class ExceptionController {
         return Header.ERROR(existedUserException.getMessage());
     }
 
-//    @ExceptionHandler({RuntimeException.class})
-//    public Header runtimeException(RuntimeException runtimeException) {
-//        log.info("{}", runtimeException.getMessage());
-//        return Header.ERROR(runtimeException.getMessage());
-//    }
+    @ExceptionHandler({LoginFailedException.class})
+    public Header loginFailedException(LoginFailedException loginFailedException) {
+        log.info("{}", loginFailedException.getMessage());
+        return Header.ERROR(loginFailedException.getMessage());
+    }
+
+    @ExceptionHandler({RuntimeException.class})
+    public Header runtimeException(RuntimeException runtimeException) {
+        log.info("{}", runtimeException.getMessage());
+        return Header.ERROR(runtimeException.getMessage());
+    }
 }
