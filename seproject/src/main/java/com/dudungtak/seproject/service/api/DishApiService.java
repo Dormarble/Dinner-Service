@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -34,10 +35,11 @@ public class DishApiService {
     @Autowired
     IngredientRepository ingredientRepository;
 
+    @Transactional
     public Header<DishApiResponse> create(Header<DishApiRequest> request) {
         DishApiRequest body = request.getData();
 
-        // create dish without price
+        // build dish without price
         Dish dish = Dish.builder()
                 .name(body.getName())
                 .status(body.getStatus())
@@ -46,13 +48,12 @@ public class DishApiService {
                 .registeredAt(body.getRegisteredAt())
                 .build();
 
-        // create DishElement without dish
+        // create dishElements without dish
         List<DishElement> dishElementList = body.getDishElementList().stream()
                 .map(dishElementApiRequest -> {
                     Ingredient ingredient = ingredientRepository.getOne(dishElementApiRequest.getIngredientId());
 
                     DishElement dishElement = DishElement.builder()
-                            // totalCost = ingredientCost * ingredientQuantity
                             .totalPrice(ingredient.getCost().multiply(BigDecimal.valueOf(dishElementApiRequest.getQuantity())))
                             .quantity(dishElementApiRequest.getQuantity())
                             .ingredient(ingredient)
@@ -65,7 +66,7 @@ public class DishApiService {
 
         // calculate total dish price
         BigDecimal totalPrice = dishElementList.stream()
-                .map(dishElement -> dishElement.getTotalPrice())
+                .map(DishElement::getTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         // set price & save
@@ -82,6 +83,7 @@ public class DishApiService {
                 })
                 .collect(Collectors.toList());
 
+        // set dish id to dishElements  & save dishElements
         List<DishElementApiResponse> dishElementApiResponseList = savedDishElementList.stream()
                 .map(DishElementApiService::response)
                 .collect(Collectors.toList());

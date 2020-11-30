@@ -3,10 +3,11 @@ package com.dudungtak.seproject.service.api;
 import com.dudungtak.seproject.entity.Dish;
 import com.dudungtak.seproject.entity.Menu;
 import com.dudungtak.seproject.entity.MenuElement;
+import com.dudungtak.seproject.exception.BadInputException;
+import com.dudungtak.seproject.exception.CannotStoreToDatabaseException;
 import com.dudungtak.seproject.network.Header;
 import com.dudungtak.seproject.network.Pagination;
 import com.dudungtak.seproject.network.request.MenuApiRequest;
-import com.dudungtak.seproject.network.request.MenuElementApiRequest;
 import com.dudungtak.seproject.network.response.MenuApiResponse;
 import com.dudungtak.seproject.network.response.MenuElementApiResponse;
 import com.dudungtak.seproject.repository.DishRepository;
@@ -20,7 +21,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,7 +40,7 @@ public class MenuApiService {
     public Header<MenuApiResponse> create(Header<MenuApiRequest> request) {
         MenuApiRequest body = request.getData();
 
-        // build menu
+        // build menu without price
         Menu menu = Menu.builder()
                 .name(body.getName())
                 .imgUrl(body.getImgUrl())
@@ -48,25 +48,29 @@ public class MenuApiService {
                 .registeredAt(body.getRegisteredAt())
                 .build();
 
-        // build menuElement
+        // build menuElement without menu
         List<MenuElement> menuElementList = body.getMenuElementList().stream()
                 .map(menuElementApiRequest -> {
-                    Dish dish = dishRepository.getOne(menuElementApiRequest.getDishId());
+                    Optional<Dish> optionalDish = dishRepository.findById(menuElementApiRequest.getDishId());
 
-                    MenuElement menuElement = MenuElement.builder()
-                            .totalPrice(dish.getPrice().multiply(BigDecimal.valueOf(menuElementApiRequest.getQuantity())))
-                            .quantity(menuElementApiRequest.getQuantity())
-                            .dish(dish)
-                            .build();
+                    return optionalDish.map(dish -> {
+                        MenuElement menuElement = MenuElement.builder()
+                                .totalPrice(dish.getPrice().multiply(BigDecimal.valueOf(menuElementApiRequest.getQuantity())))
+                                .quantity(menuElementApiRequest.getQuantity())
+                                .dish(dish)
+                                .build();
 
-                    return menuElement;
+                        return menuElement;
+                    })
+                    .orElseThrow(BadInputException::new);
                 })
                 .collect(Collectors.toList());
 
         // estimate total price of menu  &  save menu
         BigDecimal totalPrice = menuElementList.stream()
-                .map(menuElement -> menuElement.getTotalPrice())
+                .map(MenuElement::getTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+
         menu.setPrice(totalPrice);
         Menu savedMenu = menuRepository.save(menu);
 
@@ -74,7 +78,9 @@ public class MenuApiService {
         List<MenuElement> savedMenuElementList = menuElementList.stream()
                 .map(menuElement -> {
                     menuElement.setMenu(savedMenu);
-                    return menuElementRepository.save(menuElement);
+                    MenuElement savedMenuElement =  menuElementRepository.save(menuElement);
+
+                    return savedMenuElement;
                 })
                 .collect(Collectors.toList());
 
@@ -91,13 +97,13 @@ public class MenuApiService {
                 return response(menu, menuElementList);
             })
             .map(Header::OK)
-            .orElseGet(() -> Header.ERROR("no data"));
+            .orElseThrow(BadInputException::new);
     }
 
     public Header<List<MenuApiResponse>> readAll(Pageable pageable) {
-        Page<Menu> menus = menuRepository.findAll(pageable);
+        Page<Menu> menuPages = menuRepository.findAll(pageable);
 
-        List<MenuApiResponse> menuApiResponseList = menus.stream()
+        List<MenuApiResponse> menuApiResponseList = menuPages.stream()
                 .map(menu -> {
                     List<MenuElement> menuElementList = menu.getMenuElementList();
 
@@ -105,7 +111,7 @@ public class MenuApiService {
                 })
                 .collect(Collectors.toList());
 
-        Pagination pagination = BaseCrudApiService.pagination(menus);
+        Pagination pagination = BaseCrudApiService.pagination(menuPages);
 
         return Header.OK(menuApiResponseList, pagination);
     }
@@ -148,18 +154,18 @@ public class MenuApiService {
 
                     // save updated menu
                     BigDecimal totalPrice = menuElementList.stream()
-                            .map(menuElement -> menuElement.getTotalPrice())
+                            .map(MenuElement::getTotalPrice)
                             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
                     menu.setMenuElementList(menuElementList);
                     menu.setPrice(totalPrice);
                     Menu savedMenu = menuRepository.save(menu);
 
-                    MenuApiResponse menuApiResponse = MenuApiService.response(savedMenu);
+                    MenuApiResponse menuApiResponse = MenuApiService.response(savedMenu, menuElementList);
 
                     return Header.OK(menuApiResponse);
                 })
-                .orElseGet(() -> Header.ERROR("invalid menu id"));
+                .orElseThrow(BadInputException::new);
     }
 
     public Header delete(Long id) {
@@ -174,23 +180,7 @@ public class MenuApiService {
                     menuRepository.delete(menu);
                     return Header.OK();
                 })
-                .orElseGet(() -> Header.ERROR("no data"));
-    }
-
-    public static MenuApiResponse response(Menu menu) {
-        return MenuApiResponse.builder()
-                .id(menu.getId())
-                .name(menu.getName())
-                .totalPrice(menu.getPrice())
-                .imgUrl(menu.getImgUrl())
-                .image(menu.getImage())
-                .registeredAt(menu.getRegisteredAt())
-                .unregisteredAt(menu.getUnregisteredAt())
-                .createdAt(menu.getCreatedAt())
-                .createdBy(menu.getCreatedBy())
-                .updatedAt(menu.getUpdatedAt())
-                .updatedBy(menu.getUpdatedBy())
-                .build();
+                .orElseThrow(BadInputException::new);
     }
 
     public static MenuApiResponse response(Menu menu, List<MenuElement> menuElementList) {
