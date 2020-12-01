@@ -11,7 +11,8 @@ public enum AccessType {
     DELIVERYMAN(2, "delivery man", 1<<2, "배달원"),
     MANAGER(3, "manager", 1<<3, "관리자"),
     LOGINEDALL(4, "logined all", (1<<0) + (1<<1) + (1<<2) + (1<<3), "로그인한 모든 사용자"),
-    ALL(5, "all", 0, "모든 사용자");
+    UNLOGINED(5, "unlogin user", 0, "로그인하지 않은 사용자"),
+    ALL(6, "all", 0, "모든 사용자");
 
     private Integer id;
     private String title;

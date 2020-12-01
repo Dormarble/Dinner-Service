@@ -225,7 +225,7 @@ public class OrderGroupApiService {
         if(!optionalOrderGroup.isPresent()) throw new BadInputException();
 
         Long orderGroupUserId = optionalOrderGroup.get().getUser().getId();
-        if(!userId.equals(orderGroupUserId)) throw new PermissionDeniedException();
+        if(!userId.equals(orderGroupUserId)) throw new PermissionDeniedException("user " + userId + " is not owner of OrderGroup(" + orderGroupUserId + ")");
 
         boolean cancelResult = orderManager.cancel(body.getId());
 
