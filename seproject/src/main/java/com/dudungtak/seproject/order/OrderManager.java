@@ -101,9 +101,9 @@ public class OrderManager {
         confirmingMap.keySet().stream()
                 .forEach(rejectedId -> {
                     OrderGroup orderGroup = confirmingMap.get(rejectedId);
-                    confirmingMap.remove(rejectedId);
                     changeStatus(orderGroup, OrderStatus.REJECTED);
                 });
+        confirmingMap.clear();  // 삭제하기 전에 confirming order가 들어올 경우 처리 필요
 
         return orderGroupList;
     }

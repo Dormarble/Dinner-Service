@@ -16,7 +16,7 @@ public enum OrderStatus {
     STANDINGBYDELIVERY(5, "standingByDelivery", "배달대기 상태"),
     DELIVERY(6, "delivery", "배달 중"),
     DONE(7, "done", "주문완료 상태"),
-    NOSTOCK(8, "noStock", "재고 없음으로 인한 취소 상태"),
+    NOSTOCK(8, "noStock", "재고 없음으로 인한 취소 상태"),      // unused
     CANCELLED(9, "cancelled", "고객 취소 상태"),
     REJECTED(10, "rejected", "관리자 승인거부 상태");
 

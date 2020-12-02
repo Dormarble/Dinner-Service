@@ -42,7 +42,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
     private Authentication getAuthentication(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
-        if(token == null) {
+        if(token == null || token.length() < 7) {
             return null;
         }
 

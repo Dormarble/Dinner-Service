@@ -47,48 +47,54 @@ public class DishApiService {
         // build dish without price
         Dish dish = Dish.builder()
                 .name(body.getName())
+                .price(body.getPrice())             // <------- add (do not use ingredient)
                 .status(body.getStatus())
                 .imgUrl(body.getImgUrl())
                 .image(body.getImage())
                 .registeredAt(body.getRegisteredAt())
                 .build();
 
-        // create dishElements without dish
-        List<DishElement> dishElementList = body.getDishElementList().stream()
-                .map(dishElementApiRequest -> {
-                    Ingredient ingredient = ingredientRepository.getOne(dishElementApiRequest.getIngredientId());
-
-                    DishElement dishElement = DishElement.builder()
-                            .totalPrice(ingredient.getCost().multiply(BigDecimal.valueOf(dishElementApiRequest.getQuantity())))
-                            .quantity(dishElementApiRequest.getQuantity())
-                            .ingredient(ingredient)
-                            .build();
-
-                    return dishElement;
-                })
-                .collect(Collectors.toList());
-
-        // calculate total dish price
-        BigDecimal totalPrice = dishElementList.stream()
-                .map(DishElement::getTotalPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        // estimate total price of dish  &  save dish
-        dish.setPrice(totalPrice);
         Dish savedDish = dishRepository.save(dish);
 
-        // set dish id to dishElements  & save dishElements
-        List<DishElement> savedDishElementList = dishElementList.stream()
-                .map(dishElement -> {
-                    dishElement.setDish(savedDish);
-                    DishElement savedDishElement = dishElementRepository.save(dishElement);
-
-                    return savedDishElement;
-                })
-                .collect(Collectors.toList());
-        savedDish.setDishElementList(savedDishElementList);     //  set dishElements for response()
-
         DishApiResponse dishApiResponse = response(savedDish);
+
+// ============================================= unused  =============================================
+//        // create dishElements without dish
+//        List<DishElement> dishElementList = body.getDishElementList().stream()
+//                .map(dishElementApiRequest -> {
+//                    Ingredient ingredient = ingredientRepository.getOne(dishElementApiRequest.getIngredientId());
+//
+//                    DishElement dishElement = DishElement.builder()
+//                            .totalPrice(ingredient.getCost().multiply(BigDecimal.valueOf(dishElementApiRequest.getQuantity())))
+//                            .quantity(dishElementApiRequest.getQuantity())
+//                            .ingredient(ingredient)
+//                            .build();
+//
+//                    return dishElement;
+//                })
+//                .collect(Collectors.toList());
+//
+//        // calculate total dish price
+//        BigDecimal totalPrice = dishElementList.stream()
+//                .map(DishElement::getTotalPrice)
+//                .reduce(BigDecimal.ZERO, BigDecimal::add);
+//
+//        // estimate total price of dish  &  save dish
+//        dish.setPrice(totalPrice);
+//        Dish savedDish = dishRepository.save(dish);
+//
+//        // set dish id to dishElements  & save dishElements
+//        List<DishElement> savedDishElementList = dishElementList.stream()
+//                .map(dishElement -> {
+//                    dishElement.setDish(savedDish);
+//                    DishElement savedDishElement = dishElementRepository.save(dishElement);
+//
+//                    return savedDishElement;
+//                })
+//                .collect(Collectors.toList());
+//        savedDish.setDishElementList(savedDishElementList);     //  set dishElements for response()
+//
+//        DishApiResponse dishApiResponse = response(savedDish);
 
         return Header.OK(dishApiResponse);
     }
@@ -122,40 +128,44 @@ public class DishApiService {
                     dish
                         .setName(body.getName())
                         .setStatus(body.getStatus())
+                        .setPrice(body.getPrice())              // <---------- add (do not use ingredient)
                         .setImgUrl(body.getImgUrl())
                         .setImage(body.getImage())
                         .setRegisteredAt(body.getRegisteredAt())
                         .setUnregisteredAt(body.getUnregisteredAt());
 
-                    // delete old dishElements
-                    dishElementRepository.deleteAllByDish(dish);
-
-                    // create updated dishElements  &  save dishElements
-                    List<DishElement> dishElementList = body.getDishElementList().stream()
-                            .map(dishElementApiRequest -> {
-                                Ingredient ingredient = ingredientRepository.getOne(dishElementApiRequest.getIngredientId());
-
-                                DishElement dishElement = DishElement.builder()
-                                        .totalPrice(ingredient.getCost().multiply(BigDecimal.valueOf(dishElementApiRequest.getQuantity())))
-                                        .quantity(dishElementApiRequest.getQuantity())
-                                        .dish(dish)
-                                        .ingredient(ingredient)
-                                        .build();
-
-                                DishElement savedDishElement = dishElementRepository.save(dishElement);
-
-                                return savedDishElement;
-                            })
-                            .collect(Collectors.toList());
-
-                    // saved updated dish
-                    BigDecimal price = dishElementList.stream()
-                            .map(DishElement::getTotalPrice)
-                            .reduce(BigDecimal.ZERO, BigDecimal::add);
-                    dish.setPrice(price);
                     Dish savedDish = dishRepository.save(dish);
-
                     DishApiResponse dishApiResponse = DishApiService.response(savedDish);
+// ============================================= unused  =============================================
+//                    // delete old dishElements
+//                    dishElementRepository.deleteAllByDish(dish);
+//
+//                    // create updated dishElements  &  save dishElements
+//                    List<DishElement> dishElementList = body.getDishElementList().stream()
+//                            .map(dishElementApiRequest -> {
+//                                Ingredient ingredient = ingredientRepository.getOne(dishElementApiRequest.getIngredientId());
+//
+//                                DishElement dishElement = DishElement.builder()
+//                                        .totalPrice(ingredient.getCost().multiply(BigDecimal.valueOf(dishElementApiRequest.getQuantity())))
+//                                        .quantity(dishElementApiRequest.getQuantity())
+//                                        .dish(dish)
+//                                        .ingredient(ingredient)
+//                                        .build();
+//
+//                                DishElement savedDishElement = dishElementRepository.save(dishElement);
+//
+//                                return savedDishElement;
+//                            })
+//                            .collect(Collectors.toList());
+//
+//                    // saved updated dish
+//                    BigDecimal price = dishElementList.stream()
+//                            .map(DishElement::getTotalPrice)
+//                            .reduce(BigDecimal.ZERO, BigDecimal::add);
+//                    dish.setPrice(price);
+//                    Dish savedDish = dishRepository.save(dish);
+//
+//                    DishApiResponse dishApiResponse = DishApiService.response(savedDish);
 
                     return Header.OK(dishApiResponse);
                 })
@@ -181,16 +191,11 @@ public class DishApiService {
     }
 
     public static DishApiResponse response(Dish dish) {
-        List<DishElementApiResponse> dishElementApiResponseList = dish.getDishElementList().stream()
-                .map(DishElementApiService::response)
-                .collect(Collectors.toList());
-
         return DishApiResponse.builder()
                 .id(dish.getId())
                 .name(dish.getName())
                 .status(dish.getStatus())
                 .price(dish.getPrice())
-                .dishElementList(dishElementApiResponseList)
                 .imgUrl(dish.getImgUrl())
                 .image(dish.getImage())
                 .registeredAt(dish.getRegisteredAt())
@@ -201,4 +206,25 @@ public class DishApiService {
                 .updatedBy(dish.getUpdatedBy())
                 .build();
     }
+//    public static DishApiResponse response(Dish dish) {
+//        List<DishElementApiResponse> dishElementApiResponseList = dish.getDishElementList().stream()
+//                .map(DishElementApiService::response)
+//                .collect(Collectors.toList());
+//
+//        return DishApiResponse.builder()
+//                .id(dish.getId())
+//                .name(dish.getName())
+//                .status(dish.getStatus())
+//                .price(dish.getPrice())
+//                .dishElementList(dishElementApiResponseList)
+//                .imgUrl(dish.getImgUrl())
+//                .image(dish.getImage())
+//                .registeredAt(dish.getRegisteredAt())
+//                .unregisteredAt(dish.getUnregisteredAt())
+//                .createdAt(dish.getCreatedAt())
+//                .createdBy(dish.getCreatedBy())
+//                .updatedAt(dish.getUpdatedAt())
+//                .updatedBy(dish.getUpdatedBy())
+//                .build();
+//    }
 }

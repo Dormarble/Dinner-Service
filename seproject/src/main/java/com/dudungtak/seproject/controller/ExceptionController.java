@@ -44,9 +44,9 @@ public class ExceptionController {
         return Header.ERROR(loginFailedException.getMessage());
     }
 
-    @ExceptionHandler({RuntimeException.class})
-    public Header runtimeException(RuntimeException runtimeException) {
-        log.info("{}", runtimeException.getMessage());
-        return Header.ERROR(runtimeException.getMessage());
-    }
+//    @ExceptionHandler({RuntimeException.class})
+//    public Header runtimeException(RuntimeException runtimeException) {
+//        log.info("{}", runtimeException.getMessage());
+//        return Header.ERROR(runtimeException.getMessage());
+//    }
 }
