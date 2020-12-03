@@ -1,11 +1,11 @@
 package com.dudungtak.seproject.controller.api;
 
-import com.dudungtak.seproject.controller.Permission;
-import com.dudungtak.seproject.enumpackage.AccessType;
-import com.dudungtak.seproject.network.Header;
-import com.dudungtak.seproject.network.request.IngredientApiRequest;
-import com.dudungtak.seproject.network.response.IngredientApiResponse;
-import com.dudungtak.seproject.service.api.IngredientApiService;
+import com.dudungtak.seproject.auth.util.Permission;
+import com.dudungtak.seproject.model.enumpackage.AccessType;
+import com.dudungtak.seproject.model.network.Header;
+import com.dudungtak.seproject.model.network.request.IngredientApiRequest;
+import com.dudungtak.seproject.model.network.response.IngredientApiResponse;
+import com.dudungtak.seproject.domain.service.api.IngredientApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;

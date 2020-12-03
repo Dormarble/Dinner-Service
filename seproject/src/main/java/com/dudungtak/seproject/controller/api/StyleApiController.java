@@ -1,11 +1,11 @@
 package com.dudungtak.seproject.controller.api;
 
-import com.dudungtak.seproject.controller.Permission;
-import com.dudungtak.seproject.enumpackage.AccessType;
-import com.dudungtak.seproject.network.Header;
-import com.dudungtak.seproject.network.request.StyleApiRequest;
-import com.dudungtak.seproject.network.response.StyleApiResponse;
-import com.dudungtak.seproject.service.api.StyleApiService;
+import com.dudungtak.seproject.auth.util.Permission;
+import com.dudungtak.seproject.model.enumpackage.AccessType;
+import com.dudungtak.seproject.model.network.Header;
+import com.dudungtak.seproject.model.network.request.StyleApiRequest;
+import com.dudungtak.seproject.model.network.response.StyleApiResponse;
+import com.dudungtak.seproject.domain.service.api.StyleApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
