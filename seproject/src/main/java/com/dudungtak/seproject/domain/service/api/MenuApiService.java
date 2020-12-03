@@ -54,6 +54,9 @@ public class MenuApiService {
 
         // build menuElement without menu
         List<MenuElement> menuElementList = body.getMenuElementList().stream()
+                .filter(menuElementApiRequest -> {
+                    return menuElementApiRequest.getQuantity() != null;
+                })
                 .map(menuElementApiRequest -> {
                     Dish dish = dishRepository.getOne(menuElementApiRequest.getDishId());
 
@@ -72,6 +75,7 @@ public class MenuApiService {
                 .map(MenuElement::getTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
+        System.out.println(totalPrice);
         menu.setPrice(totalPrice);
         Menu savedMenu = menuRepository.save(menu);
 
@@ -130,6 +134,9 @@ public class MenuApiService {
 
                     // create updated menuElements  &  save menuElements
                     List<MenuElement> menuElementList = body.getMenuElementList().stream()
+                            .filter(menuElementApiRequest -> {
+                                return menuElementApiRequest.getQuantity() != null;
+                            })
                             .map(menuElementApiRequest -> {
                                 Dish dish = dishRepository.getOne(menuElementApiRequest.getDishId());
 
