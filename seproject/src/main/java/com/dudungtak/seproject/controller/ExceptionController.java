@@ -1,10 +1,10 @@
 package com.dudungtak.seproject.controller;
 
-import com.dudungtak.seproject.model.exception.PermissionDeniedException;
-import com.dudungtak.seproject.model.exception.BadInputException;
-import com.dudungtak.seproject.model.exception.ExistedUserException;
-import com.dudungtak.seproject.model.exception.LoginFailedException;
-import com.dudungtak.seproject.model.network.Header;
+import com.dudungtak.seproject.exception.PermissionDeniedException;
+import com.dudungtak.seproject.exception.BadInputException;
+import com.dudungtak.seproject.exception.ExistedUserException;
+import com.dudungtak.seproject.exception.LoginFailedException;
+import com.dudungtak.seproject.network.Header;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

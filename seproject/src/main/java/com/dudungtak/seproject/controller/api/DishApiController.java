@@ -1,11 +1,11 @@
 package com.dudungtak.seproject.controller.api;
 
-import com.dudungtak.seproject.auth.util.Permission;
-import com.dudungtak.seproject.model.enumpackage.AccessType;
-import com.dudungtak.seproject.model.network.Header;
-import com.dudungtak.seproject.model.network.request.DishApiRequest;
-import com.dudungtak.seproject.model.network.response.DishApiResponse;
-import com.dudungtak.seproject.domain.service.api.DishApiService;
+import com.dudungtak.seproject.util.Permission;
+import com.dudungtak.seproject.enumpackage.AccessType;
+import com.dudungtak.seproject.network.Header;
+import com.dudungtak.seproject.network.request.DishApiRequest;
+import com.dudungtak.seproject.network.response.DishApiResponse;
+import com.dudungtak.seproject.service.api.DishApiService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
