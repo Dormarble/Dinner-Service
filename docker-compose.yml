@@ -1,0 +1,11 @@
+version: "3.0"
+services: 
+  web-server:
+    build: ./dinner-service-web-server
+    ports: 
+      - "80:3000"
+
+  application-server:
+    build: ./dinner-service-application-server
+    ports:
+      - "8080:8080"

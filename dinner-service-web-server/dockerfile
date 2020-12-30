@@ -1,0 +1,16 @@
+FROM ubuntu:18.04
+LABEL maintainer = "gyuZzang gyuZzang <gyuZzang@gmail.com>"
+
+RUN apt-get update
+RUN apt-get install curl -y
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+RUN apt-get install nodejs -y
+
+RUN mkdir -p /web
+WORKDIR /web
+
+ADD ./ ./
+RUN npm install
+
+EXPOSE 3000
+CMD npm start
