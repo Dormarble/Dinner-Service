@@ -58,7 +58,7 @@ class Login extends Component{
         const type=this.state.type
         //console.log(this.state.email, this.state.password, this.state.gender, this.state.name,this.state.address,this.state.phone_number,type)
 
-        fetch('http://http://ec2-15-164-165-148.ap-northeast-2.compute.amazonaws.com/:8080/api/user', {
+        fetch('http://http://ec2-15-164-165-148.ap-northeast-2.compute.amazonaws.com:8080/api/user', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -96,16 +96,13 @@ class Login extends Component{
         const email = document.getElementsByName("Login_id")[0].value;
         const password = document.getElementsByName("Login_pw")[0].value;
         console.log(email, password)
-        fetch('http://http://ec2-15-164-165-148.ap-northeast-2.compute.amazonaws.com/:8080/api/user/login', {
+        fetch('http://http://ec2-15-164-165-148.ap-northeast-2.compute.amazonaws.com:8080/api/user/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(
                 {
-                    transaction_time: "2020-11-29T01:30:35.92095",
-                    result_code: "200",
-                    description: "OK",
                     data: {
                         email:email,
                         password:password
