@@ -24,7 +24,7 @@
 
 - 코드 다운
 
-```jsx
+```sh
 git clone https://github.com/Dormarble/Dinner-Service.git
 ```
 
@@ -40,7 +40,7 @@ fetch('<api-server URL>:8080/api/user', { ...     // Login.js
 
 - /dinner-service-application-server/src/main/resouces에 application.properties에 데이터베이스 설정 입력
 
-```jsx
+```properties
 # DB
 spring.datasource.url= <fill here>
 spring.datasource.username= <fill here>
@@ -60,6 +60,6 @@ server.port=8080
 
 - docker-compose 실행
 
-```jsx
+```sh
 docker-compose up -d
 ```
